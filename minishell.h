@@ -25,7 +25,6 @@
 #include "libft/libft.h"
 
 
-void		error(char *str);
 void		clean_up(char **args, char *path);
 char		*find_command_path(char *cmd, t_list_env *envp);
 int			build_up(char *comand, t_list_env *environ);

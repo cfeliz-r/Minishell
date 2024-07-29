@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/29 16:55:56 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:16:14 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ void	clean_up(char **args, char *path)
 	}
 }
 
-void	error(char *str)
-{
-	perror(str);
-	exit(EXIT_FAILURE);
-}
 
 char *remove_front_and_back_spaces(char *str)
 {

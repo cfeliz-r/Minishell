@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/26 16:12:32 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:55:56 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,46 @@ void	error(char *str)
 {
 	perror(str);
 	exit(EXIT_FAILURE);
+}
+
+char *remove_front_and_back_spaces(char *str)
+{
+	int start;
+	int end;
+	int length;
+	
+	start = 0;
+	while (str[start] && str[start] == ' ')
+		start++;
+	if (str[start] == '\0')
+	{
+		str[0] = '\0';
+		return str;
+	}
+	length = strlen(str);
+	end = length - 1;
+	while (end > start && str[end] == ' ')
+		end--;
+	length = end - start + 1;
+	memmove(str, str + start, length);
+	str[length] = '\0';
+	return str;
+}
+
+int count_char(char *str, char c)
+{
+	int i;
+	int j;
+	
+	i  = 0;
+	j  = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			j ++;
+		i ++;
+	}
+	return (j);
 }
 
 void free_env_list(t_list_env *env_list)

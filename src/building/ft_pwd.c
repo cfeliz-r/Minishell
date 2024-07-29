@@ -14,22 +14,14 @@
 
 void ft_pwd(void)
 {
-    char *buf;
-    size_t size = 1024;
+    static char buf[1024 + 1];
 
-    buf = malloc(size * sizeof(char));
     if (buf == NULL)
-	{
         perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    if (getcwd(buf, size) == NULL)
-	{
-        perror("getcwd");
-        free(buf);
-        exit(EXIT_FAILURE);
-    }
-
-    printf("%s\n", buf);
-    free(buf);
+    if (getcwd(buf, 1024 + 1) == NULL)
+        return ;
+    if (buf != NULL)
+        printf("%s\n", buf);
+    else
+        printf("%s\n", buf);
 }

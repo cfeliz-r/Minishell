@@ -21,17 +21,18 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include "structs.h"
+#include <errno.h>
 #include "libft/libft.h"
 
 
-void        error(char *str);
-void        clean_up(char **args, char *path);
-void        display_argument_error(void);
-void        handle_here_doc(int argc, char **argv, char **envp);
-char        *find_command_path(char *cmd, t_list_env *envp);
-int         build_up(char *comand, t_list_env *environ);
-void        execute_commands(t_list_env *list, char *cmd);
-void        free_env_list(t_list_env *env_list);
+void		error(char *str);
+void		clean_up(char **args, char *path);
+char		*find_command_path(char *cmd, t_list_env *envp);
+int			build_up(char *comand, t_list_env *environ);
+void		execute_commands(t_list_env *list, char *cmd);
+void		free_env_list(t_list_env *env_list);
+char		*remove_front_and_back_spaces(char *str);
+int			count_char(char *str, char c);
 //building
 void        ft_echo(char *comand);
 void        ft_pwd(void);

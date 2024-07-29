@@ -22,7 +22,18 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
         return NULL;
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)
+    {
+        i = 0;
+        command_strings[*num_cmds] = remove_front_and_back_spaces(command_strings[*num_cmds]);
+        if(command_strings[*num_cmds][0] == '"' || command_strings[*num_cmds][0] =='\'')
+            command_strings[*num_cmds][0] = ' ';
+        while(command_strings[*num_cmds][i] != '\0')
+            i ++;
+        if(command_strings[*num_cmds][i - 1] == '"' || command_strings[*num_cmds][i - 1] =='\'')
+            command_strings[*num_cmds][i - 1] = ' ';
         (*num_cmds)++;
+
+    }
 
     commands = malloc(sizeof(t_command) * (*num_cmds));
     if (!commands)
@@ -36,7 +47,13 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
         commands[i].args = ft_split(command_strings[i], ' ');
         commands[i].path = find_command_path(commands[i].args[0], envp);
         if(access(commands[i].path, F_OK) == -1)
+        {   
+            free(commands[i].path);
+            free(commands[i].args);
+            free(commands);
+            clean_up(command_strings, NULL);
             return NULL;
+        }
         commands[i].pid = -1;
         commands[i].pipefd[0] = -1;
         commands[i].pipefd[1] = -1;

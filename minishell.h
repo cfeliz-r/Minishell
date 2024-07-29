@@ -32,6 +32,7 @@ void		execute_commands(t_list_env *list, char *cmd);
 void		free_env_list(t_list_env *env_list);
 char		*remove_front_and_back_spaces(char *str);
 int			count_char(char *str, char c);
+int check_quotes(char *command);
 //building
 void        ft_echo(char *comand);
 void        ft_pwd(void);

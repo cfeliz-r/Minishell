@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/26 19:28:32 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:23:56 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,23 +129,28 @@ t_list_env *create_list_envp(char **envp)
 void process_input(t_list_env *envp)
 {
 	char *line;
-	char *prompt;
+	int i;
 	
 	line = NULL;
-	prompt = get_prompt();
-	line = readline(prompt);
-	free(prompt);
+	line = readline(JUNGLE_GREEN"🦧BABUTERM🦧➤ "RESET);
 	add_history(line);
-	if (line == NULL)
+	i = check_quotes(line);
+	if(i == 0)
+	{
+		free(line);
+		perror("quotes error\n");
+		process_input(envp);
+	}
+	
+	else if (line == NULL)
 		return ;
-	if (ft_strcmp(line, "exit") == 0)
+	else if (ft_strcmp(line, "exit") == 0)
 	{
 		free(line);
 		return ;
 	}
-	if (build_up(line, envp) == 0)
+	else if (build_up(line, envp) == 0)
 		execute_commands(envp, line);
-	
 	free(line);
 	process_input(envp);
 }
@@ -159,7 +164,7 @@ int main(int argc, char **argv, char **envp)
 	envp_list = NULL;
 	if (argc > 1)
 	{
-		error("ERROR: TOO MANY ARGUMENTS");
+		perror("ERROR: TOO MANY ARGUMENTS");
 		return (EXIT_FAILURE);
 	}
 	envp_list = create_list_envp(envp);

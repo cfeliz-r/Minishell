@@ -9,7 +9,7 @@
 #define FOREST_GREEN "\033[38;5;28m"
 #define LUSH_GREEN "\033[38;5;34m"
 #define BRIGHT_JUNGLE "\033[38;5;46m"
-#define JUNGLE_GREEN "\033[38;5;34m"  // Verde exuberante
+#define JUNGLE_GREEN "\033[38;5;34m"
 #define RESET "\033[0m"
 
 #include <stdio.h>

@@ -46,7 +46,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     {
         commands[i].args = ft_split(command_strings[i], ' ');
         commands[i].path = find_command_path(commands[i].args[0], envp);
-        if(access(commands[i].path, F_OK) == -1)
+        if(commands[i].path == NULL || access(commands[i].path, F_OK) == -1)
         {   
             free(commands[i].path);
             free(commands[i].args);

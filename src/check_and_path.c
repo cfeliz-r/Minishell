@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/29 18:42:44 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:51:58 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,19 @@ char *find_command_path(char *cmd, t_list_env *envp)
 {
     char **paths;
     char *res;
+  
+    if (cmd == NULL)
+        return (NULL);
     if (cmd[0] == '/')
     {
         if (access(cmd, F_OK | X_OK) == 0)
             return (ft_strdup(cmd));
         else
             return (NULL);
-    }
-    
+    } 
     paths = get_paths(envp);
     if (paths == NULL)
         return (NULL);
-
     res = search_paths(paths, cmd);
     return (res);
 }

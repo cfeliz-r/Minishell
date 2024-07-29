@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/29 19:23:56 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:28:58 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void process_input(t_list_env *envp)
 
 int main(int argc, char **argv, char **envp)
 {
+	
 	t_list_env *envp_list;
 
 	(void)argv;

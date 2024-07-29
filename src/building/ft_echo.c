@@ -6,22 +6,19 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/29 19:21:45 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:49:40 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_echo(char *command)
+void ft_echo(char *comand)
 {
 	char	**str;
 	int	i;
-	int j;
+
 	i = 0;
-	j = 5;
-	while(command[j] == ' ' && command[j] !=  '\0')
-		j ++;
-	str = ft_split(command + j, '\'');
+	str = ft_split(comand + 4, '"');
 	while (str[i] != NULL)
 	{
 		printf("%s", str[i]);

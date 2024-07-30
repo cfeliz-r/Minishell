@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/29 20:28:58 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:53:50 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,17 @@ t_list_env *create_list_envp(char **envp)
 	return envp_list;
 }
 
+void sigint_handler(int sig)
+{
+	(void)sig;
+	// Mueve a una nueva línea
+	write(STDOUT_FILENO, "\n", 1);
+	// Redibuja el prompt
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 void process_input(t_list_env *envp)
 {
 	char *line;
@@ -134,6 +145,11 @@ void process_input(t_list_env *envp)
 	line = NULL;
 	line = readline(JUNGLE_GREEN"🦧BABUTERM🦧➤ "RESET);
 	add_history(line);
+	if (line == NULL) // EOF (Ctrl+D) ha sido detectado
+	{
+		printf("exit\n");
+		return ;
+	}
 	i = check_quotes(line);
 	if(i == 0)
 	{
@@ -141,9 +157,6 @@ void process_input(t_list_env *envp)
 		perror("quotes error\n");
 		process_input(envp);
 	}
-	
-	else if (line == NULL)
-		return ;
 	else if (ft_strcmp(line, "exit") == 0)
 	{
 		free(line);
@@ -158,10 +171,14 @@ void process_input(t_list_env *envp)
 
 int main(int argc, char **argv, char **envp)
 {
-	
+	struct sigaction sa;
 	t_list_env *envp_list;
 
 	(void)argv;
+	sa.sa_handler = sigint_handler;
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    sigaction(SIGINT, &sa, NULL);
 	envp_list = NULL;
 	if (argc > 1)
 	{

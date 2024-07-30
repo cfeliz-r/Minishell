@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/29 19:15:26 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:29:47 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char *remove_front_and_back_spaces(char *str)
 	while (end > start && str[end] == ' ')
 		end--;
 	length = end - start + 1;
-	memmove(str, str + start, length);
+	ft_memmove(str, str + start, length);
 	str[length] = '\0';
 	return str;
 }

@@ -23,6 +23,7 @@
 #include "structs.h"
 #include <errno.h>
 #include "libft/libft.h"
+#include <signal.h>
 
 
 void		clean_up(char **args, char *path);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/30 10:15:13 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:27:16 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,12 +185,10 @@ int main(int argc, char **argv, char **envp)
 	// Configurar SIGINT
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = 0;
-	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 	// Configurar SIGQUIT para que no haga nada
 	sa_quit.sa_handler = SIG_IGN;
     sa_quit.sa_flags = 0;
-    sigemptyset(&sa_quit.sa_mask);
     sigaction(SIGQUIT, &sa_quit, NULL);
 	envp_list = NULL;
 	if (argc > 1)

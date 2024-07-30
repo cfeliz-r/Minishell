@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/30 09:53:50 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:15:13 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,11 @@ void sigint_handler(int sig)
 	rl_redisplay();
 }
 
+void sigquit_handler(int sig)
+{
+	(void)sig;
+}
+
 void process_input(t_list_env *envp)
 {
 	char *line;
@@ -159,6 +164,7 @@ void process_input(t_list_env *envp)
 	}
 	else if (ft_strcmp(line, "exit") == 0)
 	{
+		printf("exit\n");
 		free(line);
 		return ;
 	}
@@ -171,14 +177,21 @@ void process_input(t_list_env *envp)
 
 int main(int argc, char **argv, char **envp)
 {
-	struct sigaction sa;
+	struct sigaction sa_int;
+	struct sigaction sa_quit;
 	t_list_env *envp_list;
 
 	(void)argv;
-	sa.sa_handler = sigint_handler;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
+	// Configurar SIGINT
+	sa_int.sa_handler = sigint_handler;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	sigaction(SIGINT, &sa_int, NULL);
+	// Configurar SIGQUIT para que no haga nada
+	sa_quit.sa_handler = SIG_IGN;
+    sa_quit.sa_flags = 0;
+    sigemptyset(&sa_quit.sa_mask);
+    sigaction(SIGQUIT, &sa_quit, NULL);
 	envp_list = NULL;
 	if (argc > 1)
 	{

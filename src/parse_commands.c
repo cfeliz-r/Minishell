@@ -24,15 +24,13 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     while (command_strings[*num_cmds] != NULL)
     {
         i = 0;
-        command_strings[*num_cmds] = remove_front_and_back_spaces(command_strings[*num_cmds]);
-        if(command_strings[*num_cmds][0] == '"' || command_strings[*num_cmds][0] =='\'')
-            command_strings[*num_cmds][0] = ' ';
-        while(command_strings[*num_cmds][i] != '\0')
+        while(command_strings[*num_cmds][i] == '"')
+            command_strings[*num_cmds][i++] = ' ';
+        while(command_strings[*num_cmds][i] != '\0' && command_strings[*num_cmds][i] != '"')
             i ++;
-        if(command_strings[*num_cmds][i - 1] == '"' || command_strings[*num_cmds][i - 1] =='\'')
-            command_strings[*num_cmds][i - 1] = ' ';
+        while(command_strings[*num_cmds][i] == '"')
+            command_strings[*num_cmds][i++] = ' ';
         (*num_cmds)++;
-
     }
 
     commands = malloc(sizeof(t_command) * (*num_cmds));

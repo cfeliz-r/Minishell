@@ -1,51 +1,89 @@
+# --------------------------------------
 # Nombre del archivo ejecutable
+# --------------------------------------
 NAME = minishell
 
-# Nombre del archivo fuente
-SRC =	src/minishell.c \
-		src/building/ft_echo.c \
-		src/building/ft_pwd.c \
-		src/building/ft_env.c \
-		src/building/ft_cd.c \
-		src/utils.c \
-		src/check_and_path.c \
-		src/exec_command.c \
-		src/parse_commands.c 
+# --------------------------------------
+# Archivos fuente
+# --------------------------------------
+SRC = src/minishell.c \
+      src/building/ft_echo.c \
+      src/building/ft_pwd.c \
+      src/building/ft_env.c \
+      src/building/ft_cd.c \
+      src/utils.c \
+      src/check_and_path.c \
+      src/exec_command.c \
+      src/parse_commands.c 
 
-# Compilador
+# --------------------------------------
+# Compilador y opciones
+# --------------------------------------
 CC = gcc
-
-# Opciones de compilación
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address,undefined,leak
-# Llamada a readline
 LIBS = -lreadline
 
-# Directorio de la librería libft
+# --------------------------------------
+# Directorio y archivo de la librería libft
+# --------------------------------------
 LIBFT_DIR = ./libft
-
-# Archivo de la librería libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# Regla para compilar el ejecutable
+# --------------------------------------
+# Colores y estilos
+# --------------------------------------
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+MAGENTA = \033[0;35m
+CYAN = \033[0;36m
+RESET = \033[0m
+BOLD = \033[1m
+UNDERLINE = \033[4m
+
+# --------------------------------------
+# Regla por defecto
+# --------------------------------------
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME) $(LIBS) -L$(LIBFT_DIR) -lft
+# --------------------------------------
+# Regla para compilar el "hábitat" de los babuinos
+# --------------------------------------
+$(NAME): $(SRC) $(LIBFT)
+	@echo "$(BLUE)Construyendo el hábitat de los babuinos... $(RESET)"
+	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) $(LIBS) -L$(LIBFT_DIR) -lft \
+		&& echo "$(GREEN)¡Hábitat de los babuinos construido con éxito!$(RESET)" \
+		|| echo "$(RED)Error en la construcción del hábitat$(RESET)"
 
+# --------------------------------------
+# Regla para construir la librería libft
+# --------------------------------------
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	@echo "$(YELLOW)Cultivando el árbol de bananas (librería libft)... $(RESET)"
+	@make -C $(LIBFT_DIR)
 
-# Regla para limpiar archivos generados
+# --------------------------------------
+# Regla para limpiar el hábitat de los babuinos
+# --------------------------------------
 clean:
-	rm -f $(NAME)
-	make -C $(LIBFT_DIR) clean
+	@echo "$(RED)Desmantelando el hábitat de los babuinos... $(RESET)"
+	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) clean
 
-# Regla para limpiar y eliminar archivos generados
+# --------------------------------------
+# Regla para eliminar el hábitat y la librería
+# --------------------------------------
 fclean: clean
-	rm -f $(LIBFT)
-	make -C $(LIBFT_DIR) fclean
+	@echo "$(RED)Destruyendo el hábitat y el árbol de bananas... $(RESET)"
+	@rm -f $(LIBFT)
 
-# Regla para recompilar todo
+# --------------------------------------
+# Regla para reconstruir el hábitat desde cero
+# --------------------------------------
 re: fclean all
 
+# --------------------------------------
+# Declaración de objetivos que no son archivos
+# --------------------------------------
 .PHONY: all clean fclean re

@@ -25,7 +25,8 @@
 #include "libft/libft.h"
 #include <signal.h>
 
-
+void        sigint_handler(int sig);
+void        sigquit_handler(int sig);
 void		clean_up(char **args, char *path);
 char		*find_command_path(char *cmd, t_list_env *envp);
 int			build_up(char *comand, t_list_env *environ);

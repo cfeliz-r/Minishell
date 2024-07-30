@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:57:14 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/30 14:39:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:45:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 {
     int         i;
     char        **env_array;
-    struct sigaction sa_quit;
-    struct sigaction sa_int;
-    
+    struct sigaction sa_quit;   
     i = 0;
     env_array = convert_envp_to_array(envp);
     while (i < num_cmds)
@@ -101,12 +99,10 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
         } 
         i++;
     }
-    sa_int.sa_handler = sigint_handler_2;
-    sa_int.sa_flags = 0;
-    sigaction(SIGINT, &sa_int, NULL);
     close_pipes(commands, num_cmds);
     i = -1;
-    while (waitpid(-1, NULL, 0) == -1);  
+    while (++i < num_cmds)
+        waitpid(commands[i].pid, NULL, 0);
     clean_up(env_array, NULL);
 }
 

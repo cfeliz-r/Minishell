@@ -125,6 +125,6 @@ void execute_commands(t_list_env *envp, char *cmd)
         clean_up(commands[i].args, NULL, 0);
         free(commands[i].path);
     }
-    free(commands);
+    clean_up(NULL, comandos, num_cmds);
 }
 

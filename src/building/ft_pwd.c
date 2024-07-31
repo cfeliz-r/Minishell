@@ -16,7 +16,6 @@ void ft_pwd(void)
 {
     static char buf[1024 + 1];
 
-   
     if (buf == NULL)
         perror("malloc");
     if (getcwd(buf, 1024 + 1) == NULL)

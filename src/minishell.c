@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 14:39:22 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:51:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,47 +130,6 @@ void sigint_handler(int sig)
 	rl_redisplay();
 }
 
-char *interpret_command(char *command)
-{
-    int i;
-    int j;
-    int in_double_quotes;
-    int in_single_quotes;
-    char *result;
-
-    i = 0;
-    j = 0;
-    in_double_quotes = 0;
-    in_single_quotes = 0;
-    result = malloc(ft_strlen(command) + 1);
-    if (!result)
-        return (NULL);
-    while (command[i] != '\0')
-    {
-        if (command[i] == '"' && !in_single_quotes)
-        {
-            if (in_double_quotes && i > 0 && command[i - 1] == ' ')
-            {
-                free(result);
-                return (NULL);
-            }
-            in_double_quotes = !in_double_quotes;
-            i++;
-        }
-        else if (command[i] == '\'' && !in_double_quotes)
-        {
-            in_single_quotes = !in_single_quotes;
-            i++;
-        }
-        else
-        {
-            result[j++] = command[i++];
-        }
-    }
-    result[j] = '\0';
-    return (result);
-}
-
 void process_input(t_list_env *envp)
 {
     char *line;
@@ -179,6 +138,7 @@ void process_input(t_list_env *envp)
 
     line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
     add_history(line);
+	line = remove_front_and_back_spaces(line);
     if (line == NULL || ft_strcmp(line, "exit") == 0)
     {
         if (line)

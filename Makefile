@@ -14,7 +14,7 @@ SRC = src/minishell.c \
       src/utils.c \
       src/check_and_path.c \
       src/exec_command.c \
-      src/parse_commands.c 
+      src/parsing/parse_commands.c 
 
 # --------------------------------------
 # Compilador y opciones

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/30 09:29:47 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:48:35 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,50 +29,7 @@ void	clean_up(char **args, char *path)
 		free(args);
 	}
 }
-int check_quotes(char *command)
-{
-	int i;
-	int quotes_2;
-	int quotes_1;
 
-	i = 0;
-	quotes_2 = 0;
-	quotes_1 = 0;
-	while (command[i] != '\0')
-	{
-		if (command[i] == '"')
-		{
-			quotes_2++;
-			i++;
-			while (command[i] != '"' && command[i] != '\0')
-				i++;
-			if (command[i] == '"')
-			{
-				quotes_2++;
-				i++;
-			}
-		}
-		else if (command[i] == '\'')
-		{
-			quotes_1++;
-			i++;
-			while (command[i] != '\'' && command[i] != '\0')
-				i++;
-			if (command[i] == '\'')
-			{
-				quotes_1++;
-				i++;
-			}
-		}
-		else
-			i++;
-	}
-//	printf("Comillas dobles: %d, Comillas simples: %d\n", quotes_2, quotes_1);
-	if (quotes_2 % 2 == 0 && quotes_1 % 2 == 0)
-		return 1;
-	else
-		return 0;
-}
 
 char *remove_front_and_back_spaces(char *str)
 {

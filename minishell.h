@@ -32,9 +32,12 @@ char		*find_command_path(char *cmd, t_list_env *envp);
 int			build_up(char *comand, t_list_env *environ);
 void		execute_commands(t_list_env *list, char *cmd);
 void		free_env_list(t_list_env *env_list);
-char		*remove_front_and_back_spaces(char *str);
 int			count_char(char *str, char c);
-int check_quotes(char *command);
+//parseo
+char        *interpret_command(char *command);
+t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
+int         check_quotes(char *command);
+char		*remove_front_and_back_spaces(char *str);
 //building
 void        ft_echo(char *comand);
 void        ft_pwd(void);
@@ -43,5 +46,6 @@ void        ft_cd(char *route, t_list_env *env);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 void        close_pipes(t_command *commands, int num_cmds);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
+
 
 #endif // MINISHELL_H

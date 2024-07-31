@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/29 16:54:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:32:53 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void ft_cd(char *route, t_list_env *envp)
     if (i == 1)
 	{
 		home = get_env_value("HOME", envp);
+		if(home == NULL)
+		{
+			clean_up(str_route, NULL);
+			return ;
+		}
 		chdir(home);
 	}
     else if (i > 2)

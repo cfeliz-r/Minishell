@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 15:52:29 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:11:43 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ void ft_echo(char *comand)
 		i = 1;
 		j = 1;	
 	}
-	while (str[i] != NULL )
+	while (str && str[i] != NULL )
+	{
 		printf("%s", str[i++]);
-	clean_up(str, NULL);
+		if(str[i] != NULL)
+			printf(" ");
+	}
+	if(str)
+		clean_up(str, NULL);
 	if (j == 1)
 		return ;
 	printf("\n");

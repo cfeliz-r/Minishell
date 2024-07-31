@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:57:14 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/30 15:50:04 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:35:24 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void execute_commands(t_list_env *envp, char *cmd)
     while (++i < num_cmds)
         clean_up(commands[i].args, commands[i].path);
     free(commands);
-
 }
 void sigquit_handler(int sig)
 {

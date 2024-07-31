@@ -22,16 +22,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
         return NULL;
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)
-    {
-        i = 0;
-        while(command_strings[*num_cmds][i] == '"')
-            command_strings[*num_cmds][i++] = ' ';
-        while(command_strings[*num_cmds][i] != '\0' && command_strings[*num_cmds][i] != '"')
-            i ++;
-        while(command_strings[*num_cmds][i] == '"')
-            command_strings[*num_cmds][i++] = ' ';
-        (*num_cmds)++;
-    }
+            (*num_cmds)++;
 
     commands = malloc(sizeof(t_command) * (*num_cmds));
     if (!commands)

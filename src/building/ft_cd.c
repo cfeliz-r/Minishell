@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 16:32:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:06:12 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void ft_cd(char *route, t_list_env *envp)
 		home = get_env_value("HOME", envp);
 		if(home == NULL)
 		{
-			clean_up(str_route, NULL);
+			clean_up(str_route, NULL, 0);
 			return ;
 		}
 		chdir(home);
@@ -66,5 +66,5 @@ void ft_cd(char *route, t_list_env *envp)
 		else
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
     }
-    clean_up(str_route, NULL);
+    clean_up(str_route, NULL, 0);
 }

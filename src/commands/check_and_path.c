@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/31 15:06:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:06:25 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*join_paths(char *dir, char *cmd)
 
 	full_path = ft_strjoin(dir, "/");
 	result = ft_strjoin(full_path, cmd);
-	clean_up(NULL, full_path);
+	free(full_path);
 	return (result);
 }
 
@@ -49,13 +49,13 @@ static char	*search_paths(char **paths, char *cmd)
 		res = join_paths(paths[i], cmd);
 		if (access(res, F_OK | X_OK) == 0)
 		{
-			clean_up(paths, NULL);
+			clean_up(paths, NULL, 0);
 			return (res);
 		}
-		clean_up(NULL ,res);
+		free(res);
 		i++;
 	}
-    clean_up(paths, NULL);
+    clean_up(paths, NULL, 0);
 	return (cmd);
 }
 

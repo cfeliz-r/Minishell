@@ -6,30 +6,33 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/31 15:12:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:38:29 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	clean_up(char **args, char *path)
+void clean_up(char **args, t_command *commands, int num_cmds)
 {
-	int	i;
+    int i;
 
+    if (args) {
+        for (i = 0; args[i] != NULL; ++i) {
+            free(args[i]);
+        }
+        free(args);
+    }
 	i = 0;
-	if (path)
-		free(path);
-	if (args)
-	{
-		while (args[i])
-		{	
-			free(args[i]);
+    if (commands) {
+        while( i < num_cmds) 
+		{
+            free(commands[i].args);
+            free(commands[i].path);
 			i++;
-		}
-		free(args);
-	}
+        }
+        free(commands);
+    }
 }
-
 int count_char(char *str, char c)
 {
 	int i;

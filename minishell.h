@@ -34,7 +34,7 @@ void        sigint_handler_2(int sig);
 void        sigint_handler(int sig);
 void        sigquit_handler(int sig);
 //ultils
-void		clean_up(char **args, char *path);
+void        clean_up(char **args, t_command *commands, int num_cmds);
 char		*find_command_path(char *cmd, t_list_env *envp);
 int			build_up(char *comand, t_list_env *environ);
 void		execute_commands(t_list_env *list, char *cmd);

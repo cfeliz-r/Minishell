@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 16:11:43 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:05:38 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void ft_echo(char *comand)
 			printf(" ");
 	}
 	if(str)
-		clean_up(str, NULL);
+		clean_up(str, NULL, 0);
 	if (j == 1)
 		return ;
 	printf("\n");

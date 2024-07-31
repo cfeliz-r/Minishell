@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:57:14 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/31 15:07:02 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:39:51 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char **convert_envp_to_array(t_list_env *envp)
         env_array[i] = ft_strdup(envp->envp_content);
         if (!env_array[i])
         {
-			clean_up(env_array, NULL);   
+			clean_up(env_array, NULL, 0);   
             return NULL;
         }
         envp = envp->next;
@@ -102,7 +102,7 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while (++i < num_cmds)
         waitpid(commands[i].pid, NULL, 0);
-    clean_up(env_array, NULL);
+    clean_up(env_array, NULL, 0);
 }
 
 
@@ -114,11 +114,17 @@ void execute_commands(t_list_env *envp, char *cmd)
 
     commands = parse_commands(cmd, envp, &num_cmds);
     if (!commands)
-        return;
+    {
+        clean_up(NULL, commands, num_cmds);
+        return ;
+    }
     prepare_commands(commands, num_cmds, envp);
     i = -1;
     while (++i < num_cmds)
-        clean_up(commands[i].args, commands[i].path);
+    {
+        clean_up(commands[i].args, NULL, 0);
+        free(commands[i].path);
+    }
     free(commands);
 }
 

@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs.h                                          :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 15:16:05 by cfeliz-r         ###   ########.fr       */
+/*   Created: 2024/07/31 15:09:54 by cfeliz-r          #+#    #+#             */
+/*   Updated: 2024/07/31 15:09:57 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
-# include "minishell.h"
+#include "../../minishell.h"
 
-typedef struct s_list_envp
+void sigquit_handler(int sig)
 {
-	char			*envp_content;
-	struct s_list_envp	*next;
-}	t_list_env;
-
-typedef struct s_command
+    (void)sig;
+}
+void sigint_handler_2(int sig)
 {
-	char **args;
-	char *path;
-	int pipefd[2];
-	pid_t pid;
-}	t_command;
-
-#endif
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+}
+void sigint_handler(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}

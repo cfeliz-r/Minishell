@@ -6,13 +6,13 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 14:51:02 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:11:49 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void print_decorative_text(void)
+static void print_decorative_text(void)
 {
 	printf(
 		DARK_FOREST "╔════════════════════════════════════════════════════════════════════════╗\n" RESET
@@ -29,21 +29,8 @@ void print_decorative_text(void)
 		DARK_FOREST "╚════════════════════════════════════════════════════════════════════════╝\n" RESET
 	);
 }
-t_comand_before_pip *create_new_node(char *argv) 
-{
-	t_comand_before_pip *new_node;
 
-	new_node = malloc(sizeof(t_comand_before_pip));
-	if (new_node == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	new_node->comand_complete = argv;
-	new_node->next = NULL;
-	new_node->comand_afeter_pip = NULL;
-	return new_node;
-}
+
 
 int	build_up(char *comand, t_list_env *environ)
 {
@@ -102,33 +89,7 @@ char *get_prompt(void)
 	return temp;
 }
 
-t_list_env *create_list_envp(char **envp)
-{
-	t_list_env *envp_list;
-	char *content;
-	int i;
 
-	i = 0;
-	envp_list = NULL;
-	content = NULL;
-	while (envp[i] != NULL)
-	{
-		content = ft_strdup(envp[i]);
-		ft_lstadd_back(&envp_list, ft_lstnew(content));
-		i++;
-	}
-
-	return envp_list;
-}
-
-void sigint_handler(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
 
 void process_input(t_list_env *envp)
 {
@@ -168,7 +129,6 @@ void process_input(t_list_env *envp)
         process_input(envp);
     }
 }
-
 
 int main(int argc, char **argv, char **envp)
 {

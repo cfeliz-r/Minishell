@@ -11,10 +11,12 @@ SRC = src/minishell.c \
       src/building/ft_pwd.c \
       src/building/ft_env.c \
       src/building/ft_cd.c \
-      src/utils.c \
-      src/check_and_path.c \
-      src/exec_command.c \
-      src/parsing/parse_commands.c 
+      src/utils/utils.c \
+      src/commands/check_and_path.c \
+      src/commands/exec_command.c \
+      src/parsing/parse_commands.c \
+	  src/signals/signals.c \
+	  src/list_files/lists.c
 
 # --------------------------------------
 # Compilador y opciones

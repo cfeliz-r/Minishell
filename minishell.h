@@ -25,8 +25,15 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+
+//lists
+t_list_env  *create_list_envp(char **envp);
+
+//signals
+void        sigint_handler_2(int sig);
 void        sigint_handler(int sig);
 void        sigquit_handler(int sig);
+//ultils
 void		clean_up(char **args, char *path);
 char		*find_command_path(char *cmd, t_list_env *envp);
 int			build_up(char *comand, t_list_env *environ);
@@ -46,6 +53,7 @@ void        ft_cd(char *route, t_list_env *env);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 void        close_pipes(t_command *commands, int num_cmds);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
+
 
 
 #endif // MINISHELL_H

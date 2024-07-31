@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/29 20:49:40 by manufern         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:52:29 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,20 @@ void ft_echo(char *comand)
 {
 	char	**str;
 	int	i;
+	int j;
 
 	i = 0;
-	str = ft_split(comand + 4, '"');
-	while (str[i] != NULL)
+	j = 0;
+	str = ft_split(comand + 5, ' ');
+	if(ft_strcmp(str[i], "-n")== 0)
 	{
-		printf("%s", str[i]);
-		i++;
+		i = 1;
+		j = 1;	
 	}
+	while (str[i] != NULL )
+		printf("%s", str[i++]);
 	clean_up(str, NULL);
+	if (j == 1)
+		return ;
 	printf("\n");
 }

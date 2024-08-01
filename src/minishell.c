@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 15:11:49 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:13:21 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,37 +97,39 @@ void process_input(t_list_env *envp)
     int i;
 	char *interpreted_line;
 
-    line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
-    add_history(line);
-	line = remove_front_and_back_spaces(line);
-    if (line == NULL || ft_strcmp(line, "exit") == 0)
-    {
-        if (line)
-            free(line);
-        printf("exit\n");
-        return;
-    }
-    i = check_quotes(line);
-    if (i == 0)
-    {
-        free(line);
-        perror("quotes error\n");
-        process_input(envp);
-    }
-    else
-    {
-		interpreted_line = interpret_command(line);
-        if (interpreted_line == NULL)
-        {
-            free(line);
-            process_input(envp);
-        }
-        if (build_up(interpreted_line, envp) == 0)
-            execute_commands(envp, interpreted_line);
-        free(interpreted_line);
-        free(line);
-        process_input(envp);
-    }
+	while(1)
+	{
+		line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
+		add_history(line);
+		line = remove_front_and_back_spaces(line);
+		if (line == NULL || ft_strcmp(line, "exit") == 0)
+		{
+			if (line)
+				free(line);
+			printf("exit\n");
+			break;
+		}
+		i = check_quotes(line);
+		if (i == 0)
+		{
+			free(line);
+			perror("quotes error\n");
+			process_input(envp);
+		}
+		else
+		{
+			interpreted_line = interpret_command(line);
+			if (interpreted_line == NULL)
+			{
+				free(line);
+				continue;
+			}
+			if (build_up(interpreted_line, envp) == 0)
+				execute_commands(envp, interpreted_line);
+			free(interpreted_line);
+			free(line);
+		}
+	}
 }
 
 int main(int argc, char **argv, char **envp)

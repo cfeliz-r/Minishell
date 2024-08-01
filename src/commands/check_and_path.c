@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/31 20:06:25 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:23:10 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*search_paths(char **paths, char *cmd)
 		i++;
 	}
     clean_up(paths, NULL, 0);
-	return (cmd);
+	return (NULL);
 }
 
 char *find_command_path(char *cmd, t_list_env *envp)

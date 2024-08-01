@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:57:14 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/31 20:39:51 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:39:31 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void execute_commands(t_list_env *envp, char *cmd)
     commands = parse_commands(cmd, envp, &num_cmds);
     if (!commands)
     {
+       // clean_up_aux(&commands);
         clean_up(NULL, commands, num_cmds);
         return ;
     }

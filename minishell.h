@@ -28,6 +28,8 @@
 
 //lists
 t_list_env  *create_list_envp(char **envp);
+void clean_up_aux(t_command **commands);
+void free_command(t_command *command);
 
 //signals
 void        sigint_handler_2(int sig);

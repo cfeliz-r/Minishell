@@ -12,6 +12,8 @@
 
 #include "../../minishell.h"
 
+
+
 t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
     char        **command_strings;
     t_command   *commands;
@@ -26,30 +28,38 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
         (*num_cmds)++;
 
     commands = malloc(sizeof(t_command) * (*num_cmds));
-    if (!commands)
-    {
+    if (!commands) {
         clean_up(command_strings, NULL, 0);
         return NULL;
     }
 
     i = 0;
-    while (i < *num_cmds)
-    {
+    while (i < *num_cmds) {
+        commands[i].is_correct = 0;
         commands[i].args = ft_split(command_strings[i], ' ');
-        if (commands[i].args == NULL)
-        {
+        if (commands[i].args == NULL) {
             ft_putstr(command_strings[i]);
             ft_putstr_fd(": Command not found\n", 2);
-            clean_up(command_strings, commands, *num_cmds);
-            free(commands[i].args);
+            while (i >= 0) {
+                free_command(&commands[i]);
+                i--;
+            }
+            free(commands);
+            clean_up(command_strings, NULL, 0);
             return NULL;
         }
 
         commands[i].path = find_command_path(commands[i].args[0], envp);
         if (!commands[i].path || access(commands[i].path, F_OK) == -1) {
+            commands[i].is_correct = 1;
             ft_putstr(commands[i].args[0]);
             ft_putstr_fd(": Command not found\n", 2);
-            clean_up(command_strings, commands, *num_cmds);
+            while (i >= 0) {
+                free_command(&commands[i]);
+                i--;
+            }
+            free(commands);
+            clean_up(command_strings, NULL, 0);
             return NULL;
         }
 
@@ -58,7 +68,6 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
         commands[i].pipefd[1] = -1;
         i++;
     }
-
     clean_up(command_strings, NULL, 0);
     return commands;
 }

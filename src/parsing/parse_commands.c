@@ -163,6 +163,8 @@ char *remove_front_and_back_spaces(char *str)
 	int end;
 	int length;
 	
+    if (!str)
+        return NULL;
 	start = 0;
 	while (str[start] && str[start] == ' ')
 		start++;
@@ -171,7 +173,7 @@ char *remove_front_and_back_spaces(char *str)
 		str[0] = '\0';
 		return str;
 	}
-	length = strlen(str);
+	length = ft_strlen(str);
 	end = length - 1;
 	while (end > start && str[end] == ' ')
 		end--;

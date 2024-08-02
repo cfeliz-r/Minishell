@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/01 16:13:21 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:20:26 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,19 @@ void process_input(t_list_env *envp)
 		line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
 		add_history(line);
 		line = remove_front_and_back_spaces(line);
-		if (line == NULL || ft_strcmp(line, "exit") == 0)
+		if (!line || ft_strcmp(line, "exit") == 0)
 		{
 			if (line)
 				free(line);
 			printf("exit\n");
-			break;
+			break ;
 		}
+		
 		i = check_quotes(line);
 		if (i == 0)
 		{
 			free(line);
 			perror("quotes error\n");
-			process_input(envp);
 		}
 		else
 		{

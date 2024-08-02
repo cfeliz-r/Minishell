@@ -162,23 +162,25 @@ char *remove_front_and_back_spaces(char *str)
 	int start;
 	int end;
 	int length;
-	
-    if (!str)
-        return NULL;
+
 	start = 0;
-	while (str[start] && str[start] == ' ')
-		start++;
-	if (str[start] == '\0')
-	{
-		str[0] = '\0';
-		return str;
-	}
-	length = ft_strlen(str);
-	end = length - 1;
-	while (end > start && str[end] == ' ')
-		end--;
-	length = end - start + 1;
-	ft_memmove(str, str + start, length);
-	str[length] = '\0';
-	return str;
+    if (str != NULL)
+    {
+        while (str[start] && str[start] == ' ')
+            start++;
+        if (str[start] == '\0')
+        {
+            str[0] = '\0';
+            return str;
+        }
+        length = ft_strlen(str);
+        end = length - 1;
+        while (end > start && str[end] == ' ')
+            end--;
+        length = end - start + 1;
+        ft_memmove(str, str + start, length);
+        str[length] = '\0';
+        return str;
+    }
+    return (NULL);
 }

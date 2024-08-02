@@ -15,8 +15,13 @@ SRC = src/minishell.c \
       src/commands/check_and_path.c \
       src/commands/exec_command.c \
       src/parsing/parse_commands.c \
-	  src/signals/signals.c \
-	  src/list_files/lists.c
+      src/signals/signals.c \
+      src/list_files/lists.c
+
+# --------------------------------------
+# Archivos objeto
+# --------------------------------------
+OBJ = $(SRC:.c=.o)
 
 # --------------------------------------
 # Compilador y opciones
@@ -52,11 +57,18 @@ all: $(NAME)
 # --------------------------------------
 # Regla para compilar el "hábitat" de los babuinos
 # --------------------------------------
-$(NAME): $(SRC) $(LIBFT)
+$(NAME): $(OBJ) $(LIBFT)
 	@echo "$(BLUE)Construyendo el hábitat de los babuinos... $(RESET)"
-	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) $(LIBS) -L$(LIBFT_DIR) -lft \
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS) -L$(LIBFT_DIR) -lft \
 		&& echo "$(GREEN)¡Hábitat de los babuinos construido con éxito!$(RESET)" \
 		|| echo "$(RED)Error en la construcción del hábitat$(RESET)"
+
+# --------------------------------------
+# Regla para compilar archivos .c en archivos .o
+# --------------------------------------
+%.o: %.c
+	@echo "$(MAGENTA)Compilando $<...$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # --------------------------------------
 # Regla para construir la librería libft
@@ -70,7 +82,7 @@ $(LIBFT):
 # --------------------------------------
 clean:
 	@echo "$(RED)Desmantelando el hábitat de los babuinos... $(RESET)"
-	@rm -f $(NAME)
+	@rm -f $(OBJ)
 	@make -C $(LIBFT_DIR) clean
 
 # --------------------------------------
@@ -78,6 +90,7 @@ clean:
 # --------------------------------------
 fclean: clean
 	@echo "$(RED)Destruyendo el hábitat y el árbol de bananas... $(RESET)"
+	@rm -f $(NAME)
 	@rm -f $(LIBFT)
 
 # --------------------------------------

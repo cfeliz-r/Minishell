@@ -16,7 +16,8 @@ SRC = src/minishell.c \
       src/commands/exec_command.c \
       src/parsing/parse_commands.c \
       src/signals/signals.c \
-      src/list_files/lists.c
+      src/list_files/lists.c \
+	  src/redirection/redirections.c
 
 # --------------------------------------
 # Archivos objeto

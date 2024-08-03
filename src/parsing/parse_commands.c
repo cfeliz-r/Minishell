@@ -12,13 +12,15 @@
 
 #include "../../minishell.h"
 
-
-
-t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
-    char        **command_strings;
-    t_command   *commands;
-    int         i;
-
+t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
+{
+    char **command_strings;
+    t_command *commands;
+    char *command_with_redirections;
+    char *input_redirection;
+    char *output_redirection;
+    int i;
+    
     command_strings = ft_split(input, '|');
     if (!command_strings)
         return NULL;
@@ -34,13 +36,45 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
     }
 
     i = 0;
-    while (i < *num_cmds) {
+    while (i < *num_cmds)
+    {
         commands[i].is_correct = 0;
-        commands[i].args = ft_split(command_strings[i], ' ');
-        if (commands[i].args == NULL) {
+        commands[i].input_redirection = NULL;
+        commands[i].output_redirection = NULL;
+        commands[i].append_output = 0;
+        command_with_redirections = command_strings[i];
+        input_redirection = ft_strchr(command_with_redirections, '<');
+        output_redirection = ft_strchr(command_with_redirections, '>'); 
+        if (input_redirection) 
+        {
+            *input_redirection = 0;
+            input_redirection++;
+            if (*input_redirection)
+                commands[i].input_redirection = ft_split(input_redirection, ' ')[0];
+            else
+                commands[i].input_redirection = NULL;
+        }
+        if (output_redirection)
+        {
+            *output_redirection = 0;
+            output_redirection++;
+            if (*output_redirection == '>')
+            {
+                commands[i].append_output = 1;
+                output_redirection++;
+            }
+            if (*output_redirection)
+                commands[i].output_redirection = ft_split(output_redirection, ' ')[0];
+            else
+                commands[i].output_redirection = NULL;
+        }
+        commands[i].args = ft_split(command_with_redirections, ' ');
+        if (commands[i].args == NULL)
+        {
             ft_putstr(command_strings[i]);
             ft_putstr_fd(": Command not found\n", 2);
-            while (i >= 0) {
+            while (i >= 0)
+            {
                 free_command(&commands[i]);
                 i--;
             }
@@ -48,13 +82,14 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
             clean_up(command_strings, NULL, 0);
             return NULL;
         }
-
         commands[i].path = find_command_path(commands[i].args[0], envp);
-        if (!commands[i].path || access(commands[i].path, F_OK) == -1) {
+        if (!commands[i].path || access(commands[i].path, F_OK) == -1)
+        {
             commands[i].is_correct = 1;
             ft_putstr(commands[i].args[0]);
             ft_putstr_fd(": Command not found\n", 2);
-            while (i >= 0) {
+            while (i >= 0)
+            {
                 free_command(&commands[i]);
                 i--;
             }

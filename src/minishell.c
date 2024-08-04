@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/02 12:20:26 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/04 10:00:06 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void print_decorative_text(void)
 		DARK_FOREST "╚════════════════════════════════════════════════════════════════════════╝\n" RESET
 	);
 }
-
-
 
 int	build_up(char *comand, t_list_env *environ)
 {
@@ -88,8 +86,6 @@ char *get_prompt(void)
 	}
 	return temp;
 }
-
-
 
 void process_input(t_list_env *envp)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/01 16:38:51 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/04 10:00:03 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void clean_up(char **args, t_command *commands, int num_cmds)
         free(commands);
     }
 }
+
 int count_char(char *str, char c)
 {
 	int i;
@@ -66,8 +67,6 @@ int count_char(char *str, char c)
 	return (j);
 }
 
-
-
 void close_pipes(t_command *commands, int num_cmds)
 {
 	int		i;
@@ -80,6 +79,7 @@ void close_pipes(t_command *commands, int num_cmds)
 	i++;
 	}
 }
+
 void free_command(t_command *command)
 {
     if (command->args)

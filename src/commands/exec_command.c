@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:57:14 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/01 16:39:31 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/04 10:00:06 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     clean_up(env_array, NULL, 0);
 }
 
-
 void execute_commands(t_list_env *envp, char *cmd)
 {
     t_command *commands;
@@ -128,4 +127,3 @@ void execute_commands(t_list_env *envp, char *cmd)
     }
     free(commands);
 }
-

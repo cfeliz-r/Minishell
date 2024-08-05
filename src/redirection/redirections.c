@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 15:10:15 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:08:54 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void handle_redirections(t_command *command)
 		
 		if (dup2(fd, STDIN_FILENO) == -1)
 			perror("dup2 input_redirection");
-		close(fd);
+		if(fd != -1)
+			close(fd);
 	}
 	if (command->output_redirection)
 	{
@@ -37,7 +38,8 @@ void handle_redirections(t_command *command)
 			perror("open output_redirection");
 		if (dup2(fd2, STDOUT_FILENO) == -1)
 			perror("dup2 output_redirection");
-		close(fd2);
+		if(fd2 != -1)
+			close(fd2);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 17:42:56 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:14:24 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_command *clean_up_and_return(char **command_strings, t_command *commands, int 
     }
     free(commands);
     clean_up(command_strings, NULL, 0);
-    return (manage_error(200, 0), NULL);
+    return (manage_error(127, 0), NULL);
 }
 t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 {
@@ -91,24 +91,19 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     command_strings = ft_split(aux, '|');
     if (!command_strings)
         return (manage_error(200, 0), NULL);
-
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)
         (*num_cmds)++;
-
     commands = init_commands(command_strings, *num_cmds);
     if (!commands)
         return (manage_error(200, 0), NULL);
-
-    i = 0;
-    while (i < *num_cmds)
+    i = -1;
+    while (++i < *num_cmds)
     {
         handle_redir(command_strings[i], &commands[i]);
         if (!validate_command(&commands[i], envp))
             return clean_up_and_return(command_strings, commands, *num_cmds);
-        i++;
     }
-
     clean_up(command_strings, NULL, 0);
-    return commands;
+    return (commands);
 }

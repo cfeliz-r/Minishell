@@ -25,6 +25,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+char *ft_redir_cmd(char *input, t_list_env *envp);
 void handle_redirections(t_command *command);
 
 //lists

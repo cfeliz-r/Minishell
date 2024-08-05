@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:57:14 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/03 18:56:42 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:18:54 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static char **convert_envp_to_array(t_list_env *envp)
 
 void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 {
-    int i;
-    char **env_array;
+    int         i;
+    char        **env_array;
     struct sigaction sa_quit;
     struct sigaction sa_int;
-
+     
     i = 0;
     env_array = convert_envp_to_array(envp);
     while (i < num_cmds) {
@@ -73,37 +73,32 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
             perror("fork");
             return;
         }
-        if (commands[i].pid == 0)
-        {
+        if (commands[i].pid == 0) {
             sa_quit.sa_handler = SIG_DFL;
             sa_quit.sa_flags = 0;
             sigaction(SIGQUIT, &sa_quit, NULL);
-          
             if (i > 0)
                 dup2(commands[i - 1].pipefd[0], STDIN_FILENO);
             if (i < num_cmds - 1)
                 dup2(commands[i].pipefd[1], STDOUT_FILENO);
+            close_pipes(commands, num_cmds);
             
             handle_redirections(&commands[i]);
-            close_pipes(commands, num_cmds);
 
-            if (execve(commands[i].path, commands[i].args, env_array) == -1)
-            {
+            if (execve(commands[i].path, commands[i].args, env_array) == -1) {
                 perror("execve");
+                exit(EXIT_FAILURE);
             }
         }
         i++;
     }
-
     sa_int.sa_handler = sigint_handler_2;
     sa_int.sa_flags = 0;
     sigaction(SIGINT, &sa_int, NULL);
-
     close_pipes(commands, num_cmds);
     i = -1;
     while (++i < num_cmds)
         waitpid(commands[i].pid, NULL, 0);
-
     clean_up(env_array, NULL, 0);
 }
 

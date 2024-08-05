@@ -20,8 +20,9 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     char *input_redirection;
     char *output_redirection;
     int i;
-    
-    command_strings = ft_split(input, '|');
+    char *aux; 
+    aux = ft_redir_cmd(input, envp); 
+    command_strings = ft_split(aux, '|');
     if (!command_strings)
         return NULL;
 
@@ -43,6 +44,8 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
         commands[i].output_redirection = NULL;
         commands[i].append_output = 0;
         command_with_redirections = command_strings[i];
+
+
         input_redirection = ft_strchr(command_with_redirections, '<');
         output_redirection = ft_strchr(command_with_redirections, '>'); 
         if (input_redirection) 

@@ -4,6 +4,11 @@
 NAME = minishell
 
 # --------------------------------------
+# Directorio de archivos objeto
+# --------------------------------------
+OBJDIR = obj
+
+# --------------------------------------
 # Archivos fuente
 # --------------------------------------
 SRC = src/minishell.c \
@@ -21,7 +26,7 @@ SRC = src/minishell.c \
 # --------------------------------------
 # Archivos objeto
 # --------------------------------------
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:src/%.c=$(OBJDIR)/%.o)
 
 # --------------------------------------
 # Compilador y opciones
@@ -55,7 +60,7 @@ UNDERLINE = \033[4m
 all: $(NAME)
 
 # --------------------------------------
-# Regla para compilar el "hábitat" de los babuinos
+# Regla para compilar el archivo ejecutable
 # --------------------------------------
 $(NAME): $(OBJ) $(LIBFT)
 	@echo "$(BLUE)Construyendo el hábitat de los babuinos... $(RESET)"
@@ -66,7 +71,8 @@ $(NAME): $(OBJ) $(LIBFT)
 # --------------------------------------
 # Regla para compilar archivos .c en archivos .o
 # --------------------------------------
-%.o: %.c
+$(OBJDIR)/%.o: src/%.c
+	@mkdir -p $(dir $@) # Asegúrate de que el directorio necesario exista
 	@echo "$(MAGENTA)Compilando $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -82,7 +88,7 @@ $(LIBFT):
 # --------------------------------------
 clean:
 	@echo "$(RED)Desmantelando el hábitat de los babuinos... $(RESET)"
-	@rm -f $(OBJ)
+	@rm -rf $(OBJDIR)
 	@make -C $(LIBFT_DIR) clean
 
 # --------------------------------------

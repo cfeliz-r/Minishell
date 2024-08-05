@@ -3,38 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/07/31 20:05:38 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:11:09 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_echo(char *comand)
+static void clean_up_echo(char **arr)
 {
-	char	**str;
-	int	i;
-	int j;
+    int i = 0;
+    if (arr) {
+        while (arr[i])
+		{
+            free(arr[i++]);
+        }
+        free(arr);
+    }
+}
 
-	i = 0;
-	j = 0;
-	str = ft_split(comand + 5, ' ');
-	if(ft_strcmp(str[i], "-n")== 0)
+static int is_n_option(const char *arg)
+{
+    int i = 1;
+
+    if (arg[0] == '-' && strlen(arg) > 1)
 	{
-		i = 1;
-		j = 1;	
-	}
-	while (str && str[i] != NULL )
+        while (arg[i] != '\0')
+		{
+            if (arg[i] != 'n')
+			{
+                return 0;
+            }
+            i++;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+void ft_echo(const char *comand)
+{
+    char **str;
+    int i = 1;
+    int n_option = 0;
+
+
+    str = ft_split(comand + 5, ' ');
+    if (str && is_n_option(str[0]))
+    {
+        while (str[i] && is_n_option(str[i]))
+        {
+            n_option = 1;
+            i++;
+        }
+    }
+    if (str)
 	{
-		printf("%s", str[i++]);
-		if(str[i] != NULL)
-			printf(" ");
-	}
-	if(str)
-		clean_up(str, NULL, 0);
-	if (j == 1)
-		return ;
-	printf("\n");
+        int first = 1;
+        while (str[i])
+        {
+            if (!first) {
+                write(1, " ", 1);
+            }
+            ft_putstr_fd(str[i], 1);
+            first = 0;
+            i++;
+        }
+    }
+    clean_up_echo(str);
+    if (n_option == 0)
+    {
+        write(1, "\n", 1);
+    }
 }

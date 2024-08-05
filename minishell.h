@@ -48,7 +48,7 @@ t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);
 //building
-void        ft_echo(char *comand);
+void		ft_echo(const char *comand);
 void        ft_pwd(void);
 void        ft_env(t_list_env *env);
 void        ft_cd(char *route, t_list_env *env);

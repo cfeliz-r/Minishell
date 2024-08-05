@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 12:20:02 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:14:54 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ char *ft_redir_cmd(char *input, t_list_env *envp)
     {
         aux = ft_split(opt_cmd, ' ');
         command_path = find_command_path(aux[2], envp);
+        if(!command_path)
+            return NULL;
         
-        if (access(command_path, X_OK) == -1)
+        if (access(command_path, X_OK | F_OK) == -1)
         {
             printf("minishell: %s: No such file or directory\n", aux[2]);
             ft_putstr_fd("minishell: ", 2);

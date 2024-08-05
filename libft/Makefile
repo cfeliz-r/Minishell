@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+         #
+#    By: manufern <manufern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:53:34 by cfeliz-r          #+#    #+#              #
-#    Updated: 2024/08/03 13:20:06 by cfeliz-r         ###   ########.fr        #
+#    Updated: 2024/08/05 14:22:28 by manufern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ SRCS		= ft_atoi.c \
 		  ft_lstlast.c \
 		  ft_lstmap.c \
 		  ft_lstnew.c \
-		  ft_lstsize.c 
+		  ft_lstsize.c \
+		  ft_realloc.c
 
 OBJS		= ${SRCS:.c=.o}
 NAME		= libft.a

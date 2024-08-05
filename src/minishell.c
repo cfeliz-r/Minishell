@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/04 10:00:06 by manuel           ###   ########.fr       */
+/*   Updated: 2024/08/05 13:57:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ void process_input(t_list_env *envp)
 		}
 		else
 		{
-			interpreted_line = interpret_command(line);
+			interpreted_line = interpret_command(line, envp);
+			/* printf("interpreted_line: %s\n", interpreted_line);
+			continue; */
 			if (interpreted_line == NULL)
 			{
 				free(line);

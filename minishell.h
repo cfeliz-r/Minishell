@@ -50,7 +50,7 @@ void		execute_commands(t_list_env *list, char *cmd);
 void		free_env_list(t_list_env *env_list);
 int			count_char(char *str, char c);
 //parseo
-char        *interpret_command(char *command);
+char *interpret_command(const char *command, t_list_env *envp);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);

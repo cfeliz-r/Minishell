@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
 
-t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
+
+/* t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 {
     char **command_strings;
     t_command *commands;
@@ -39,13 +39,8 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     i = 0;
     while (i < *num_cmds)
     {
-        commands[i].is_correct = 0;
-        commands[i].input_redirection = NULL;
-        commands[i].output_redirection = NULL;
-        commands[i].append_output = 0;
+        ft_memset(&commands[i], 0, sizeof(t_command));
         command_with_redirections = command_strings[i];
-
-
         input_redirection = ft_strchr(command_with_redirections, '<');
         output_redirection = ft_strchr(command_with_redirections, '>'); 
         if (input_redirection) 
@@ -108,7 +103,9 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     }
     clean_up(command_strings, NULL, 0);
     return commands;
-}
+} */
+
+#include "../../minishell.h"
 
 char *interpret_command(char *command)
 {

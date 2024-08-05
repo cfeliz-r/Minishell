@@ -6,11 +6,12 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 11:41:04 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:20:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 void handle_redirections(t_command *command)
 {
     int fd;

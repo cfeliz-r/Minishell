@@ -54,6 +54,7 @@ char *interpret_command(const char *command, t_list_env *envp);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);
+char *find_env_value(t_list_env *envp_list, const char *key);
 //building
 void		ft_echo(const char *comand);
 void        ft_pwd(void);

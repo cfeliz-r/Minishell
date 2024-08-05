@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/03 14:07:08 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:27:56 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,15 @@ typedef struct s_command
     char *output_redirection;
     int append_output;
 } t_command;
+
+typedef struct s_parse_context
+{
+    size_t  i;
+    size_t  j;
+    size_t  in_single_quotes;
+    size_t  in_double_quotes;
+    size_t  buffer_size;
+    char    *result;
+}   t_parse_context;
 
 #endif

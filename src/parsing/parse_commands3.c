@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 18:39:06 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:06:53 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Maneja las comillas simples y dobles en el contexto de un comando.
 static void handle_quotes(char c, size_t *in_single_quotes, size_t *in_double_quotes)
 {
     if (c == '"' && !*in_single_quotes)
@@ -21,7 +20,6 @@ static void handle_quotes(char c, size_t *in_single_quotes, size_t *in_double_qu
         *in_single_quotes = !*in_single_quotes;
 }
 
-// Añade un carácter a la cadena resultante y ajusta el tamaño del búfer si es necesario.
 static char *append_char(char *result, char c, size_t *j, size_t *buffer_size)
 {
     size_t  old_buffer_size;
@@ -40,7 +38,6 @@ static char *append_char(char *result, char c, size_t *j, size_t *buffer_size)
     return (result);
 }
 
-// Maneja las secuencias de escape dentro del comando.
 static char *handle_escape_sequence(const char *command, t_parse_context *ctx)
 {
     ctx->result = append_char(ctx->result, command[(ctx->i)++],
@@ -53,7 +50,6 @@ static char *handle_escape_sequence(const char *command, t_parse_context *ctx)
     return (ctx->result);
 }
 
-// Maneja la expansión de variables de entorno en el comando.
 static char *handle_variable_expansion(const char *command,
                                        t_parse_context *ctx, t_list_env *envp)
 {
@@ -77,9 +73,33 @@ static char *handle_variable_expansion(const char *command,
     return (ctx->result);
 }
 
-// Procesa un carácter del comando según su contexto.
-static char *process_char(const char *command, t_parse_context *ctx,
-                          t_list_env *envp)
+static char *handle_dollar_sign(const char *command, t_parse_context *ctx, t_list_env *envp)
+{
+    char *p;
+    char *status_str;
+    int status;
+
+    (ctx->i)++;
+    if (command[ctx->i] == '?')
+    {
+        (ctx->i)++;
+        status = manage_error(0, 1);
+        status_str = ft_itoa(status);
+        if (status_str)
+        {
+            p = status_str;
+            while (*p)
+                ctx->result = append_char(ctx->result, *p++, &(ctx->j),
+                        &(ctx->buffer_size));
+            free(status_str);
+        }
+    }
+    else
+        ctx->result = handle_variable_expansion(command, ctx, envp);
+    return (ctx->result);
+}
+
+static char *process_char(const char *command, t_parse_context *ctx, t_list_env *envp)
 {
     if (command[ctx->i] == '"' || command[ctx->i] == '\'')
         handle_quotes(command[(ctx->i)++], &(ctx->in_single_quotes),
@@ -87,38 +107,17 @@ static char *process_char(const char *command, t_parse_context *ctx,
     else if (command[ctx->i] == '\\')
         ctx->result = handle_escape_sequence(command, ctx);
     else if (command[ctx->i] == ';' && !ctx->in_single_quotes
-             && !ctx->in_double_quotes)
+                && !ctx->in_double_quotes)
         ctx->result = append_char(ctx->result, command[(ctx->i)++],
-                                  &(ctx->j), &(ctx->buffer_size));
+                &(ctx->j), &(ctx->buffer_size));
     else if (command[ctx->i] == '$' && !ctx->in_single_quotes)
-    {
-        (ctx->i)++;
-        if (command[ctx->i] == '?')
-        {
-            (ctx->i)++;
-            int status = manage_error(0, 1);
-            char *status_str = ft_itoa(status);
-            
-            if (status_str)
-            {
-                char *p = status_str;
-                while (*p)
-                {
-                    ctx->result = append_char(ctx->result, *p++, &(ctx->j), &(ctx->buffer_size));
-                }
-                free(status_str);
-            }
-        }
-        else
-            ctx->result = handle_variable_expansion(command, ctx, envp);
-    }
+        ctx->result = handle_dollar_sign(command, ctx, envp);
     else
         ctx->result = append_char(ctx->result, command[(ctx->i)++],
                                   &(ctx->j), &(ctx->buffer_size));
     return (ctx->result);
 }
 
-// Interpreta el comando, manejando comillas, secuencias de escape y expansiones de variables.
 char *interpret_command(const char *command, t_list_env *envp)
 {
     t_parse_context ctx;

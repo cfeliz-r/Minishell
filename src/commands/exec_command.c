@@ -118,4 +118,5 @@ void execute_commands(t_list_env *envp, char *cmd)
     i = -1;
     while (++i < num_cmds)
         free_command(&commands[i]);
+    free(commands);
 }

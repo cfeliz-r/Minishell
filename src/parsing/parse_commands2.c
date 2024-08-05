@@ -15,7 +15,9 @@
 t_command *init_commands(char **command_strings, int num_cmds)
 {
     int i;
-    t_command *commands = malloc(sizeof(t_command) * num_cmds);
+    t_command *commands;
+
+    commands = malloc(sizeof(t_command) * num_cmds);
     if (!commands)
     {
         clean_up(command_strings, NULL, 0);
@@ -27,14 +29,16 @@ t_command *init_commands(char **command_strings, int num_cmds)
         ft_memset(&commands[i], 0, sizeof(t_command));
         i++;
     }
-    return commands;
+    return (commands);
 }
 
 void handle_redir(char *command_with_redirections, t_command *command)
 {
-    char *input_redirection = ft_strchr(command_with_redirections, '<');
-    char *output_redirection = ft_strchr(command_with_redirections, '>');
+    char *input_redirection;
+    char *output_redirection;
 
+    input_redirection = ft_strchr(command_with_redirections, '<');
+    output_redirection = ft_strchr(command_with_redirections, '>');
     if (input_redirection)
     {
         *input_redirection = 0;
@@ -63,6 +67,8 @@ int validate_command(t_command *command, t_list_env *envp)
         command->is_correct = 1;
         ft_putstr(command->args[0]);
         ft_putstr_fd(": Command not found\n", 2);
+        if(command->path)
+            free(command->path);
         return 0;
     }
     return 1;
@@ -91,6 +97,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     command_strings = ft_split(aux, '|');
     if (!command_strings)
         return (manage_error(200, 0), NULL);
+    free(aux);
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)
         (*num_cmds)++;

@@ -45,15 +45,15 @@ void handle_redirections(t_command *command)
 
 static int validate_command_cmd(char *command, t_list_env *envp, char *input_cmd)
 {
-    char *command_path = find_command_path(command, envp);
-    if (!command_path)
-        return (-1);
-    if (access(command_path, X_OK | F_OK) == -1)
+    char *command_path;
+
+	command_path = find_command_path(command, envp);
+    if (!command_path || access(command_path, X_OK | F_OK) == -1)
     {
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(input_cmd, 2);
         ft_putstr_fd(": No such file or directory\n", 2);
-        free(command_path);
+		free(command_path);
         return (-1);
     }
     return 0;
@@ -66,7 +66,10 @@ char *process_redirection(char **aux, t_list_env *envp)
     int i;
 
     if (validate_command_cmd(aux[2], envp, aux[1]) == -1)
-        return NULL;
+	{
+		clean_up(aux, NULL, 0);
+		 return NULL;
+	}
     swap = ft_strdup(aux[1]);
     result = ft_strdup(aux[2]);
     result = ft_strjoin(result, " < ");
@@ -78,26 +81,25 @@ char *process_redirection(char **aux, t_list_env *envp)
         result = ft_strjoin(result, " ");
         result = ft_strjoin(result, aux[i]);
     }
-    return result;
+	clean_up(aux, NULL, 0);
+    return (result);
 }
 
 char *ft_redir_cmd(char *input, t_list_env *envp)
 {
 	char **aux;
 	char *result;
-	char *opt_cmd;
 	
-	opt_cmd = ft_strdup(input);
-	if (!opt_cmd)
+	if (!input)
 		return (NULL);
-	if (ft_strncmp(opt_cmd, "<", 1) == 0)
+	if (ft_strncmp(input, "<", 1) == 0)
 	{
-		aux = ft_split(opt_cmd, ' ');
+		aux = ft_split(input, ' ');
 		result = process_redirection(aux, envp);
 		if (!result)
 			free(aux);
 	}
 	else
-		result = ft_strdup(opt_cmd);
+		result = ft_strdup(input);
 	return (result);
 }

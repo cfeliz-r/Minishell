@@ -48,6 +48,8 @@ void clean_up(char **args, t_command *commands, int num_cmds)
 		{
 			free(commands[i].args);
 			free(commands[i].path);
+			free(commands[i].input_redirection);
+			free(commands[i].output_redirection);
 			i++;
 		}
 		free(commands);

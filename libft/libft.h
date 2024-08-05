@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:29:19 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/24 19:32:58 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/03 13:19:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@
 # endif
 
 
-
+char    *ft_strndup(const char *s, size_t n);
+char    *ft_strtok(char *str, const char *delim);
+char    *ft_strpbrk(const char *s, const char *accept);
+size_t  ft_strspn(const char *s, const char *accept);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -72,7 +75,6 @@ void	ft_lstclear(t_list_env **lst, void (*del)(void *));
 void	ft_lstiter(t_list_env *lst, void (*f)(void *));
 t_list_env	*ft_lstmap(t_list_env *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_strcmp(char *s1, char *s2);
-
 //ft_printf
 void	ft_putcharacter_length(char character, int *length);
 void	ft_string(char *args, int *length);

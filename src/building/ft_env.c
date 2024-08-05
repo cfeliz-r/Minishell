@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:46:24 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/04 10:00:06 by manuel           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:27:02 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void ft_env(t_list_env *env)
     if (env == NULL)
 	{
         printf("las nuestras\n");
+        manage_error(200, 0);
         return;
     }
     while (aux != NULL)
@@ -27,4 +28,5 @@ void ft_env(t_list_env *env)
         printf("%s\n", aux->envp_content);
         aux=aux->next;
     }
+    manage_error(0, 0);
 }

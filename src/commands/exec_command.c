@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 12:45:36 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:31:41 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 
             if (execve(commands[i].path, commands[i].args, env_array) == -1) {
                 perror("execve");
-                exit(EXIT_FAILURE);
+                manage_error(200, 0);
             }
         }
         i++;

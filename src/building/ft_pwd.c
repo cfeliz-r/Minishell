@@ -24,4 +24,5 @@ void ft_pwd(void)
         printf("%s\n", buf);
     else
         printf("%s\n", buf);
+    manage_error(0, 0);
 }

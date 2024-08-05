@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_command2.c                                 :+:      :+:    :+:   */
+/*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 12:22:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:42:56 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_command *init_commands(char **command_strings, int num_cmds)
     if (!commands)
     {
         clean_up(command_strings, NULL, 0);
-        return NULL;
+        return (manage_error(200, 0), NULL);
     }
     i = 0;
     while (i < num_cmds)
@@ -78,7 +78,7 @@ t_command *clean_up_and_return(char **command_strings, t_command *commands, int 
     }
     free(commands);
     clean_up(command_strings, NULL, 0);
-    return NULL;
+    return (manage_error(200, 0), NULL);
 }
 t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 {
@@ -90,7 +90,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     aux = ft_redir_cmd(input, envp);
     command_strings = ft_split(aux, '|');
     if (!command_strings)
-        return NULL;
+        return (manage_error(200, 0), NULL);
 
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)
@@ -98,7 +98,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 
     commands = init_commands(command_strings, *num_cmds);
     if (!commands)
-        return NULL;
+        return (manage_error(200, 0), NULL);
 
     i = 0;
     while (i < *num_cmds)

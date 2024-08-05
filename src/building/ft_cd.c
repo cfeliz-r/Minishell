@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/04 10:00:06 by manuel           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:27:08 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,15 @@ void ft_cd(char *route, t_list_env *envp)
 					printf("Error: Permission denied.\n");
 				else if (errno == ENOTDIR)
 					printf("Error: A component of the path is not a directory.\n");
+				manage_error(200, 0);
 			}
 		}
 		else
+		{
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+			manage_error(200, 0);
+		}
     }
     clean_up(str_route, NULL, 0);
+	manage_error(0, 0);
 }

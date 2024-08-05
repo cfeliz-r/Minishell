@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 14:18:56 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:27:05 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ void ft_echo(const char *comand)
     if (!n_option)
         write(1, "\n", 1);
     clean_up_echo(str);
+    manage_error(0, 0);
 }

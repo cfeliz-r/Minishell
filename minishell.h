@@ -29,6 +29,7 @@ t_command *init_commands(char **command_strings, int num_cmds);
 char *ft_redir_cmd(char *input, t_list_env *envp);
 t_command *clean_up_and_return(char **command_strings, t_command *commands, int num_cmds);
 int validate_command(t_command *command, t_list_env *envp);
+int manage_error(int error_code, int return_value);
 
 void handle_redir(char *command_with_redirections, t_command *command);
 

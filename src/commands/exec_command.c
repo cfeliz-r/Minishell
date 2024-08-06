@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 18:31:41 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:24:50 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,19 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     char        **env_array;
     struct sigaction sa_quit;
     struct sigaction sa_int;
+    int status;
      
-    i = 0;
+    i = -1;
     env_array = convert_envp_to_array(envp);
-    while (i < num_cmds) {
-        if (i < num_cmds - 1 && pipe(commands[i].pipefd) == -1) {
-            perror("pipe");
-            return;
-        }
+    while (++i < num_cmds)
+    {
+        if (i < num_cmds - 1 && pipe(commands[i].pipefd) == -1)  
+            return(perror("pipe"));
         commands[i].pid = fork();
-        if (commands[i].pid == -1) {
-            perror("fork");
-            return;
-        }
-        if (commands[i].pid == 0) {
+        if (commands[i].pid == -1)
+            return(perror("fork"));
+        if (commands[i].pid == 0)
+        {
             sa_quit.sa_handler = SIG_DFL;
             sa_quit.sa_flags = 0;
             sigaction(SIGQUIT, &sa_quit, NULL);
@@ -83,14 +82,15 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
                 dup2(commands[i].pipefd[1], STDOUT_FILENO);
             close_pipes(commands, num_cmds);
             
-            handle_redirections(&commands[i]);
-
-            if (execve(commands[i].path, commands[i].args, env_array) == -1) {
+            status = handle_redirections(&commands[i]);
+            if(status == -1)
+                return ;
+            if (execve(commands[i].path, commands[i].args, env_array) == -1)
+            {
                 perror("execve");
                 manage_error(200, 0);
             }
         }
-        i++;
     }
     sa_int.sa_handler = sigint_handler_2;
     sa_int.sa_flags = 0;

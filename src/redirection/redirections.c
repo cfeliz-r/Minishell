@@ -6,13 +6,13 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/06 11:18:54 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:12:12 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void handle_redirections(t_command *command)
+int handle_redirections(t_command *command)
 {
 	int fd;
 	int fd2;
@@ -21,10 +21,10 @@ void handle_redirections(t_command *command)
 	{
 		fd = open(command->input_redirection, O_RDONLY);
 		if (fd == -1)
-		perror("open input_redirection");
+		    return(perror(""), -1);
 		
 		if (dup2(fd, STDIN_FILENO) == -1)
-			perror("dup2 input_redirection");
+            return (perror(""), -1);
 		if(fd != -1)
 			close(fd);
 	}
@@ -35,12 +35,13 @@ void handle_redirections(t_command *command)
 		else
 			fd2 = open(command->output_redirection, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd2 == -1)
-			perror("open output_redirection");
+			return(perror(""), -1);
 		if (dup2(fd2, STDOUT_FILENO) == -1)
-			perror("dup2 output_redirection");
+		    return(perror(""), -1);	;
 		if(fd2 != -1)
 			close(fd2);
 	}
+    return (0);
 }
 
 static int validate_command_cmd(char *command, t_list_env *envp)

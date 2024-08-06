@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 19:08:54 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:18:54 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void handle_redirections(t_command *command)
 	}
 }
 
-static int validate_command_cmd(char *command, t_list_env *envp, char *input_cmd)
+static int validate_command_cmd(char *command, t_list_env *envp)
 {
     char *command_path;
 
@@ -51,11 +51,13 @@ static int validate_command_cmd(char *command, t_list_env *envp, char *input_cmd
     if (!command_path || access(command_path, X_OK | F_OK) == -1)
     {
         ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(input_cmd, 2);
+        ft_putstr_fd(command, 2);
         ft_putstr_fd(": No such file or directory\n", 2);
-		free(command_path);
+		if (command_path)
+			free(command_path);
         return (-1);
     }
+	free(command_path);
     return 0;
 }
 
@@ -64,42 +66,58 @@ char *process_redirection(char **aux, t_list_env *envp)
     char *swap;
     char *result;
     int i;
+	char *temp;
 
-    if (validate_command_cmd(aux[2], envp, aux[1]) == -1)
-	{
-		clean_up(aux, NULL, 0);
-		 return NULL;
-	}
+    if (validate_command_cmd(aux[2], envp) == -1)
+    {
+        clean_up(aux, NULL, 0);
+        return NULL;
+    }
     swap = ft_strdup(aux[1]);
     result = ft_strdup(aux[2]);
-    result = ft_strjoin(result, " < ");
-    result = ft_strjoin(result, swap);
+    temp = ft_strjoin(result, " < ");
+    free(result);
+    result = temp;
+    temp = ft_strjoin(result, swap);
+    free(result);
     free(swap);
+    result = temp;
     i = 2;
     while (aux[++i])
-	{
-        result = ft_strjoin(result, " ");
-        result = ft_strjoin(result, aux[i]);
+    {
+        temp = ft_strjoin(result, " ");
+        free(result);
+        result = temp;
+        temp = ft_strjoin(result, aux[i]);
+        free(result);
+        result = temp;
     }
-	clean_up(aux, NULL, 0);
+    clean_up(aux, NULL, 0);
     return (result);
 }
 
 char *ft_redir_cmd(char *input, t_list_env *envp)
 {
-	char **aux;
-	char *result;
-	
-	if (!input)
-		return (NULL);
-	if (ft_strncmp(input, "<", 1) == 0)
-	{
-		aux = ft_split(input, ' ');
-		result = process_redirection(aux, envp);
-		if (!result)
-			free(aux);
-	}
-	else
-		result = ft_strdup(input);
-	return (result);
+    char **aux;
+    char *result;
+    int i;
+
+    if (!input)
+        return (NULL);
+    if (ft_strncmp(input, "<", 1) == 0)
+    {
+        aux = ft_split(input, ' ');
+        i = 0;
+        while(aux[i])
+            i++;
+        if (i < 3)
+        {
+            clean_up(aux, NULL, 0);
+            return (NULL);
+        }
+        result = process_redirection(aux, envp);
+    }
+    else
+        result = ft_strdup(input);
+    return (result);
 }

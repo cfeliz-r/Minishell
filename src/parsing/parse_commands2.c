@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 19:14:24 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:25:40 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ t_command *init_commands(char **command_strings, int num_cmds)
 
 void handle_redir(char *command_with_redirections, t_command *command)
 {
-    char *input_redirection;
-    char *output_redirection;
+    char    *input_redirection;
+    char    *output_redirection;
+    char    **split_result;
 
     input_redirection = ft_strchr(command_with_redirections, '<');
     output_redirection = ft_strchr(command_with_redirections, '>');
@@ -43,7 +44,12 @@ void handle_redir(char *command_with_redirections, t_command *command)
     {
         *input_redirection = 0;
         input_redirection++;
-        command->input_redirection = ft_split(input_redirection, ' ')[0];
+        split_result = ft_split(input_redirection, ' ');
+        if (split_result)
+        {
+            command->input_redirection = strdup(split_result[0]);
+            clean_up(split_result, NULL, 0);
+        }
     }
     if (output_redirection)
     {
@@ -54,7 +60,12 @@ void handle_redir(char *command_with_redirections, t_command *command)
             command->append_output = 1;
             output_redirection++;
         }
-        command->output_redirection = ft_split(output_redirection, ' ')[0];
+        split_result = ft_split(output_redirection, ' ');
+        if (split_result)
+        {
+            command->output_redirection = strdup(split_result[0]);
+            clean_up(split_result, NULL, 0);
+        }
     }
     command->args = ft_split(command_with_redirections, ' ');
 }
@@ -103,7 +114,10 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
         (*num_cmds)++;
     commands = init_commands(command_strings, *num_cmds);
     if (!commands)
+    {
+        clean_up(command_strings, NULL, 0);
         return (manage_error(200, 0), NULL);
+    }
     i = -1;
     while (++i < *num_cmds)
     {

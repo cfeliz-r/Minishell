@@ -3,103 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 14:38:18 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:22:40 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void clean_up_aux(t_command **commands)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (commands[j] != NULL)
+	void clean_up_aux(t_command **commands)
 	{
-		while (commands[j]->args[i] != NULL)
-			free(commands[j]->args[i++]);
-		free(commands[j]->args);
-		free(commands[j]->path);
-		j++;
+		int i;
+		int j;
+
 		i = 0;
-	}
-}
-
-void clean_up(char **args, t_command *commands, int num_cmds)
-{
-	int i;
-
-	i = 0;
-	if (args)
-	{
-		while (args[i] != NULL)
-			free(args[i ++]);
-		free(args);
-	}
-	i = 0;
-	if (commands)
-	{
-		while( i < num_cmds) 
+		j = 0;
+		while (commands[j] != NULL)
 		{
-			free(commands[i].args);
-			free(commands[i].path);
-			free(commands[i].input_redirection);
-			free(commands[i].output_redirection);
-			i++;
+			while (commands[j]->args[i] != NULL)
+				free(commands[j]->args[i++]);
+			free(commands[j]->args);
+			free(commands[j]->path);
+			j++;
+			i = 0;
 		}
-		free(commands);
 	}
-}
 
-int count_char(char *str, char c)
-{
-	int i;
-	int j;
-	
-	i  = 0;
-	j  = 0;
-	while (str[i] != '\0')
+	void clean_up(char **args, t_command *commands, int num_cmds)
 	{
-		if (str[i] == c)
-			j ++;
-		i ++;
-	}
-	return (j);
-}
+		int i;
 
-void close_pipes(t_command *commands, int num_cmds)
-{
-	int		i;
-
-	i = 0;
-	while (i < num_cmds - 1) 
-	{
-		close(commands[i].pipefd[0]);
-		close(commands[i].pipefd[1]);
-	i++;
-	}
-}
-
-void free_command(t_command *command)
-{
-	int i;
-
-	if (command->args)
-	{
 		i = 0;
-		while (command->args[i])
+		if (args)
 		{
-			free(command->args[i]);
-			i++;
+			while (args[i] != NULL)
+				free(args[i ++]);
+			free(args);
 		}
-		free(command->args);
+		i = 0;
+		if (commands)
+		{
+			while( i < num_cmds) 
+			{
+				free(commands[i].args);
+				free(commands[i].path);
+				free(commands[i].input_redirection);
+				free(commands[i].output_redirection);
+				i++;
+			}
+			free(commands);
+		}
 	}
-	if (command->path) {
-		free(command->path);
+
+	int count_char(char *str, char c)
+	{
+		int i;
+		int j;
+		
+		i  = 0;
+		j  = 0;
+		while (str[i] != '\0')
+		{
+			if (str[i] == c)
+				j ++;
+			i ++;
+		}
+		return (j);
 	}
-}
+
+	void close_pipes(t_command *commands, int num_cmds)
+	{
+		int		i;
+
+		i = 0;
+		while (i < num_cmds - 1) 
+		{
+			close(commands[i].pipefd[0]);
+			close(commands[i].pipefd[1]);
+		i++;
+		}
+	}
+
+	void free_command(t_command *command)
+	{
+		int i;
+
+		if (command->args)
+		{
+			i = -1;
+			while (command->args[++i])
+				free(command->args[i]);
+			free(command->args);
+		}
+		i = 0;
+		if (command->path)
+			free(command->path);
+		if (command->input_redirection)
+			free(command->input_redirection);
+		if (command->output_redirection)
+			free(command->output_redirection);
+		ft_memset(command, 0, sizeof(t_command));
+		
+	}
+ 

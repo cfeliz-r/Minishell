@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/06 10:25:40 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:28:06 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void handle_redir(char *command_with_redirections, t_command *command)
     char    *input_redirection;
     char    *output_redirection;
     char    **split_result;
+    int i;
 
+    i = 0;
     input_redirection = ft_strchr(command_with_redirections, '<');
     output_redirection = ft_strchr(command_with_redirections, '>');
     if (input_redirection)
@@ -45,11 +47,15 @@ void handle_redir(char *command_with_redirections, t_command *command)
         *input_redirection = 0;
         input_redirection++;
         split_result = ft_split(input_redirection, ' ');
-        if (split_result)
+        while(split_result[i])
+            i++;
+        if (split_result && i > 1)
         {
             command->input_redirection = strdup(split_result[0]);
             clean_up(split_result, NULL, 0);
         }
+        else
+            clean_up(split_result, NULL, 0);
     }
     if (output_redirection)
     {

@@ -52,15 +52,15 @@ static void print_echo_parts(char **str, int start_index)
     {
         if (!first)
         {
-            write(1, " ", 1);
+            write(STDOUT_FILENO, " ", 1);
         }
-        ft_putstr_fd(str[i], 1);
+        ft_putstr_fd(str[i], STDOUT_FILENO);
         first = 0;
         i++;
     }
 }
 
-void ft_echo(const char *comand)
+int ft_echo(const char *comand)
 {
     char **str;
     int i;
@@ -69,8 +69,12 @@ void ft_echo(const char *comand)
     i = 0;
     n_option = 0;
     str = ft_split(comand + 5, ' ');
-    if (!str)
-        return;
+    if (!str || ft_strchr(comand, '|') || ft_strchr(comand, '>') || ft_strchr(comand, '<'))
+    {
+        if(str)
+            clean_up_echo(str);
+        return -1;
+    }
     if (str[0] && is_n_option(str[0]))
     {
         n_option = 1;
@@ -81,7 +85,8 @@ void ft_echo(const char *comand)
         print_echo_parts(str, i);
     }
     if (!n_option)
-        write(1, "\n", 1);
+        write(STDOUT_FILENO, "\n", 1);
     clean_up_echo(str);
     manage_error(0, 0);
+    return (1);
 }

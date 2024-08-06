@@ -32,8 +32,9 @@ static void print_decorative_text(void)
 
 int	build_up(char *comand, t_list_env *environ)
 {
+	int status;
 
-	/* if (ft_strcmp(comand, "pwd") == 0)
+	if (ft_strcmp(comand, "pwd") == 0)
 	{
 		ft_pwd();
 		return (1);
@@ -42,10 +43,12 @@ int	build_up(char *comand, t_list_env *environ)
 	{
 		ft_env(environ);
 		return (1);
-	}  */
+	}  
 	if (ft_strncmp(comand, "echo ", 5) == 0)
 	{
-		ft_echo(comand);
+		status  = ft_echo(comand);
+		if (status == -1)
+			return (0);
 		return (1);
 	}
 	else if (ft_strncmp(comand, "cd ", 3) == 0 || ft_strncmp(comand, "cd\0", 3) == 0)

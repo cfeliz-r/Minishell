@@ -56,7 +56,7 @@ int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);
 char        *find_env_value(t_list_env *envp_list, const char *key);
 //building
-void		ft_echo(const char *comand);
+int         ft_echo(const char *comand);
 void        ft_pwd(void);
 void        ft_env(t_list_env *env);
 void ft_export(char *input, t_list_env *envp);

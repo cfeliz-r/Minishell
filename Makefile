@@ -15,6 +15,7 @@ SRC = src/minishell.c \
       src/building/ft_echo.c \
       src/building/ft_pwd.c \
       src/building/ft_env.c \
+	  src/building/ft_export.c \
       src/building/ft_cd.c \
       src/utils/utils.c \
       src/commands/check_and_path.c \

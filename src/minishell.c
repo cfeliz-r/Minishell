@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 18:21:02 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:41:10 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void print_decorative_text(void)
 int	build_up(char *comand, t_list_env *environ)
 {
 
-	if (ft_strcmp(comand, "pwd") == 0)
+	/* if (ft_strcmp(comand, "pwd") == 0)
 	{
 		ft_pwd();
 		return (1);
@@ -42,8 +42,8 @@ int	build_up(char *comand, t_list_env *environ)
 	{
 		ft_env(environ);
 		return (1);
-	} 
-	else if (ft_strncmp(comand, "echo ", 5) == 0)
+	}  */
+	if (ft_strncmp(comand, "echo ", 5) == 0)
 	{
 		ft_echo(comand);
 		return (1);
@@ -51,6 +51,11 @@ int	build_up(char *comand, t_list_env *environ)
 	else if (ft_strncmp(comand, "cd ", 3) == 0 || ft_strncmp(comand, "cd\0", 3) == 0)
 	{
 		ft_cd(comand, environ);
+		return (1);
+	}
+	else if (ft_strncmp(comand, "export", 6) == 0)
+	{
+		ft_export(comand, environ);
 		return (1);
 	}
 	return (0);
@@ -105,7 +110,6 @@ void process_input(t_list_env *envp)
 			printf("exit\n");
 			break ;
 		}
-		
 		i = check_quotes(line);
 		if (i == 0)
 		{
@@ -115,8 +119,6 @@ void process_input(t_list_env *envp)
 		else
 		{
 			interpreted_line = interpret_command(line, envp);
-			/* printf("interpreted_line: %s\n", interpreted_line);
-			continue; */
 			if (interpreted_line == NULL)
 			{
 				free(line);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 18:27:05 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:19:08 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,19 @@ static void clean_up_echo(char **arr)
         free(arr);
     }
 }
-
-static int is_n_option(const char *arg)
+int	is_n_option(char *str)
 {
-    int i = 1;
+	int	i;
 
-    if (arg[0] == '-' && strlen(arg) > 1)
-    {
-        while (arg[i] != '\0')
-        {
-            if (arg[i] != 'n')
-            {
-                return 0;
-            }
-            i++;
-        }
-        return 1;
-    }
-    return 0;
+	i = 1;
+	if (str[0] == '-')
+	{
+		while (str[i] == 'n')
+			++i;
+		if (str[i] == '\0' && i != 1)
+			return (1);
+	}
+	return (0);
 }
 
 static void print_echo_parts(char **str, int start_index)
@@ -75,15 +70,13 @@ int ft_echo(const char *comand)
             clean_up_echo(str);
         return -1;
     }
-    if (str[0] && is_n_option(str[0]))
+    while(str[i] && is_n_option(str[i]))
     {
         n_option = 1;
-        i = 1;
+        i ++;
     }
     if (str)
-    {
         print_echo_parts(str, i);
-    }
     if (!n_option)
         write(STDOUT_FILENO, "\n", 1);
     clean_up_echo(str);

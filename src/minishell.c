@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/06 17:41:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:39:10 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	build_up(char *comand, t_list_env *environ)
 {
 	int status;
 
-	if (ft_strcmp(comand, "pwd") == 0)
+	if ( ft_strncmp(comand, "pwd ", 4) == 0 || ft_strcmp(comand, "pwd") == 0)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if (ft_strcmp(comand, "env") == 0)
+	else if (ft_strncmp(comand, "env ", 4) == 0 || ft_strcmp(comand, "env")== 0)
 	{
-		ft_env(environ);
+		ft_env(environ, comand);
 		return (1);
 	}  
 	if (ft_strncmp(comand, "echo ", 5) == 0)
@@ -53,7 +53,7 @@ int	build_up(char *comand, t_list_env *environ)
 	}
 	else if (ft_strncmp(comand, "cd ", 3) == 0 || ft_strncmp(comand, "cd\0", 3) == 0)
 	{
-		ft_cd(comand, environ);
+		ft_cd(comand);
 		return (1);
 	}
 	else if (ft_strncmp(comand, "export", 6) == 0)

@@ -3,30 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:46:24 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 18:27:02 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:51:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_env(t_list_env *env)
+void ft_env(t_list_env *env, char *command)
 {
-    t_list_env *aux;
+	t_list_env	*aux;
+	char		**str_route;
+	int			i;
 
-    aux = env;
-    if (env == NULL)
+	aux = env;
+	i = 0;
+	str_route = ft_split(command, ' ');
+	manage_error(0, 0);
+	while(str_route[i])
+		i ++;
+	if(i > 1)
 	{
-        printf("las nuestras\n");
-        manage_error(200, 0);
-        return;
-    }
-    while (aux != NULL)
+		printf("env: %s: No such file or directory\n", str_route[1]);
+		manage_error(127, 0);
+	}
+	else
 	{
-        printf("%s\n", aux->envp_content);
-        aux=aux->next;
-    }
-    manage_error(0, 0);
+		while (aux != NULL)
+		{
+			printf("%s\n", aux->envp_content);
+			aux=aux->next;
+		}
+	}
+	clean_up(str_route, NULL, 0);
 }

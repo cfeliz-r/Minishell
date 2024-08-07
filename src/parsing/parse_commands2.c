@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/06 13:28:06 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:18:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void handle_redir(char *command_with_redirections, t_command *command)
 int validate_command(t_command *command, t_list_env *envp)
 {
     command->path = find_command_path(command->args[0], envp);
-    if (!command->path || access(command->path, F_OK) == -1)
+    if (!command->path)
     {
         command->is_correct = 1;
         ft_putstr(command->args[0]);

@@ -25,6 +25,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+void setup_signals(void);
 int         count_envp(t_list_env *envp);
 char        **convert_envp_to_array(t_list_env *envp);
 t_command   *init_commands(char **command_strings, int num_cmds);

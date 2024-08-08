@@ -6,45 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 09:28:01 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:59:29 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static t_list_env *create_node(const char *content)
-{
-	t_list_env *new_node;
-
-	new_node = malloc(sizeof(t_list_env));
-	if (!new_node)
-		return (NULL);
-	new_node->envp_content = ft_strdup(content);
-	if (!new_node->envp_content)
-		return (NULL);
-	new_node->next = NULL;
-	return (new_node);
-}
-
-static t_list_env *copy_list(t_list_env *original)
-{
-	t_list_env *new_list;
-	t_list_env *current_original;
-	t_list_env *current_new;
-
-	if (!original)
-		return (NULL);
-	new_list = create_node(original->envp_content);
-	current_original = original->next;
-	current_new = new_list;
-	while (current_original)
-	{
-		current_new->next = create_node(current_original->envp_content);
-		current_new = current_new->next;
-		current_original = current_original->next;
-	}
-	return (new_list);
-}
 
 static void free_list(t_list_env *list)
 {
@@ -59,6 +25,50 @@ static void free_list(t_list_env *list)
 	}
 }
 
+static t_list_env *create_node(const char *content)
+{
+	t_list_env *new_node;
+
+	new_node = malloc(sizeof(t_list_env));
+	if (!new_node)
+		return (NULL);
+	new_node->envp_content = ft_strdup(content);
+	if (!new_node->envp_content)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	new_node->next = NULL;
+	return (new_node);
+}
+
+static t_list_env *copy_list(t_list_env *original)
+{
+	t_list_env *new_list;
+	t_list_env *current_original;
+	t_list_env *current_new;
+
+	if (!original)
+		return (NULL);
+	new_list = create_node(original->envp_content);
+	if (!new_list)
+		return (NULL);
+	current_original = original->next;
+	current_new = new_list;
+	while (current_original)
+	{
+		current_new->next = create_node(current_original->envp_content);
+		if (!current_new->next)
+		{
+			free_list(new_list);
+			return (NULL);
+		}
+		current_new = current_new->next;
+		current_original = current_original->next;
+	}
+	return (new_list);
+}
+
 static t_list_env *sort_list(t_list_env *head)
 {
 	int swapped;
@@ -66,6 +76,8 @@ static t_list_env *sort_list(t_list_env *head)
 	t_list_env *new_last_ptr;
 	char *temp;
 
+	if (!head)
+		return (NULL);
 	new_last_ptr = NULL;
 	while (1)
 	{
@@ -83,7 +95,7 @@ static t_list_env *sort_list(t_list_env *head)
 			current = current->next;
 		}
 		if (!swapped)
-			break ;
+			break;
 		new_last_ptr = current;
 	}
 	return (head);
@@ -107,7 +119,7 @@ static void update_variable_content(t_list_env *current, const char *key, const 
 	free(current->envp_content);
 	current->envp_content = malloc(total_len);
 	if (!current->envp_content)
-		return ;
+		return;
 	ft_strlcpy(current->envp_content, key, key_len + 1);
 	ft_strlcat(current->envp_content, "=", total_len);
 	ft_strlcat(current->envp_content, value, total_len);
@@ -124,7 +136,7 @@ static void add_or_update_variable(t_list_env **head, const char *variable)
 
 	var_copy = ft_strdup(variable);
 	if (!var_copy)
-		return ;
+		return;
 	value = ft_strchr(var_copy, '=');
 	if (value)
 	{
@@ -156,27 +168,69 @@ static void add_or_update_variable(t_list_env **head, const char *variable)
 	free(var_copy);
 }
 
-static void handle_export(const char *input, t_list_env **envp)
+void handle_export(const char *input, t_list_env **envp)
 {
 	t_list_env *copied_list;
-	char *trimmed_input;
-	
+	const char *ptr;
+	char *var_start;
+	char *var_end;
+	char *variable;
+	int inside_quotes = 0;
+
 	if (ft_strncmp(input, "export\0", 7) == 0)
 	{
 		copied_list = copy_list(*envp);
-		copied_list = sort_list(copied_list);
-		print_list(copied_list);
-		free_list(copied_list);
+		if (copied_list)
+		{
+			copied_list = sort_list(copied_list);
+			print_list(copied_list);
+			free_list(copied_list);
+		}
 	}
 	else
 	{
-		if (ft_strncmp(input, "export ", 7) == 0)
-			input += 7;
-		trimmed_input = ft_strtrim(input, " ");
-		if (trimmed_input)
+		ptr = input;
+		if (ft_strncmp(ptr, "export ", 7) == 0)
+			ptr += 7;
+
+		while (*ptr)
 		{
-			add_or_update_variable(envp, trimmed_input);
-			free(trimmed_input);
+			while (isspace((unsigned char)*ptr))
+				ptr++;
+			var_start = (char *)ptr;
+
+			if (*ptr == '"' || *ptr == '\'')
+			{
+				char quote = *ptr++;
+				inside_quotes = 1;
+				var_end = strchr(ptr, quote);
+				if (var_end)
+					var_end++;
+				else
+					var_end = (char *)ptr + strlen(ptr);
+			}
+			else
+			{
+				while (*ptr && (!isspace((unsigned char)*ptr) || inside_quotes))
+				{
+					if (*ptr == '"' || *ptr == '\'')
+						inside_quotes = !inside_quotes;
+					ptr++;
+				}
+				var_end = (char *)ptr;
+			}
+
+			if (var_start < var_end)
+			{
+				variable = strndup(var_start, var_end - var_start);
+				if (variable)
+				{
+					add_or_update_variable(envp, variable);
+					free(variable);
+				}
+			}
+
+			ptr = var_end;
 		}
 	}
 }

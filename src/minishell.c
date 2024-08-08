@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/07 21:39:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:52:53 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ int	build_up(char *comand, t_list_env *environ)
 	else if (ft_strncmp(comand, "cd ", 3) == 0 || ft_strncmp(comand, "cd\0", 3) == 0)
 	{
 		ft_cd(comand);
-		return (1);
-	}
-	else if (ft_strncmp(comand, "export", 6) == 0)
-	{
-		ft_export(comand, environ);
 		return (1);
 	}
 	return (0);
@@ -121,6 +116,11 @@ void process_input(t_list_env *envp)
 		}
 		else
 		{
+			if (ft_strncmp(line, "export", 6) == 0)
+			{
+				ft_export(line, envp);
+				continue;
+			}
 			interpreted_line = interpret_command(line, envp);
 			if (interpreted_line == NULL)
 			{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 15:27:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:23:34 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ int	build_up(t_command *comand, t_list_env *environ)
 		ft_cd(comand->cmd_complete);
 		return (1);
 	}
-	else if (ft_strncmp(comand->cmd_complete, "export", 6) == 0)
+	else if (ft_strncmp(comand->cmd_complete, "export ", 7) == 0 || ft_strcmp(comand->cmd_complete, "export") == 0)
 	{
 	
 		ft_export(comand->cmd_complete, environ);
+		return (1);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/08 15:38:48 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:14:39 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,49 +33,68 @@ t_command *init_commands(char **command_strings, int num_cmds)
     return (commands);
 }
 
-void handle_redir(char *command_with_redirections, t_command *command)
-{
-    char    *input_redirection;
-    char    *output_redirection;
-    char    **split_result;
-    int i;
+void handle_redir(char *command_with_redirections, t_command *command) {
+    char *input_redirection = NULL;
+    char *output_redirection = NULL;
+    char **split_result = NULL;
+    int i = 0;
 
-    i = 0;
+    if (!command_with_redirections || !command) {
+        // Manejo de punteros nulos
+        fprintf(stderr, "Error: Null pointer passed to handle_redir.\n");
+        return;
+    }
+
+    // Manejo de redirección de entrada
     input_redirection = ft_strchr(command_with_redirections, '<');
     output_redirection = ft_strchr(command_with_redirections, '>');
-    if (input_redirection)
-    {
-        *input_redirection = 0;
-        input_redirection++;
+    
+    if (input_redirection) {
+        *input_redirection = '\0';  // Termina la cadena antes del símbolo '<'
+        input_redirection++;  // Avanza el puntero después del símbolo '<'
         split_result = ft_split(input_redirection, ' ');
-        while(split_result[i])
-            i++;
-        if (split_result && i > 1)
-        {
-            command->input_redirection = strdup(split_result[0]);
+
+        if (split_result) {
+            while (split_result[i]) i++;
+            if (i > 1) {
+                // Más de un argumento tras la redirección
+                fprintf(stderr, "Error: Too many arguments after '<'.\n");
+                clean_up(split_result, NULL, 0);
+                return;
+            } else if (i == 1) {
+                command->input_redirection = strdup(split_result[0]);
+            }
             clean_up(split_result, NULL, 0);
+        } else {
+            fprintf(stderr, "Error: Failed to split input redirection.\n");
         }
-        else
-            clean_up(split_result, NULL, 0);
     }
-    if (output_redirection)
-    {
-        *output_redirection = 0;
-        output_redirection++;
-        if (*output_redirection == '>')
-        {
+
+    // Manejo de redirección de salida
+    if (output_redirection) {
+        *output_redirection = '\0';  // Termina la cadena antes del símbolo '>'
+        output_redirection++;  // Avanza el puntero después del símbolo '>'
+        
+        if (*output_redirection == '>') {
             command->append_output = 1;
             output_redirection++;
         }
+
         split_result = ft_split(output_redirection, ' ');
-        if (split_result)
-        {
-            command->output_redirection = strdup(split_result[0]);
+        
+        if (split_result) {
+            if (split_result[0]) {
+                command->output_redirection = strdup(split_result[0]);
+            }
             clean_up(split_result, NULL, 0);
+        } else {
+            fprintf(stderr, "Error: Failed to split output redirection.\n");
         }
     }
+
     command->args = ft_split(command_with_redirections, ' ');
 }
+
 
 int validate_command(t_command *command, t_list_env *envp)
 {

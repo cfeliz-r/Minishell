@@ -47,7 +47,7 @@ void        sigquit_handler(int sig);
 //ultils
 void        clean_up(char **args, t_command *commands, int num_cmds);
 char        *find_command_path(char *cmd, t_list_env *envp);
-int	build_up(t_command *comand, t_list_env *environ);
+int         build_up(t_command *comand, t_list_env *environ);
 void        free_env_list(t_list_env *env_list);
 int         count_char(char *str, char c);
 //parseo

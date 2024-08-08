@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/07 14:09:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:05:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ char *find_command_path(char *cmd, t_list_env *envp)
   
     if (cmd == NULL)
         return (NULL);
-    if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0)
+     if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0)
     {
         if (access(cmd, F_OK | X_OK) == 0)
+            return (ft_strdup(cmd));
+        else if (ft_strncmp(cmd, "echo ", 5) == 0 || ft_strcmp(cmd, "echo") == 0 || ft_strncmp(cmd, "env ", 4) == 0 || ft_strcmp(cmd, "env")== 0 || ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strcmp(cmd, "pwd" ) == 0 || ft_strncmp(cmd, "export", 6) == 0)
             return (ft_strdup(cmd));
         else
             return (NULL);

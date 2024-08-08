@@ -25,7 +25,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 
-void setup_signals(void);
+void        setup_signals(void);
 int         count_envp(t_list_env *envp);
 char        **convert_envp_to_array(t_list_env *envp);
 t_command   *init_commands(char **command_strings, int num_cmds);
@@ -47,7 +47,7 @@ void        sigquit_handler(int sig);
 //ultils
 void        clean_up(char **args, t_command *commands, int num_cmds);
 char        *find_command_path(char *cmd, t_list_env *envp);
-int         build_up(char *comand, t_list_env *environ);
+int	build_up(t_command *comand, t_list_env *environ);
 void        free_env_list(t_list_env *env_list);
 int         count_char(char *str, char c);
 //parseo
@@ -57,7 +57,7 @@ int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);
 char        *find_env_value(t_list_env *envp_list, const char *key);
 //building
-int         ft_echo(const char *comand);
+void        ft_echo(char *comand);
 void        ft_pwd(void);
 void        ft_env(t_list_env *env, char *command);
 void ft_export(char *input, t_list_env *envp);

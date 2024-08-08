@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/06 10:22:40 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:31:43 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 				free(commands[i].path);
 				free(commands[i].input_redirection);
 				free(commands[i].output_redirection);
+				free(commands[i].cmd_complete);
 				i++;
 			}
 			free(commands);
@@ -103,6 +104,8 @@
 			free(command->input_redirection);
 		if (command->output_redirection)
 			free(command->output_redirection);
+		if (command->cmd_complete)
+			free(command->cmd_complete);
 		ft_memset(command, 0, sizeof(t_command));
 		
 	}

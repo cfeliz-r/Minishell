@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/07 18:32:09 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:12:41 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,18 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     if (i < num_cmds - 1)
         dup2(commands[i].pipefd[1], STDOUT_FILENO);
     close_pipes(commands, num_cmds);
-    
+    if(build_up(&commands[i], NULL) == 1)
+        exit(0);
     status = handle_redirections(&commands[i]);
     if (status == -1)
         return ;
-    if (execve(commands[i].path, commands[i].args, env_array) == -1)
+    if (!(ft_strncmp(commands[i].cmd_complete, "echo ", 5) == 0 || ft_strcmp(commands[i].cmd_complete, "echo") == 0 || ft_strncmp(commands[i].cmd_complete, "env ", 4) == 0 || ft_strcmp(commands[i].cmd_complete, "env")== 0 || ft_strncmp(commands[i].cmd_complete, "pwd ", 4) == 0 || ft_strcmp(commands[i].cmd_complete, "pwd" ) == 0 || ft_strncmp(commands[i].cmd_complete, "export", 6) == 0))
     {
-        perror("execve");
-        manage_error(200, 0);
-        exit(1);
+        if (execve(commands[i].path, commands[i].args, env_array) == -1)
+        {
+            manage_error(200, 0);
+            exit(1);
+        }
     }
 }
 

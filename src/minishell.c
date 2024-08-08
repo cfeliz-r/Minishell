@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 10:52:53 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:27:17 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,33 @@ static void print_decorative_text(void)
 	);
 }
 
-int	build_up(char *comand, t_list_env *environ)
+int	build_up(t_command *comand, t_list_env *environ)
 {
-	int status;
-
-	if ( ft_strncmp(comand, "pwd ", 4) == 0 || ft_strcmp(comand, "pwd") == 0)
+	if ( ft_strncmp(comand->cmd_complete, "pwd ", 4) == 0 || ft_strcmp(comand->cmd_complete, "pwd") == 0)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if (ft_strncmp(comand, "env ", 4) == 0 || ft_strcmp(comand, "env")== 0)
+	else if (ft_strncmp(comand->cmd_complete, "env ", 4) == 0 || ft_strcmp(comand->cmd_complete, "env")== 0)
 	{
-		ft_env(environ, comand);
+		ft_env(environ, comand->cmd_complete);
 		return (1);
 	}  
-	if (ft_strncmp(comand, "echo ", 5) == 0)
+	if (ft_strncmp(comand->cmd_complete, "echo ", 5) == 0 || ft_strcmp(comand->cmd_complete, "echo") == 0)
 	{
-		status  = ft_echo(comand);
-		if (status == -1)
-			return (0);
+		
+		ft_echo(comand->cmd_complete);
 		return (1);
 	}
-	else if (ft_strncmp(comand, "cd ", 3) == 0 || ft_strncmp(comand, "cd\0", 3) == 0)
+	else if (ft_strncmp(comand->cmd_complete, "cd ", 3) == 0 || ft_strncmp(comand->cmd_complete, "cd\0", 3) == 0)
 	{
-		ft_cd(comand);
+		ft_cd(comand->cmd_complete);
 		return (1);
+	}
+	else if (ft_strncmp(comand->cmd_complete, "export", 6) == 0)
+	{
+	
+		ft_export(comand->cmd_complete, environ);
 	}
 	return (0);
 }
@@ -116,19 +118,13 @@ void process_input(t_list_env *envp)
 		}
 		else
 		{
-			if (ft_strncmp(line, "export", 6) == 0)
-			{
-				ft_export(line, envp);
-				continue;
-			}
 			interpreted_line = interpret_command(line, envp);
 			if (interpreted_line == NULL)
 			{
 				free(line);
 				continue;
 			}
-			if (build_up(interpreted_line, envp) == 0)
-				execute_commands(envp, interpreted_line);
+			execute_commands(envp, interpreted_line);
 			free(interpreted_line);
 			free(line);
 		}

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/07 14:18:11 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:38:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ t_command *init_commands(char **command_strings, int num_cmds)
     while (i < num_cmds)
     {
         ft_memset(&commands[i], 0, sizeof(t_command));
+        commands[i].cmd_complete = ft_strdup(remove_front_and_back_spaces(command_strings[i]));
         i++;
-    }
+    }      
     return (commands);
 }
 
@@ -82,13 +83,15 @@ int validate_command(t_command *command, t_list_env *envp)
     if (!command->path)
     {
         command->is_correct = 1;
+        if (ft_strncmp(command->cmd_complete, "echo ", 5) == 0 || ft_strcmp(command->cmd_complete, "echo") == 0 || ft_strncmp(command->cmd_complete, "env ", 4) == 0 || ft_strcmp(command->cmd_complete, "env")== 0 || ft_strncmp(command->cmd_complete, "pwd ", 4) == 0 || ft_strcmp(command->cmd_complete, "pwd" ) == 0 || ft_strncmp(command->cmd_complete, "export", 6) == 0)
+            return (1);
         ft_putstr(command->args[0]);
         ft_putstr_fd(": Command not found\n", 2);
         if(command->path)
             free(command->path);
         return 0;
     }
-    return 1;
+    return (1);
 }
 
 t_command *clean_up_and_return(char **command_strings, t_command *commands, int num_cmds)

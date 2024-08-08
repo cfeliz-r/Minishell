@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:24:04 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/07 18:25:51 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:34:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void print_echo_parts(char **str, int start_index)
     }
 }
 
-int ft_echo(const char *comand)
+void ft_echo(char *comand)
 {
     char **str;
     int i;
@@ -64,12 +64,8 @@ int ft_echo(const char *comand)
     i = 0;
     n_option = 0;
     str = ft_split(comand + 5, ' ');
-    if (!str || ft_strchr(comand, '|') || ft_strchr(comand, '>') || ft_strchr(comand, '<'))
-    {
-        if(str)
-            clean_up_echo(str);
-        return -1;
-    }
+    if (!str)
+        return ((void) manage_error(200, 0));
     while(str[i] && is_n_option(str[i]))
     {
         n_option = 1;
@@ -81,5 +77,5 @@ int ft_echo(const char *comand)
         write(STDOUT_FILENO, "\n", 1);
     clean_up_echo(str);
     manage_error(0, 0);
-    return (1);
+    return ;
 }

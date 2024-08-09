@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 17:23:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:06:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ char *get_prompt(void)
 void process_input(t_list_env *envp)
 {
     char *line;
-    int i;
 	char *interpreted_line;
 
 	while(1)
@@ -111,8 +110,8 @@ void process_input(t_list_env *envp)
 			printf("exit\n");
 			break ;
 		}
-		i = check_quotes(line);
-		if (i == 0)
+		
+		if (check_quotes(line) == 0)
 		{
 			free(line);
 			perror("quotes error\n");

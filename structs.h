@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 17:28:18 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:27:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_parse_context
     size_t  in_single_quotes;
     size_t  in_double_quotes;
     size_t  buffer_size;
+    size_t  flag_double;
+    size_t  flag_single;
     char    *result;
 }   t_parse_context;
 

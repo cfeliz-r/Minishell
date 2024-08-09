@@ -6,19 +6,11 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/05 19:06:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:29:28 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static void handle_quotes(char c, size_t *in_single_quotes, size_t *in_double_quotes)
-{
-    if (c == '"' && !*in_single_quotes)
-        *in_double_quotes = !*in_double_quotes;
-    else if (c == '\'' && !*in_double_quotes)
-        *in_single_quotes = !*in_single_quotes;
-}
 
 static char *append_char(char *result, char c, size_t *j, size_t *buffer_size)
 {
@@ -36,18 +28,6 @@ static char *append_char(char *result, char c, size_t *j, size_t *buffer_size)
     }
     result[(*j)++] = c;
     return (result);
-}
-
-static char *handle_escape_sequence(const char *command, t_parse_context *ctx)
-{
-    ctx->result = append_char(ctx->result, command[(ctx->i)++],
-                              &(ctx->j), &(ctx->buffer_size));
-    if (!ctx->result)
-        return (NULL);
-
-    ctx->result = append_char(ctx->result, command[(ctx->i)++],
-                              &(ctx->j), &(ctx->buffer_size));
-    return (ctx->result);
 }
 
 static char *handle_variable_expansion(const char *command,
@@ -101,15 +81,18 @@ static char *handle_dollar_sign(const char *command, t_parse_context *ctx, t_lis
 
 static char *process_char(const char *command, t_parse_context *ctx, t_list_env *envp)
 {
-    if (command[ctx->i] == '"' || command[ctx->i] == '\'')
-        handle_quotes(command[(ctx->i)++], &(ctx->in_single_quotes),
-                      &(ctx->in_double_quotes));
-    else if (command[ctx->i] == '\\')
-        ctx->result = handle_escape_sequence(command, ctx);
-    else if (command[ctx->i] == ';' && !ctx->in_single_quotes
-                && !ctx->in_double_quotes)
-        ctx->result = append_char(ctx->result, command[(ctx->i)++],
-                &(ctx->j), &(ctx->buffer_size));
+     if (command[ctx->i] == '"'  && ctx->flag_single % 2 == 0)
+     {
+      ctx->in_double_quotes = !ctx->in_double_quotes;
+      ctx->i++;  
+      ctx->flag_double ++;
+     }
+    else if(command[ctx->i] == '\'' && ctx->flag_double % 2 == 0)
+      {
+      ctx->in_single_quotes = !ctx->in_single_quotes;
+      ctx->i++;
+      ctx->flag_single ++;
+     }
     else if (command[ctx->i] == '$' && !ctx->in_single_quotes)
         ctx->result = handle_dollar_sign(command, ctx, envp);
     else
@@ -126,11 +109,12 @@ char *interpret_command(const char *command, t_list_env *envp)
     ctx.j = 0;
     ctx.in_single_quotes = 0;
     ctx.in_double_quotes = 0;
+    ctx.flag_double = 0;
+    ctx.flag_single = 0;
     ctx.buffer_size = ft_strlen(command) * 2 + 1;
     ctx.result = malloc(ctx.buffer_size);
     if (!ctx.result)
         return (NULL);
-
     while (command[ctx.i] != '\0')
     {
         ctx.result = process_char(command, &ctx, envp);

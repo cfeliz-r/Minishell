@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:24:04 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 14:34:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:37:08 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void ft_echo(char *comand)
     i = 0;
     n_option = 0;
     str = ft_split(comand + 5, ' ');
+    printf("echo\n");
+    /* if(strchr(str, '|') || strchr(str, '>') || strchr(str, '<')) */
+        
     if (!str)
         return ((void) manage_error(200, 0));
     while(str[i] && is_n_option(str[i]))

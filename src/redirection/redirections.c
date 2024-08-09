@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/06 12:12:12 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:54:43 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int handle_redirections(t_command *command)
 		if (fd2 == -1)
 			return(perror(""), -1);
 		if (dup2(fd2, STDOUT_FILENO) == -1)
-		    return(perror(""), -1);	;
+		    return(perror(""), -1);
 		if(fd2 != -1)
 			close(fd2);
 	}

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/08 16:40:55 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:59:03 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     {
         if (execve(commands[i].path, commands[i].args, env_array) == -1)
         {
+            printf("hola");
             manage_error(200, 0);
             exit(1);
         }

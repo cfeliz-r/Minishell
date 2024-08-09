@@ -64,7 +64,7 @@ void ft_export(char *input, t_list_env *envp);
 void        ft_cd(char *route);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 void        close_pipes(t_command *commands, int num_cmds);
-
+void        ft_here_doc(char *delimiter, int fd[2]);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
 
 

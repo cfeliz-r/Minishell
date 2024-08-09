@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/09 10:08:48 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:50:10 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,19 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
         if (setup_pipes_and_fork(commands[i].pipefd, &commands[i].pid, i, num_cmds) == -1)
             return ;
         if (commands[i].pid == 0)
+        {
             child_process(commands, i, num_cmds, env_array, envp);
+            exit(0);
+        }
+            
     }
+    close_pipes(commands, num_cmds);
     sa_int.sa_handler = sigint_handler_2;
     sa_int.sa_flags = 0;
     sigaction(SIGINT, &sa_int, NULL);
-    close_pipes(commands, num_cmds);
     i = -1;
     while (++i < num_cmds)
-        waitpid(-1, NULL, 0);
+       waitpid(commands[i].pid, NULL, 0);
     clean_up(env_array, NULL, 0);
 }
+ 

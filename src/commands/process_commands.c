@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/10 20:10:44 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:35:39 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,6 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while (++i < num_cmds)
     {
-        if (!validate_command(&commands[i], envp))
-        {
-            close_pipes(pipes, num_cmds);
-            clean_up(env_array, NULL, 0);
-            return ;
-        }
         if (fork() == 0)
             child_process(commands, i, num_cmds, env_array, envp, pipes);
     }
@@ -92,6 +86,7 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while(++i < num_cmds)
         waitpid(-1, NULL, 0);
+    free(pipes);
     clean_up(env_array, NULL, 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/10 20:07:42 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:42:06 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int validate_command(t_command *command, t_list_env *envp)
     return 1;
 }
 
-
 t_command *clean_up_and_return(char **command_strings, t_command *commands, int num_cmds)
 {
     int i = 0;
@@ -150,10 +149,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
         (*num_cmds)++;
     commands = init_commands(command_strings, *num_cmds);
     if (!commands)
-    {
-        clean_up(command_strings, NULL, 0);
-        return (manage_error(200, 0), NULL);
-    }
+        return (NULL);
     i = -1;
     while (++i < *num_cmds)
     {

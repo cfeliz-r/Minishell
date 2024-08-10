@@ -60,14 +60,11 @@ char        *find_env_value(t_list_env *envp_list, const char *key);
 void        ft_echo(char *comand);
 void        ft_pwd(void);
 void        ft_env(t_list_env *env, char *command);
-void ft_export(char *input, t_list_env *envp);
+void        ft_export(char *input, t_list_env *envp);
 void        ft_cd(char *route);
+void        close_pipes(int **pipes, int num_cmds);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
-void        close_pipes(t_command *commands, int num_cmds);
 void        ft_here_doc(char *delimiter, int fd[2]);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
-
-
-
 
 #endif // MINISHELL_H

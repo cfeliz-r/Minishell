@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/08 15:31:43 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:54:52 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,17 @@
 		return (j);
 	}
 
-	void close_pipes(t_command *commands, int num_cmds)
+	void close_pipes(int **pipes, int num_cmds)
 	{
-		int		i;
+    	int i;
 
-		i = 0;
-		while (i < num_cmds - 1) 
-		{
-			close(commands[i].pipefd[0]);
-			close(commands[i].pipefd[1]);
-		i++;
-		}
+    	i = -1;
+    	while( ++i < num_cmds - 1)
+    	{
+        	close(pipes[i][0]);
+        	close(pipes[i][1]);
+        	free(pipes[i]);
+    	}
 	}
 
 	void free_command(t_command *command)

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:24:04 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/09 13:37:08 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:11:21 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,24 @@ int	is_n_option(char *str)
 static void print_echo_parts(char **str, int start_index)
 {
     int first = 1;
-    int i = start_index;
+    int i = start_index; 
 
     while (str[i])
     {
+        if(ft_strcmp(str[i], ">") == 0)
+        {
+            break;
+        }
+        if(ft_strcmp(str[i], "<") == 0)
+        {
+            if(access(str[i + 1], F_OK) == -1)
+            {
+                printf("minishell: %s: No such file or directory\n", str[i + 1]);
+               break;
+            }
+            else
+                i += 2; 
+        }
         if (!first)
         {
             write(STDOUT_FILENO, " ", 1);
@@ -63,10 +77,7 @@ void ft_echo(char *comand)
 
     i = 0;
     n_option = 0;
-    str = ft_split(comand + 5, ' ');
-    printf("echo\n");
-    /* if(strchr(str, '|') || strchr(str, '>') || strchr(str, '<')) */
-        
+    str = ft_split(comand + 5, ' ');    
     if (!str)
         return ((void) manage_error(200, 0));
     while(str[i] && is_n_option(str[i]))

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/09 12:53:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/10 13:09:14 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     if (i < num_cmds - 1)
         dup2(commands[i].pipefd[1], STDOUT_FILENO);
     close_pipes(commands, num_cmds);
-    if(build_up(&commands[i], envp)== 1)
-        exit(0);
     status = handle_redirections(&commands[i]);
     if (status == -1)
         exit(0);
@@ -48,6 +46,8 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
             exit(1);
         }
     }
+    if(build_up(&commands[i], envp)== 1)
+        exit(0);
 }
 
 void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)

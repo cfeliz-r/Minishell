@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/09 13:27:48 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/10 13:25:23 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_command
     char *input_redirection;
     char *output_redirection;
     int append_output;
+    char **echo_args;
 } t_command;
 
 typedef struct s_parse_context

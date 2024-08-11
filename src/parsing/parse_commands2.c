@@ -148,8 +148,6 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     while (command_strings[*num_cmds] != NULL)
         (*num_cmds)++;
     commands = init_commands(command_strings, *num_cmds);
-    if (!commands)
-        return (NULL);
     i = -1;
     while (++i < *num_cmds)
     {

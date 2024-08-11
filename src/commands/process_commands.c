@@ -23,8 +23,8 @@ static void setup_pipes(int **pipes, int num_cmds)
         pipes[i] = malloc(2 * sizeof(int));
         if (pipes[i] == NULL || pipe(pipes[i]) == -1)
         {
-            perror("pipe");
-            exit(EXIT_FAILURE);
+            perror("Error pipe");
+            return;
         }
     }
 }

@@ -62,37 +62,6 @@ int	build_up(t_command *comand, t_list_env *environ)
 	return (0);
 }
 
-char *get_prompt(void)
-{
-	char cwd[1024];
-	char *prompt = NULL;
-	char *prefix = JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET;
-	char *suffix = BRIGHT_JUNGLE " ➤ " RESET;
-	char *temp;
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd() error");
-		exit(1);
-	}
-	prompt = ft_strjoin(prefix, cwd);
-	
-	if (prompt == NULL)
-	{
-		perror("ft_strjoin failed");
-		exit(1);
-	}
-
-	temp = ft_strjoin(prompt, suffix);
-	free(prompt);
-	if (temp == NULL)
-	{
-		perror("ft_strjoin failed");
-		exit(1);
-	}
-	return temp;
-}
-
 void process_input(t_list_env *envp)
 {
     char *line;

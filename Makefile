@@ -21,6 +21,7 @@ SRC = src/minishell.c \
       src/commands/check_and_path.c \
       src/commands/exec_commands.c \
 	  src/commands/process_commands.c \
+	  src/commands/here_doc.c \
 	  src/parsing/parse_commands.c \
       src/parsing/parse_commands2.c \
 	  src/parsing/parse_commands3.c \

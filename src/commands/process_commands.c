@@ -41,8 +41,9 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     if (i < num_cmds - 1)
         dup2(pipes[i][1], STDOUT_FILENO);
     close_pipes(pipes, num_cmds);
+    handle_input_redirection(commands, i);
     if (handle_redirections(&commands[i]) == -1)
-        exit(EXIT_FAILURE);
+        exit(0);
     if (!(ft_strncmp(commands[i].cmd_complete, "echo ", 5) == 0 || 
           ft_strcmp(commands[i].cmd_complete, "echo") == 0 || 
           ft_strncmp(commands[i].cmd_complete, "env ", 4) == 0 || 
@@ -55,11 +56,11 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
         if (execve(commands[i].path, commands[i].args, env_array) == -1)
         {
             manage_error(200, 0);
-            exit(EXIT_FAILURE);
+            exit(1);
         }
     }
     if (build_up(&commands[i], envp) == 1)
-        exit(EXIT_SUCCESS);
+        exit(0);
 }
 
 

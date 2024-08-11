@@ -33,16 +33,42 @@ t_command *init_commands(char **command_strings, int num_cmds)
     }
     return (commands);
 }
-
 void handle_redir(char *command_with_redirections, t_command *command)
 {
     char *input_redirection;
     char *output_redirection;
+    char *heredoc_redirection;
     char **split_result;
 
     input_redirection = ft_strchr(command_with_redirections, '<');
     output_redirection = ft_strchr(command_with_redirections, '>');
-    if (input_redirection)
+    heredoc_redirection = ft_strstr(command_with_redirections, "<<");
+
+    if (heredoc_redirection)
+    {
+        *heredoc_redirection = 0;
+        heredoc_redirection += 2; // Avanzamos 2 posiciones para saltar el "<<"
+        if (*heredoc_redirection == '\0')
+        {
+            ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+            command->is_correct = 1;
+        }
+        else
+        {
+            split_result = ft_split(heredoc_redirection, ' ');
+            if (split_result && split_result[0])
+            {
+                command->heredoc_delimiter = ft_strdup(split_result[0]);
+            }
+            else
+            {
+                ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+                command->is_correct = 1;
+            }
+            clean_up(split_result, NULL, 0);
+        }
+    }
+    else if (input_redirection)
     {
         *input_redirection = 0;
         input_redirection++;
@@ -66,6 +92,7 @@ void handle_redir(char *command_with_redirections, t_command *command)
             clean_up(split_result, NULL, 0);
         }
     }
+
     if (output_redirection)
     {
         *output_redirection = 0;
@@ -90,6 +117,7 @@ void handle_redir(char *command_with_redirections, t_command *command)
             clean_up(split_result, NULL, 0);
         }
     }
+
     if (command->is_correct == 0)
     {
         command->args = ft_split(command_with_redirections, ' ');
@@ -100,6 +128,7 @@ void handle_redir(char *command_with_redirections, t_command *command)
         }
     }
 }
+
 
 int validate_command(t_command *command, t_list_env *envp)
 {

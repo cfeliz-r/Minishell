@@ -63,7 +63,8 @@ SRCS		= ft_atoi.c \
 		  ft_lstmap.c \
 		  ft_lstnew.c \
 		  ft_lstsize.c \
-		  ft_realloc.c
+		  ft_realloc.c \
+		  ft_strstr.c
 
 OBJS		= ${SRCS:.c=.o}
 NAME		= libft.a

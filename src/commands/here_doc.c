@@ -12,23 +12,69 @@
 
 #include "../../minishell.h"
 
-void ft_here_doc(char *delimiter, int fd[2])
+int process_here_doc(char *delimiter)
 {
+    int pipefd[2];
     char *line;
+    char *temp;
 
-    close(fd[0]);
+    if (pipe(pipefd) == -1)
+    {
+        perror("minishell: pipe error");
+        return -1;
+    }
     while (1)
     {
-        ft_putstr_fd("> ", 1);
-        line = get_next_line(STDIN_FILENO);
-        if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-            && line[ft_strlen(delimiter)] == '\n')
+        line = readline(JUNGLE_GREEN "🦧BABU_HERE_DOC🦧➤ " RESET);
+        if (line == NULL)
+        {
+            ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
+            ft_putstr_fd(delimiter, 2);
+            ft_putstr_fd("')\n", 2);
+            break;
+        }
+        if (ft_strcmp(line, delimiter) == 0)
         {
             free(line);
             break;
         }
-        ft_putstr_fd(line, fd[1]);
+        temp = ft_strjoin(line, "\n");
+        write(pipefd[1], temp, ft_strlen(temp));
+        free(temp);
         free(line);
     }
-    close(fd[1]); // Cerramos el extremo de escritura de la tubería
+    close(pipefd[1]);
+    return pipefd[0];
 }
+
+void handle_input_redirection(t_command *commands, int i)
+{
+    int fd;
+    int heredoc_fd;
+
+    if (commands[i].heredoc_delimiter != NULL)
+    {
+        heredoc_fd = process_here_doc(commands[i].heredoc_delimiter);
+        free(commands[i].heredoc_delimiter);
+        if (heredoc_fd == -1)
+        {
+            manage_error(200, 0);
+            exit(1);
+        }
+        dup2(heredoc_fd, STDIN_FILENO);
+        close(heredoc_fd);
+    }
+    else if (commands[i].input_redirection != NULL)
+    {
+        fd = open(commands[i].input_redirection, O_RDONLY);
+        if (fd == -1)
+        {
+            manage_error(200, 0);
+            perror("minishell: open error");
+            exit(1);
+        }
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
+}
+

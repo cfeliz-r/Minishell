@@ -25,7 +25,7 @@
 #  define BUFFER_SIZE 42
 # endif
 
-
+char	*ft_strstr(char *str, char *to_find);
 char    *ft_strndup(const char *s, size_t n);
 char    *ft_strtok(char *str, const char *delim);
 char    *ft_strpbrk(const char *s, const char *accept);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 18:18:48 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:48:31 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     sa_quit.sa_handler = SIG_DFL;
     sa_quit.sa_flags = 0;
     sigaction(SIGQUIT, &sa_quit, NULL);
-   
-    handle_input_redirection(commands, i, num_cmds);
     if (i > 0)
         dup2(pipes[i - 1][0], STDIN_FILENO);
     if (i < num_cmds - 1)
@@ -78,7 +76,10 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     while (++i < num_cmds)
     {
         if (fork() == 0)
-            child_process(commands, i, num_cmds, env_array, envp, pipes);
+        {
+              handle_heredoc(commands, i, num_cmds);
+              child_process(commands, i, num_cmds, env_array, envp, pipes);
+        }
     }
     close_pipes(pipes, num_cmds);
     sa_int.sa_handler = sigint_handler_2;
@@ -90,6 +91,3 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     free(pipes);
     clean_up(env_array, NULL, 0);
 }
-
-
- 

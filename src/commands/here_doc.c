@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 16:34:33 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:48:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int process_here_doc(char *delimiter)
     return pipefd[0];
 }
 
-void handle_input_redirection(t_command *commands, int i, int num_cmds)
+void handle_heredoc(t_command *commands, int i, int num_cmds)
 {
     int fd;
     int heredoc_fd;
 
-    if (commands[i].heredoc_delimiter != NULL && i == num_cmds - 1)
+    if (commands[i].heredoc_delimiter != NULL)
     {
-        heredoc_fd = process_here_doc(commands[i].heredoc_delimiter);
+        heredoc_fd = process_here_doc(commands[num_cmds - 1].heredoc_delimiter);
         free(commands[i].heredoc_delimiter);
         if (heredoc_fd == -1)
         {

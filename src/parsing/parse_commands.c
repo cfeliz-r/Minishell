@@ -83,7 +83,7 @@ char *remove_front_and_back_spaces(char *str)
 			start++;
 		if (str[start] == '\0')
 		{
-			str[0] = '\0';
+			str[start] = '\0';
 			return str;
 		}
 		length = ft_strlen(str);

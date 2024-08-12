@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/09 13:29:28 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:19:19 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char *interpret_command(const char *command, t_list_env *envp)
     ctx.flag_single = 0;
     ctx.buffer_size = ft_strlen(command) * 2 + 1;
     ctx.result = malloc(ctx.buffer_size);
-    if (!ctx.result)
+    if (!ctx.result || command[0] == '\0')
         return (NULL);
     while (command[ctx.i] != '\0')
     {

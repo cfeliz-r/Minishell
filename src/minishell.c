@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/10 13:26:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:04:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ void process_input(t_list_env *envp)
 			printf("exit\n");
 			break ;
 		}
-		
+		if (line[0] == '\0')
+			{
+				free(line);
+				continue;
+			}
 		if (check_quotes(line) == 0)
 		{
 			free(line);

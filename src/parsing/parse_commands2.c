@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/10 20:42:06 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:19:20 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_command *init_commands(char **command_strings, int num_cmds)
     t_command *commands;
 
     commands = malloc(sizeof(t_command) * num_cmds);
-    if (!commands)
+    if (!commands || num_cmds == 0)
     {
         clean_up(command_strings, NULL, 0);
         return (manage_error(200, 0), NULL);
@@ -123,12 +123,11 @@ void handle_redir(char *command_with_redirections, t_command *command)
         command->args = ft_split(command_with_redirections, ' ');
         if (!command->args || !command->args[0])
         {
-            ft_putstr_fd("minishell: invalid command after redirection\n", 2);
+            ft_putstr_fd("minishell: invalid argument\n", 2);
             command->is_correct = 1;
         }
     }
 }
-
 
 int validate_command(t_command *command, t_list_env *envp)
 {
@@ -170,8 +169,12 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 
     aux = ft_redir_cmd(input, envp);
     command_strings = ft_split(aux, '|');
-    if (!command_strings)
+    if (!command_strings || command_strings[0] == NULL)
+    {
+        free(aux);
+        free(command_strings);
         return (manage_error(200, 0), NULL);
+    }
     free(aux);
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)

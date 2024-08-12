@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/10 19:54:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:13:01 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 				free(commands[i].input_redirection);
 				free(commands[i].output_redirection);
 				free(commands[i].cmd_complete);
+				free(commands[i].heredoc_delimiter);
 				i++;
 			}
 			free(commands);

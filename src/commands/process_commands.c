@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 10:28:24 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:36:52 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     sa_quit.sa_handler = SIG_DFL;
     sa_quit.sa_flags = 0;
     sigaction(SIGQUIT, &sa_quit, NULL);
+   
+    handle_input_redirection(commands, i, num_cmds);
     if (i > 0)
         dup2(pipes[i - 1][0], STDIN_FILENO);
-
     if (i < num_cmds - 1)
         dup2(pipes[i][1], STDOUT_FILENO);
     close_pipes(pipes, num_cmds);
-    handle_input_redirection(commands, i);
     if (handle_redirections(&commands[i]) == -1)
-        exit(0);
+        exit(0);  
     if (!(ft_strncmp(commands[i].cmd_complete, "echo ", 5) == 0 || 
           ft_strcmp(commands[i].cmd_complete, "echo") == 0 || 
           ft_strncmp(commands[i].cmd_complete, "env ", 4) == 0 || 

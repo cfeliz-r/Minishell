@@ -26,7 +26,7 @@
 #include <signal.h>
 
 int process_here_doc(char *delimiter);
-void handle_input_redirection(t_command *commands, int i);
+void handle_input_redirection(t_command *commands, int i, int num_cmds);
 void        setup_signals(void);
 int         count_envp(t_list_env *envp);
 char        **convert_envp_to_array(t_list_env *envp);

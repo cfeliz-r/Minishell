@@ -25,6 +25,9 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+
+size_t aux_count(char **array);
+int all_digits(const char *str);
 int process_here_doc(char *delimiter);
 void handle_input_redirection(t_command *commands, int i, int num_cmds);
 void        setup_signals(void);
@@ -62,7 +65,7 @@ char        *find_env_value(t_list_env *envp_list, const char *key);
 void        ft_echo(char *comand);
 void        ft_pwd(void);
 void        ft_env(t_list_env *env, char *command);
-void        ft_export(char *input, t_list_env *envp);
+void ft_export(char *input, t_list_env **envp);
 void        ft_cd(char *route);
 void        close_pipes(int **pipes, int num_cmds);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);

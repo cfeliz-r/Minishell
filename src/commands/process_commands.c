@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 16:36:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:18:48 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
           ft_strncmp(commands[i].cmd_complete, "env ", 4) == 0 || 
           ft_strcmp(commands[i].cmd_complete, "env") == 0 || 
           ft_strncmp(commands[i].cmd_complete, "pwd ", 4) == 0 || 
-          ft_strcmp(commands[i].cmd_complete, "pwd") == 0 || 
-          ft_strncmp(commands[i].cmd_complete, "export ", 7) == 0 || 
-          ft_strcmp(commands[i].cmd_complete, "export") == 0))
+          ft_strcmp(commands[i].cmd_complete, "pwd") == 0) || 
+          ft_strncmp(commands[i].cmd_complete, "cd ", 3) == 0 ||
+          ft_strncmp(commands[i].cmd_complete, "cd\0", 3) == 0)
     {
         if (execve(commands[i].path, commands[i].args, env_array) == -1)
         {

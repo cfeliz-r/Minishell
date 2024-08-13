@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 11:07:16 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:34:01 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,34 +69,31 @@ static t_list_env	*copy_list(t_list_env *original)
 	return (new_list);
 }
 
-static t_list_env	*sort_list(t_list_env *head)
+static t_list_env	*sort_list(t_list_env *head, int swapped)
 {
-	int			swapped;
-	t_list_env	*current;
+	t_list_env	*curr;
 	t_list_env	*new_last_ptr;
 	char		*temp;
 
 	new_last_ptr = NULL;
-	if (!head)
-		return (NULL);
 	while (1)
 	{
 		swapped = 0;
-		current = head;
-		while (current->next != new_last_ptr)
+		curr = head;
+		while (curr->next != new_last_ptr)
 		{
-			if (ft_strcmp(current->envp_content, current->next->envp_content) > 0)
+			if (ft_strcmp(curr->envp_content, curr->next->envp_content) > 0)
 			{
-				temp = current->envp_content;
-				current->envp_content = current->next->envp_content;
-				current->next->envp_content = temp;
+				temp = curr->envp_content;
+				curr->envp_content = curr->next->envp_content;
+				curr->next->envp_content = temp;
 				swapped = 1;
 			}
-			current = current->next;
+			curr = curr->next;
 		}
 		if (!swapped)
 			break ;
-		new_last_ptr = current;
+		new_last_ptr = curr;
 	}
 	return (head);
 }
@@ -110,32 +107,30 @@ static void	print_list(t_list_env *list)
 	}
 }
 
-static void	update_variable_content(t_list_env *current, const char *key, const char *value)
+static void	update_variable_content(t_list_env *current, const char *key,
+	const char *value)
 {
-	size_t key_len;
-	size_t value_len;
-	size_t total_len;
-	char *new_content;
+	size_t	key_len;
+	size_t	value_len;
+	size_t	total_len;
+	char	*new_content;
 
 	key_len = ft_strlen(key);
 	value_len = ft_strlen(value);
 	total_len = key_len + value_len + 2;
-
 	new_content = malloc(total_len);
 	if (!new_content)
-		return;
-
+		return ;
 	ft_strlcpy(new_content, key, key_len + 1);
 	ft_strlcat(new_content, "=", total_len);
 	ft_strlcat(new_content, value, total_len);
-
 	free(current->envp_content);
 	current->envp_content = new_content;
 }
 
-static void add_or_update_variable(t_list_env **head, const char *variable)
+static void add_or_update_variable(t_list_env **head, const char *variable,
+	char *key)
 {
-	char *key;
 	char *value;
 	char *var_copy;
 	t_list_env *current = *head;
@@ -186,34 +181,40 @@ static void add_or_update_variable(t_list_env **head, const char *variable)
 
 void ft_export(char *input, t_list_env **envp)
 {
+	const char *ptr;
+	t_list_env *copied_list;
+	char *var_start;
+	char *var_end;
+	int inside_quotes;
+	char quote;
+	
 	if (!input || !envp)
 		return;
-
 	if (strcmp(input, "export") == 0  && (input[6] == '\0' || isspace((unsigned char)input[6])))
 	{
-		t_list_env *copied_list = copy_list(*envp);
+		copied_list = copy_list(*envp);
 		if (copied_list)
 		{
-			copied_list = sort_list(copied_list);
+			copied_list = sort_list(copied_list, 0);
 			print_list(copied_list);
 			free_list(copied_list);
 		}
+		else
+			return ;
 	}
 	else if (strncmp(input, "export ", 7) == 0)
 	{
-		const char *ptr = input + 7;
+		ptr = input + 7;
 		while (*ptr)
 		{
 			while (isspace((unsigned char)*ptr))
 				ptr++;
-
-			char *var_start = (char *)ptr;
-			char *var_end;
-			int inside_quotes = 0;
+			var_start = (char *)ptr;
+			inside_quotes = 0;
 
 			if (*ptr == '"' || *ptr == '\'')
 			{
-				char quote = *ptr++;
+				quote = *ptr++;
 				inside_quotes = 1;
 				var_end = strchr(ptr, quote);
 				if (var_end)
@@ -231,17 +232,15 @@ void ft_export(char *input, t_list_env **envp)
 				}
 				var_end = (char *)ptr;
 			}
-
 			if (var_start < var_end)
 			{
 				char *variable = strndup(var_start, var_end - var_start);
 				if (variable)
 				{
-					add_or_update_variable(envp, variable);
+					add_or_update_variable(envp, variable, NULL);
 					free(variable);
 				}
 			}
-
 			ptr = var_end;
 		}
 	}

@@ -32,6 +32,7 @@ SRC = src/minishell.c \
       src/signals/signals.c \
       src/list_files/lists.c \
 	  src/redirection/redirections.c \
+	  src/redirection/redirections1.c \
 	  src/errors/ft_errors.c
 
 # --------------------------------------

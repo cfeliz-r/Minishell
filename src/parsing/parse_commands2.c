@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 11:19:20 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:34:16 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,90 +33,9 @@ t_command *init_commands(char **command_strings, int num_cmds)
     }
     return (commands);
 }
-void handle_redir(char *command_with_redirections, t_command *command)
+void handle_key_redir(char *command_with_redirections, t_command *command)
 {
-    char *input_redirection;
-    char *output_redirection;
-    char *heredoc_redirection;
-    char **split_result;
-
-    input_redirection = ft_strchr(command_with_redirections, '<');
-    output_redirection = ft_strchr(command_with_redirections, '>');
-    heredoc_redirection = ft_strstr(command_with_redirections, "<<");
-
-    if (heredoc_redirection)
-    {
-        *heredoc_redirection = 0;
-        heredoc_redirection += 2; // Avanzamos 2 posiciones para saltar el "<<"
-        if (*heredoc_redirection == '\0')
-        {
-            ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-            command->is_correct = 1;
-        }
-        else
-        {
-            split_result = ft_split(heredoc_redirection, ' ');
-            if (split_result && split_result[0])
-            {
-                command->heredoc_delimiter = ft_strdup(split_result[0]);
-            }
-            else
-            {
-                ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-                command->is_correct = 1;
-            }
-            clean_up(split_result, NULL, 0);
-        }
-    }
-    else if (input_redirection)
-    {
-        *input_redirection = 0;
-        input_redirection++;
-        if (*input_redirection == '\0')
-        {
-            ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-            command->is_correct = 1;
-        }
-        else
-        {
-            split_result = ft_split(input_redirection, ' ');
-            if (split_result && split_result[0])
-            {
-                command->input_redirection = strdup(split_result[0]);
-            }
-            else
-            {
-                ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-                command->is_correct = 1;
-            }
-            clean_up(split_result, NULL, 0);
-        }
-    }
-
-    if (output_redirection)
-    {
-        *output_redirection = 0;
-        output_redirection++;
-        if (*output_redirection == '\0')
-        {
-            ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-            command->is_correct = 1;
-        }
-        else
-        {
-            if (*output_redirection == '>')
-            {
-                command->append_output = 1;
-                output_redirection++;
-            }
-            split_result = ft_split(output_redirection, ' ');
-            if (split_result && split_result[0])
-            {
-                command->output_redirection = strdup(split_result[0]);
-            }
-            clean_up(split_result, NULL, 0);
-        }
-    }
+    process_redirections(command_with_redirections, command);
 
     if (command->is_correct == 0)
     {
@@ -128,6 +47,7 @@ void handle_redir(char *command_with_redirections, t_command *command)
         }
     }
 }
+
 
 int validate_command(t_command *command, t_list_env *envp)
 {
@@ -185,7 +105,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
     {
          if (commands[i].is_correct)
             continue;
-        handle_redir(command_strings[i], &commands[i]);
+        handle_key_redir(command_strings[i], &commands[i]);
         if (!validate_command(&commands[i], envp))
             return clean_up_and_return(command_strings, commands, *num_cmds);
     }

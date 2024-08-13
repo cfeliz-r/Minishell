@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 17:20:03 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:33:26 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void handle_heredoc(t_command *commands, int i, int num_cmds)
         close(fd);
     }
 }
+
  
 

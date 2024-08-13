@@ -26,11 +26,17 @@
 #include <signal.h>
 
 
+//redirectios
+void handle_hdoc(char *heredoc_redirection, t_command *command);
+void process_redirections(char *command_with_redirections, t_command *command);
+void handle_output_redirection(char *output_redirection, t_command *command);
+void handle_input_redirection(char *input_redirection, t_command *command);
+
 int	handle_export(t_command *comand, t_list_env *environ);
 void	siginit(void);
 
 
-void sigint_handler_ha(int sig); //
+void sigint_handler_ha(int sig);
 
 void	update_variable_content_export(t_list_env *current, const char *key,
 	const char *value);
@@ -72,7 +78,7 @@ char        *ft_redir_cmd(char *input, t_list_env *envp);
 t_command   *clean_up_and_return(char **command_strings, t_command *commands, int num_cmds);
 int         validate_command(t_command *command, t_list_env *envp);
 int         manage_error(int error_code, int return_value);
-void        handle_redir(char *command_with_redirections, t_command *command);
+void        handle_key_redir(char *command_with_redirections, t_command *command);
 void        execute_commands(t_list_env *list, char *cmd);
 //lists
 t_list_env  *create_list_envp(char **envp);

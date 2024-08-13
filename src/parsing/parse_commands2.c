@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 17:34:16 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:52:16 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,15 @@ t_command *clean_up_and_return(char **command_strings, t_command *commands, int 
 }
 t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 {
-    char **command_strings;
-    t_command *commands;
-    char *aux;
-    int i;
+    char        **command_strings;
+    t_command   *commands;
+    char        *aux;
+    int         i;
 
     aux = ft_redir_cmd(input, envp);
     command_strings = ft_split(aux, '|');
     if (!command_strings || command_strings[0] == NULL)
-    {
-        free(aux);
-        free(command_strings);
-        return (manage_error(200, 0), NULL);
-    }
+        return (manage_error(200, 0), free(aux), free(command_strings), NULL);
     free(aux);
     *num_cmds = 0;
     while (command_strings[*num_cmds] != NULL)

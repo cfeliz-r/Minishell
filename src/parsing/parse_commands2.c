@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 18:52:16 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:45:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void handle_key_redir(char *command_with_redirections, t_command *command)
         }
     }
 }
-
 
 int validate_command(t_command *command, t_list_env *envp)
 {

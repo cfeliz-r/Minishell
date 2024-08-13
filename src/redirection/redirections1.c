@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 17:33:37 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:40:30 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void process_redirections(char *command_with_redirections, t_command *command)
 
     if (heredoc_redirection)
         handle_hdoc(heredoc_redirection, command);
-    if (input_redirection)
+    if (input_redirection && !heredoc_redirection)
         handle_input_redirection(input_redirection, command);
     if (output_redirection)
         handle_output_redirection(output_redirection, command);

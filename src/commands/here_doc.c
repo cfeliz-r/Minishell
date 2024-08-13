@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 18:44:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:39:25 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ int process_here_doc(char *delimiter)
         line = readline(">");
         if (line == NULL)
         {
-            ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
-            ft_putstr_fd(delimiter, 2);
-            ft_putstr_fd("')\n", 2);
             break;
         }
         if (ft_strcmp(line, delimiter) == 0)
@@ -48,12 +45,11 @@ int process_here_doc(char *delimiter)
     return pipefd[0];
 }
 
-void handle_heredoc(t_command *commands, int i, int num_cmds)
+void handle_heredoc(t_command *commands, int i)
 {
-    int fd;
     int heredoc_fd;
 
-    if (commands[i].heredoc_delimiter != NULL && i == num_cmds - 1)
+    if (commands[i].heredoc_delimiter != NULL)
     {
         heredoc_fd = process_here_doc(commands[i].heredoc_delimiter);
         free(commands[i].heredoc_delimiter);
@@ -64,18 +60,6 @@ void handle_heredoc(t_command *commands, int i, int num_cmds)
         }
         dup2(heredoc_fd, STDIN_FILENO);
         close(heredoc_fd);
-    }
-    else if (commands[i].input_redirection != NULL)
-    {
-        fd = open(commands[i].input_redirection, O_RDONLY);
-        if (fd == -1)
-        {
-            manage_error(200, 0);
-            perror("minishell: open error");
-            exit(1);
-        }
-        dup2(fd, STDIN_FILENO);
-        close(fd);
     }
 }
 

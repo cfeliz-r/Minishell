@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:24:04 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 10:01:04 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:06:27 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ static void	print_echo_parts(char **str, int start_index)
 				break ;
 			}
 			else
+			{
 				i += 2;
+				continue ;
+			}
 		}
 		if (!first)
 			write(STDOUT_FILENO, " ", 1);

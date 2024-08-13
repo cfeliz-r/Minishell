@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 15:55:26 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:20:03 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int process_here_doc(char *delimiter)
     }
     while (1)
     {
-        line = readline(JUNGLE_GREEN "🦧BABU_HERE_DOC🦧➤ " RESET);
+        line = readline(">");
         if (line == NULL)
         {
             ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
@@ -44,8 +44,8 @@ int process_here_doc(char *delimiter)
         free(temp);
         free(line);
     }
-    close(pipefd[1]);
-    return pipefd[0];
+    close(pipefd[0]);
+    return pipefd[1];
 }
 
 void handle_heredoc(t_command *commands, int i, int num_cmds)

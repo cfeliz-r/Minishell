@@ -6,13 +6,13 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:46:24 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/08 16:19:50 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:01:58 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_env(t_list_env *env, char *command)
+void	ft_env(t_list_env *env, char *command)
 {
 	t_list_env	*aux;
 	char		**str_route;
@@ -22,9 +22,9 @@ void ft_env(t_list_env *env, char *command)
 	i = 0;
 	str_route = ft_split(command, ' ');
 	manage_error(0, 0);
-	while(str_route[i])
+	while (str_route[i])
 		i ++;
-	if(i > 1)
+	if (i > 1)
 	{
 		printf("env: %s: No such file or directory\n", str_route[1]);
 		manage_error(127, 0);
@@ -34,7 +34,7 @@ void ft_env(t_list_env *env, char *command)
 		while (aux != NULL)
 		{
 			printf("%s\n", aux->envp_content);
-			aux=aux->next;
+			aux = aux->next;
 		}
 	}
 	clean_up(str_route, NULL, 0);

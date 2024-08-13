@@ -6,73 +6,12 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/12 19:03:49 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 09:55:19 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* Función para manejar el comando pwd */
-int	handle_pwd(t_command *comand)
-{
-	if (ft_strncmp(comand->cmd_complete, "pwd ", 4) == 0
-		|| ft_strcmp(comand->cmd_complete, "pwd") == 0)
-	{
-		ft_pwd();
-		return (1);
-	}
-	return (0);
-}
-
-/* Función para manejar el comando env */
-int	handle_env(t_command *comand, t_list_env *environ)
-{
-	if (ft_strncmp(comand->cmd_complete, "env ", 4) == 0
-		|| ft_strcmp(comand->cmd_complete, "env") == 0)
-	{
-		ft_env(environ, comand->cmd_complete);
-		return (1);
-	}
-	return (0);
-}
-
-/* Función para manejar el comando echo */
-int	handle_echo(t_command *comand)
-{
-	if (ft_strncmp(comand->cmd_complete, "echo ", 5) == 0
-		|| ft_strcmp(comand->cmd_complete, "echo") == 0)
-	{
-		ft_echo(comand->cmd_complete);
-		return (1);
-	}
-	return (0);
-}
-
-/* Función para manejar el comando cd */
-int	handle_cd(t_command *comand)
-{
-	if (ft_strncmp(comand->cmd_complete, "cd ", 3) == 0
-		|| ft_strncmp(comand->cmd_complete, "cd\0", 3) == 0)
-	{
-		ft_cd(comand->cmd_complete);
-		return (1);
-	}
-	return (0);
-}
-
-/* Función para manejar el comando export */
-int	handle_export(t_command *comand, t_list_env *environ)
-{
-	if (ft_strncmp(comand->cmd_complete, "export ", 7) == 0
-		|| ft_strcmp(comand->cmd_complete, "export") == 0)
-	{
-		ft_export(comand->cmd_complete, &environ);
-		return (1);
-	}
-	return (0);
-}
-
-/* Función para manejar los comandos */
 int	build_up(t_command *comand, t_list_env *environ)
 {
 	if (handle_pwd(comand) || handle_env(comand, environ)
@@ -84,7 +23,6 @@ int	build_up(t_command *comand, t_list_env *environ)
 	return (0);
 }
 
-/* Función para manejar el comando exit */
 void	ft_exit(char *exits)
 {
 	char	**aux;
@@ -108,11 +46,33 @@ void	ft_exit(char *exits)
 	exit(exit_code);
 }
 
-/* Función para procesar la entrada del usuario */
+void	process_input_aux(char	*line, t_list_env *envp)
+{
+	char	*interpreted_line;
+
+	if (line[0] == '\0')
+		return ;
+	if (ft_strncmp(line, "export ", 7) == 0
+		|| ft_strcmp(line, "export") == 0)
+		ft_export(line, &envp);
+	if (check_quotes(line) == 0)
+		perror("quotes error\n");
+	else
+	{
+		interpreted_line = interpret_command(line, envp);
+		if (interpreted_line == NULL)
+		{
+			free(interpreted_line);
+			return ;
+		}
+		execute_commands(envp, interpreted_line);
+		free(interpreted_line);
+	}
+}
+
 void	process_input(t_list_env *envp)
 {
 	char	*line;
-	char	*interpreted_line;
 
 	while (1)
 	{
@@ -133,37 +93,11 @@ void	process_input(t_list_env *envp)
 			free(line);
 			continue ;
 		}
-		if (line[0] == '\0')
-		{
-			free(line);
-			continue ;
-		}
-		if (ft_strncmp(line, "export ", 7) == 0
-			|| ft_strcmp(line, "export") == 0)
-		{
-			ft_export(line, &envp);
-		}
-		if (check_quotes(line) == 0)
-		{
-			free(line);
-			perror("quotes error\n");
-		}
-		else
-		{
-			interpreted_line = interpret_command(line, envp);
-			if (interpreted_line == NULL)
-			{
-				free(line);
-				continue ;
-			}
-			execute_commands(envp, interpreted_line);
-			free(interpreted_line);
-			free(line);
-		}
+		process_input_aux(line, envp);
+		free(line);
 	}
 }
 
-/* Función principal */
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa_int;

@@ -6,15 +6,15 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/12 18:28:13 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:35:22 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void free_list(t_list_env *list)
+static void	free_list(t_list_env *list)
 {
-    t_list_env *tmp;
+    t_list_env  *tmp;
 
     while (list)
     {

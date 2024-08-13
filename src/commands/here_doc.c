@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 20:48:11 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:04:09 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 int process_here_doc(char *delimiter)
 {
-    int pipefd[2];
+    int temp_fd;
     char *line;
     char *temp;
+    char *tmp_filename;
 
-    if (pipe(pipefd) == -1)
+    tmp_filename = ft_strjoin("/tmp/.minishell_tmp_", delimiter);
+    temp_fd = open(tmp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (temp_fd == -1)
     {
-        perror("minishell: pipe error");
+        perror("minishell: temp file error");
+        free(tmp_filename);
         return -1;
     }
+    
     while (1)
     {
         line = readline(JUNGLE_GREEN "🦧BABU_HERE_DOC🦧➤ " RESET);
@@ -39,12 +44,13 @@ int process_here_doc(char *delimiter)
             break;
         }
         temp = ft_strjoin(line, "\n");
-        write(pipefd[1], temp, ft_strlen(temp));
+        write(temp_fd, temp, ft_strlen(temp));
         free(temp);
         free(line);
     }
-    close(pipefd[1]);
-    return pipefd[0];
+    close(temp_fd);
+    free(tmp_filename);
+    return open(tmp_filename, O_RDONLY);
 }
 
 void handle_heredoc(t_command *commands, int i, int num_cmds)

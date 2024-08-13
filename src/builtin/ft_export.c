@@ -6,91 +6,94 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 13:15:58 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:38:24 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	update_variable_content_export(t_list_env *current, const char *key,
-	const char *value)
-{
-	size_t	key_len;
-	size_t	value_len;
-	size_t	total_len;
-	char	*new_content;
 
-	key_len = ft_strlen(key);
-	value_len = ft_strlen(value);
-	total_len = key_len + value_len + 2;
-	new_content = malloc(total_len);
-	if (!new_content)
-		return ;
-	ft_strlcpy(new_content, key, key_len + 1);
-	ft_strlcat(new_content, "=", total_len);
-	ft_strlcat(new_content, value, total_len);
-	free(current->envp_content);
-	current->envp_content = new_content;
+
+static void skip_whitespace(const char **ptr)
+{
+	while (isspace((unsigned char)**ptr))
+		(*ptr)++;
 }
 
-char	*duplicate_string_export(const char *str)
+static char *handle_quotes(const char **ptr, int *inside_quotes)
 {
-	return (ft_strdup(str));
-}
+	char quote;
+	char *var_end;
 
-void	extract_key_and_value_export(char *var_copy, char **key, char **value)
-{
-	*value = ft_strchr(var_copy, '=');
-	if (*value)
+	if (**ptr == '"' || **ptr == '\'')
 	{
-		**value = '\0';
-		(*value)++;
+		quote = *(*ptr)++;
+		*inside_quotes = 1;
+		var_end = strchr(*ptr, quote);
+		if (var_end)
+			var_end++;
+		else
+			var_end = (char *)(*ptr) + strlen(*ptr);
 	}
 	else
-		*value = "";
-	*key = var_copy;
+	{
+		var_end = (char *)*ptr;
+	}
+	return var_end;
 }
 
-t_list_env	*find_variable_in_list_export(t_list_env *head, const char *key)
+static void process_variable_end(char *var_start, char *var_end, t_list_env **envp)
 {
-	t_list_env	*current;
+	char *variable;
 
-	current = head;
-	while (current)
+	if (var_start < var_end)
 	{
-		if (ft_strncmp(current->envp_content, key, ft_strlen(key)) == 0
-			&& current->envp_content[ft_strlen(key)] == '=')
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
-}
-
-void	ft_export(char *input, t_list_env **envp)
-{
-	const char	*ptr;
-	char		*var_start;
-	char		*var_end;
-	int			inside_quotes;
-
-	if (!input || !envp)
-		return ;
-	if (is_empty_or_space_export(input))
-	{
-		process_export_command_export(envp);
-	}
-	else if (ft_strncmp(input, "export ", 7) == 0)
-	{
-		ptr = input + 7;
-		while (*ptr)
+		variable = strndup(var_start, var_end - var_start);
+		if (variable)
 		{
-			while (isspace((unsigned char)*ptr))
-				ptr++;
-			var_start = (char *)ptr;
-			var_end = find_variable_end_export(ptr, &inside_quotes);
-			if (var_start < var_end)
-				extract_and_process_variable_export(envp, var_start, var_end);
-			ptr = var_end;
+			add_or_update_export(envp, variable);
+			free(variable);
 		}
+	}
+}
+
+static void process_variable(const char **ptr, t_list_env **envp)
+{
+	char *var_start;
+	char *var_end;
+	int inside_quotes;
+
+	while (**ptr)
+	{
+		skip_whitespace(ptr);
+		var_start = (char *)*ptr;
+		inside_quotes = 0;
+		var_end = handle_quotes(ptr, &inside_quotes);
+
+		if (!inside_quotes)
+		{
+			while (**ptr && (!isspace((unsigned char)**ptr) || inside_quotes))
+			{
+				if (**ptr == '"' || **ptr == '\'')
+					inside_quotes = !inside_quotes;
+				(*ptr)++;
+			}
+			var_end = (char *)*ptr;
+		}
+
+		process_variable_end(var_start, var_end, envp);
+	}
+}
+
+void ft_export(char *input, t_list_env **envp)
+{
+	if (!input || !envp)
+		return;
+	if (strcmp(input, "export") == 0 && (input[6] == '\0' || isspace((unsigned char)input[6])))
+		handle_export_no_args(envp);
+	else if (strncmp(input, "export ", 7) == 0)
+	{
+		const char *ptr = input + 7;
+		process_variable(&ptr, envp);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 11:34:01 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:43:39 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,19 +128,20 @@ static void	update_variable_content(t_list_env *current, const char *key,
 	current->envp_content = new_content;
 }
 
-static void add_or_update_variable(t_list_env **head, const char *variable,
+static void	add_or_update_variable(t_list_env **head, const char *variable,
 	char *key)
 {
-	char *value;
-	char *var_copy;
-	t_list_env *current = *head;
-	t_list_env *prev = NULL;
-	t_list_env *new_node;
+	char		*value;
+	char		*var_copy;
+	t_list_env	*current;
+	t_list_env	*prev;
+	t_list_env	*new_node;
 
+	prev = NULL;
+	current = *head;
 	var_copy = ft_strdup(variable);
 	if (!var_copy)
-		return;
-
+		return ;
 	value = ft_strchr(var_copy, '=');
 	if (value)
 	{
@@ -150,47 +151,45 @@ static void add_or_update_variable(t_list_env **head, const char *variable,
 	else
 		value = "";
 	key = var_copy;
-
 	while (current)
 	{
-		if (strncmp(current->envp_content, key, ft_strlen(key)) == 0
+		if (ft_strncmp(current->envp_content, key, ft_strlen(key)) == 0
 			&& current->envp_content[ft_strlen(key)] == '=')
 		{
 			update_variable_content(current, key, value);
 			free(var_copy);
-			return;
+			return ;
 		}
 		prev = current;
 		current = current->next;
 	}
-
 	new_node = create_node(variable);
 	if (!new_node)
 	{
 		free(var_copy);
-		return;
+		return ;
 	}
-
 	if (prev)
 		prev->next = new_node;
 	else
 		*head = new_node;
-
 	free(var_copy);
 }
 
-void ft_export(char *input, t_list_env **envp)
+void	ft_export(char *input, t_list_env **envp)
 {
-	const char *ptr;
-	t_list_env *copied_list;
-	char *var_start;
-	char *var_end;
-	int inside_quotes;
-	char quote;
-	
+	const char	*ptr;
+	t_list_env	*copied_list;
+	char		*var_start;
+	char		*var_end;
+	int			inside_quotes;
+	char		quote;
+	char		*variable;
+
 	if (!input || !envp)
-		return;
-	if (strcmp(input, "export") == 0  && (input[6] == '\0' || isspace((unsigned char)input[6])))
+		return ;
+	if (ft_strcmp(input, "export") == 0 && (input[6] == '\0'
+			|| isspace((unsigned char)input[6])))
 	{
 		copied_list = copy_list(*envp);
 		if (copied_list)
@@ -202,7 +201,7 @@ void ft_export(char *input, t_list_env **envp)
 		else
 			return ;
 	}
-	else if (strncmp(input, "export ", 7) == 0)
+	else if (ft_strncmp(input, "export ", 7) == 0)
 	{
 		ptr = input + 7;
 		while (*ptr)
@@ -211,16 +210,15 @@ void ft_export(char *input, t_list_env **envp)
 				ptr++;
 			var_start = (char *)ptr;
 			inside_quotes = 0;
-
 			if (*ptr == '"' || *ptr == '\'')
 			{
 				quote = *ptr++;
 				inside_quotes = 1;
-				var_end = strchr(ptr, quote);
+				var_end = ft_strchr(ptr, quote);
 				if (var_end)
 					var_end++;
 				else
-					var_end = (char *)ptr + strlen(ptr);
+					var_end = (char *)ptr + ft_strlen(ptr);
 			}
 			else
 			{
@@ -234,7 +232,7 @@ void ft_export(char *input, t_list_env **envp)
 			}
 			if (var_start < var_end)
 			{
-				char *variable = strndup(var_start, var_end - var_start);
+				variable = ft_strndup(var_start, var_end - var_start);
 				if (variable)
 				{
 					add_or_update_variable(envp, variable, NULL);

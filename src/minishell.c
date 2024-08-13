@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 09:55:19 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:12:05 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	process_input(t_list_env *envp)
 
 	while (1)
 	{
+		siginit();
 		line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
 		add_history(line);
 		line = remove_front_and_back_spaces(line);
@@ -84,8 +85,7 @@ void	process_input(t_list_env *envp)
 		{
 			if (!line)
 			{
-				if (line)
-					free(line);
+			
 				exit(0);
 			}
 			else
@@ -97,6 +97,19 @@ void	process_input(t_list_env *envp)
 		free(line);
 	}
 }
+void	siginit(void)
+{
+	struct sigaction	sa_int;
+	//struct sigaction	sa_quit;
+
+	sa_int.sa_handler = sigint_handler;
+	sa_int.sa_flags = 0;
+	sigaction(SIGINT, &sa_int, NULL);
+	sa_int.sa_handler = SIG_IGN;
+	//sa_int.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_int, NULL);
+}
+
 
 int	main(int argc, char **argv, char **envp)
 {

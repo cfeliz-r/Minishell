@@ -27,9 +27,10 @@
 
 
 int	handle_export(t_command *comand, t_list_env *environ);
+void	siginit(void);
 
 
-
+void sigint_handler_ha(int sig); //
 
 void	update_variable_content_export(t_list_env *current, const char *key,
 	const char *value);

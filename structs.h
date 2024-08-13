@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/10 20:20:46 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:25:32 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_command
     char *path;
     char *input_redirection;
     char    *heredoc_delimiter;
-    char *output_redirection;
+    char *output_redirection; 
     int append_output;
 } t_command;
 

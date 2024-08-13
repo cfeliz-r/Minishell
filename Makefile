@@ -12,6 +12,7 @@ OBJDIR = obj
 # Archivos fuente
 # --------------------------------------
 SRC = src/minishell.c \
+	  src/minishell_aux.c \
       src/builtin/ft_echo.c \
       src/builtin/ft_pwd.c \
       src/builtin/ft_env.c \

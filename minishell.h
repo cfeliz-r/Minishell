@@ -26,6 +26,11 @@
 #include <signal.h>
 
 
+int	handle_export(t_command *comand, t_list_env *environ);
+int	handle_cd(t_command *comand);
+int	handle_echo(t_command *comand);
+int	handle_env(t_command *comand, t_list_env *environ);
+int	handle_pwd(t_command *comand);
 size_t aux_count(char **array);
 int all_digits(const char *str);
 int process_here_doc(char *delimiter);

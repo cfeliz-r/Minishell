@@ -6,9 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 09:55:28 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:08:03 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../minishell.h"
 
 int	handle_pwd(t_command *comand)
 {

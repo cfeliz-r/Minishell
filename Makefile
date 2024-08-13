@@ -17,6 +17,9 @@ SRC = src/minishell.c \
       src/builtin/ft_pwd.c \
       src/builtin/ft_env.c \
 	  src/builtin/ft_export.c \
+	  src/builtin/ft_export_aux1.c \
+	  src/builtin/ft_export_aux2.c \
+	  src/builtin/ft_export_aux3.c \
       src/builtin/ft_cd.c \
       src/utils/utils.c \
       src/commands/check_and_path.c \

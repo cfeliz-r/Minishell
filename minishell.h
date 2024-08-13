@@ -27,6 +27,34 @@
 
 
 int	handle_export(t_command *comand, t_list_env *environ);
+
+
+
+
+void	update_variable_content_export(t_list_env *current, const char *key,
+	const char *value);
+char	*duplicate_string_export(const char *str);
+void	extract_key_and_value_export(char *var_copy, char **key, char **value);
+t_list_env	*find_variable_in_list_export(t_list_env *head, const char *key);
+t_list_env	*create_new_node_export(const char *variable);
+void	free_list_export(t_list_env *list);
+t_list_env	*create_node_export(const char *content);
+t_list_env	*copy_list_export(t_list_env *original);
+t_list_env	*sort_list_export(t_list_env *head, int swapped);
+void	print_list_export(t_list_env *list);
+void	add_or_update_variable_export(t_list_env **head, t_list_env *prev,
+	t_list_env *new_node);
+int	is_empty_or_space_export(char *input);
+void	process_export_command_export(t_list_env **envp);
+char	*find_variable_end_export(const char *ptr, int *inside_quotes);
+void	extract_and_process_variable_export(t_list_env **envp, char *var_start,
+	char *var_end);
+
+
+
+
+
+
 int	handle_cd(t_command *comand);
 int	handle_echo(t_command *comand);
 int	handle_env(t_command *comand, t_list_env *environ);

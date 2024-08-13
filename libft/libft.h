@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:29:19 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/05 14:22:12 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:10:46 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ void	ft_unsigned_int(unsigned int u, int *length);
 void	ft_pointer(size_t pointer, int *length);
 int		ft_printf(const char *string, ...);
 void	*simple_realloc(void *ptr, size_t old_size, size_t new_size);
+char *ft_strndup(const char *s, size_t n);
 
 #endif

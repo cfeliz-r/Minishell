@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 15:14:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:58:09 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
 
     sa_quit.sa_handler = SIG_DFL;
     sigaction(SIGQUIT, &sa_quit, NULL);
+    handle_heredoc(commands, i, num_cmds);
     if (i > 0)
         dup2(pipes[i - 1][0], STDIN_FILENO);
     if (i < num_cmds - 1)
         dup2(pipes[i][1], STDOUT_FILENO);
     close_pipes(pipes, num_cmds);
-    handle_heredoc(commands, i, num_cmds);
     if (handle_redirections(&commands[i]) == -1)
         exit(0);  
     if (!(ft_strncmp(commands[i].cmd_complete, "echo ", 5) == 0 || 
@@ -79,9 +79,9 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     {
         if (fork() == 0)
         {
-             sa_int.sa_handler = sigint_handler_ha;
-             sigaction(SIGINT, &sa_int, NULL);
-              child_process(commands, i, num_cmds, env_array, envp, pipes);
+            sa_int.sa_handler = sigint_handler_ha;
+            sigaction(SIGINT, &sa_int, NULL);
+            child_process(commands, i, num_cmds, env_array, envp, pipes);
         }
     }
     close_pipes(pipes, num_cmds);

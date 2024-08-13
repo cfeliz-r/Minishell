@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:24:04 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 17:23:15 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:53:38 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,13 @@ static void	print_echo_parts(char **str, int start_index)
 	i = start_index;
 	while (str[i])
 	{
-		if (ft_strcmp(str[i], ">") == 0)
-			break ;
-		if (ft_strcmp(str[i], "<") == 0)
+		if (ft_strcmp(str[i], ">") == 0 || ft_strcmp(str[i], "<") == 0 || ft_strcmp(str[i], "<<") == 0)
 		{
-			if (access(str[i + 1], F_OK) == -1)
-			{
-				printf("%s: No such file or directory\n", str[i + 1]);
-				break ;
-			}
-			else
-			{
+			if (str[i + 1] && (ft_strcmp(str[i], "<") == 0 || ft_strcmp(str[i], "<<") == 0))
 				i += 2;
-				continue ;
-			}
+			else
+				break;
+			continue;
 		}
 		if (!first)
 			write(STDOUT_FILENO, " ", 1);

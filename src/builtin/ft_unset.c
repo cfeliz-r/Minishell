@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 11:37:41 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:41:31 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void process_command_unset(t_list_env **envp, char **command)
     i = 1;
     while (command[i])
     {
-        remove_env_var(envp, command[i]);
+        
+        remove_env_var_unset(envp, command[i]);
         i++;
     }
 }
@@ -61,6 +62,6 @@ void ft_unset(char *input, t_list_env **envp)
     command = ft_split(input, ' ');
     if (!command)
         return;
-    process_command(envp, command);
+    process_command_unset(envp, command);
     clean_up(command, NULL, 0);
 }

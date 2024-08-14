@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 18:22:01 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:25:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ char *find_command_path(char *cmd, t_list_env *envp)
   
     if (cmd == NULL)
         return (NULL);
-    if (ft_strncmp(cmd, "cd ", 3) == 0 || ft_strncmp(cmd, "cd\0", 3) == 0 || ft_strncmp(cmd, "echo ", 5) == 0 || ft_strcmp(cmd, "echo") == 0 || ft_strncmp(cmd, "env ", 4) == 0 || ft_strcmp(cmd, "env")== 0 || ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strcmp(cmd, "pwd" ) == 0 || ft_strncmp(cmd, "export ", 7) == 0 || ft_strcmp(cmd, "export") == 0)
+    if (ft_strncmp(cmd, "cd ", 3) == 0 || ft_strcmp(cmd, "cd") == 0 || 
+    ft_strncmp(cmd, "echo ", 5) == 0 || ft_strcmp(cmd, "echo") == 0 || 
+    ft_strncmp(cmd, "env ", 4) == 0 || ft_strcmp(cmd, "env") == 0 || 
+    ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strcmp(cmd, "pwd") == 0 || 
+    ft_strncmp(cmd, "export ", 7) == 0 || ft_strcmp(cmd, "export") == 0 || 
+    ft_strncmp(cmd, "unset ", 6) == 0 || ft_strcmp(cmd, "unset") == 0)
         return (ft_strdup(cmd));
      if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0)
     {

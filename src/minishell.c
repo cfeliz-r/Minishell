@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 10:12:22 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:28:17 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ void	ft_exit(char *exits)
 void	process_input_aux(char	*line, t_list_env *envp)
 {
 	char	*interpreted_line;
-
+	
 	if (line[0] == '\0')
 		return ;
 	if (ft_strncmp(line, "export ", 7) == 0
 		|| ft_strcmp(line, "export") == 0)
 		ft_export(line, &envp);
+	if (ft_strncmp(line, "unset ", 6) == 0
+		|| ft_strcmp(line, "unset") == 0)
+		ft_unset(line, &envp);
 	if (check_quotes(line) == 0)
 		perror("quotes error\n");
 	else
@@ -87,10 +90,7 @@ void	process_input(t_list_env *envp)
 			|| ft_strcmp(line, "exit") == 0)
 		{
 			if (!line)
-			{
-			
 				exit(0);
-			}
 			else
 				ft_exit(line);
 			free(line);

@@ -3,6 +3,7 @@
     "files.associations": {
         "minishell.h": "c",
         "types.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "get_next_line_bonus.h": "c"
     }
 }

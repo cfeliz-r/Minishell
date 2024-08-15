@@ -26,7 +26,7 @@ char *find_env_value(t_list_env *envp_list, const char *key)
 	return (manage_error(200, 0), NULL);
 }
 
-int check_quotes(char *command)
+/* int check_quotes(char *command)
 {
 	int i;
 	int quotes_2;
@@ -68,7 +68,7 @@ int check_quotes(char *command)
 		return 1;
 	else
 		return (manage_error(200, 0), 0);
-}
+} */
 
 char *remove_front_and_back_spaces(char *str)
 {

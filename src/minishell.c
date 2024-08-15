@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 12:39:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:45:51 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	process_input_aux(char	*line, t_list_env *envp)
 	if (ft_strncmp(line, "unset ", 6) == 0
 		|| ft_strcmp(line, "unset") == 0)
 		ft_unset(line, &envp);
-	if (check_quotes(line) == 0)
-		perror("quotes error\n");
 	else
 	{
 		interpreted_line = interpret_command(line, envp);
@@ -85,19 +83,22 @@ void	process_input(t_list_env *envp)
 		siginit();
 		line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
 		add_history(line);
-		line = remove_front_and_back_spaces(line);
-		if (!line || ft_strncmp(line, "exit ", 5) == 0
-			|| ft_strcmp(line, "exit") == 0)
+		if (ft_parsing(line) == 0)
 		{
-			if (!line)
-				exit(0);
-			else
-				ft_exit(line);
+			/* line = remove_front_and_back_spaces(line); */
+			if (!line || ft_strncmp(line, "exit ", 5) == 0
+				|| ft_strcmp(line, "exit") == 0)
+			{
+				if (!line)
+					exit(0);
+				else
+					ft_exit(line);
+				free(line);
+				continue ;
+			}
+			process_input_aux(line, envp);
 			free(line);
-			continue ;
 		}
-		process_input_aux(line, envp);
-		free(line);
 	}
 }
 void	siginit(void)

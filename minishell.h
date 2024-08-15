@@ -26,6 +26,8 @@
 #include <signal.h>
 
 
+
+int ft_parsing(char *line);
 //redirectios
 void handle_hdoc(char *heredoc_redirection, t_command *command);
 void process_redirections(char *command_with_redirections, t_command *command);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 13:45:51 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:52:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ void	process_input_aux(char	*line, t_list_env *envp)
 	if (line[0] == '\0')
 		return ;
 	if (ft_strncmp(line, "export ", 7) == 0
+	||ft_strcmp(line, "'export'") == 0 || ft_strcmp(line, "\"export\"") == 0
 		|| ft_strcmp(line, "export") == 0)
 		ft_export(line, &envp);
 	if (ft_strncmp(line, "unset ", 6) == 0
+	||ft_strcmp(line, "'unset'") == 0 || ft_strcmp(line, "\"unset\"") == 0
 		|| ft_strcmp(line, "unset") == 0)
 		ft_unset(line, &envp);
 	else
@@ -85,8 +87,8 @@ void	process_input(t_list_env *envp)
 		add_history(line);
 		if (ft_parsing(line) == 0)
 		{
-			/* line = remove_front_and_back_spaces(line); */
 			if (!line || ft_strncmp(line, "exit ", 5) == 0
+			|| ft_strcmp(line, "\"exit\"") == 0 || ft_strcmp(line, "'exit'") == 0
 				|| ft_strcmp(line, "exit") == 0)
 			{
 				if (!line)

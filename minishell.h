@@ -27,6 +27,9 @@
 
 
 
+
+void remove_quotes_from_args(char **args);
+void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
 int ft_parsing(char *line);
 //redirectios
 void handle_hdoc(char *heredoc_redirection, t_command *command);
@@ -96,6 +99,6 @@ void        ft_cd(char *route);
 void        close_pipes(int **pipes, int num_cmds);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 void        ft_here_doc(char *delimiter, int fd[2]);
-void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
+
 
 #endif // MINISHELL_H

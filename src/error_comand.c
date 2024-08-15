@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 15:33:51 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:50:40 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,28 @@
 // Verifica si las comillas están balanceadas
  int check_quotes(char *command)
 {
-	int i;
-	int quotes_2;
-	int quotes_1;
+    int i;
+    int quotes_2 = 0; // Comillas dobles
+    int quotes_1 = 0; // Comillas simples
 
-	i = 0;
-	quotes_2 = 0;
-	quotes_1 = 0;
-	while (command[i] != '\0')
-	{
-		if (command[i] == '"')
-		{
-			quotes_2++;
-			i++;
-			while (command[i] != '"' && command[i] != '\0')
-				i++;
-			if (command[i] == '"')
-			{
-				quotes_2++;
-				i++;
-			}
-		}
-		else if (command[i] == '\'')
-		{
-			quotes_1++;
-			i++;
-			while (command[i] != '\'' && command[i] != '\0')
-				i++;
-			if (command[i] == '\'')
-			{
-				quotes_1++;
-				i++;
-			}
-		}
-		else
-			i++;
-	}
-	if (quotes_2 % 2 == 0 && quotes_1 % 2 == 0)
-		return 1;
-	else
-		return (manage_error(200, 0), 0);
+    i = 0;
+    while (command[i] != '\0')
+    {
+        if (command[i] == '"')
+        {
+            quotes_2++;
+        }
+        else if (command[i] == '\'')
+        {
+            quotes_1++;
+        }
+        i++;
+    }
+
+    if (quotes_2 % 2 == 0 && quotes_1 % 2 == 0)
+        return 1;
+    else
+        return (manage_error(200, 0), 0);
 }
 
 // Verifica si los caracteres especiales están bien colocados
@@ -145,84 +127,63 @@ int has_space(char *start, char *end)
     return 0;
 }
 
-// Valida los argumentos para detectar errores como 'ls " "'
 int validate_arguments(char *line)
 {
     char *start = line;
-    char *end;
-    int inside_quotes = 0; // 0: no en comillas, 1: en comillas dobles, 2: en comillas simples
-
-    // Comando especial 'echo' para ser manejado sin errores
+    /* char *end; */
+    /* int inside_quotes = 0; */ // 0: no en comillas, 1: en comillas dobles, 2: en comillas simples
 
     while (*start)
     {
         // Saltar espacios y tabulaciones
         while (isspace(*start))
             start++;
-        
+
         if (*start == '\0')
             break;
 
-        end = start;
-        if (*start == '"')
-        {
-            // Manejo de comillas dobles
-            inside_quotes = 1;
-            end++;  // Avanzar más allá de la primera comilla
-            while (*end && (inside_quotes || *end != '"'))
-            {
-                if (*end == '"')
-                    inside_quotes = !inside_quotes; // Toggle inside_quotes flag
-                end++;
-            }
-            if (*end == '"')
-                end++; // Avanzar más allá de la última comilla
+        /* end = start; */
 
-            // Verificar si hay espacios dentro de las comillas dobles
-            if (has_space(start + 1, end - 1))
-                return 0; // Error: espacios dentro de comillas dobles
-        }
-        else if (*start == '\'')
+        // Manejo de comillas simples y dobles
+        if (*start == '"' || *start == '\'')
         {
-            // Manejo de comillas simples
-            inside_quotes = 2; // Diferente flag para comillas simples
-            end++;  // Avanzar más allá de la primera comilla simple
-            while (*end && (inside_quotes == 2 || *end != '\''))
-            {
-                if (*end == '\'')
-                    inside_quotes = 0; // Toggle inside_quotes flag
-                end++;
-            }
-            if (*end == '\'')
-                end++; // Avanzar más allá de la última comilla simple
+            char quote_char = *start;
+            start++;  // Avanza para empezar a analizar el contenido dentro de las comillas
 
-            // Verificar si hay espacios dentro de las comillas simples
-            if (has_space(start + 1, end - 1))
-                return 0; // Error: espacios dentro de comillas simples
+            // Busca el final de las comillas
+            while (*start && *start != quote_char)
+            {
+                start++;
+            }
+
+            // Verifica si se encontró el final de las comillas
+            if (*start != quote_char)
+            {
+                printf("error por aqui\n");
+                return 0;  // Error: comillas no balanceadas
+            }
+
+            start++;  // Avanza más allá de la comilla de cierre
         }
         else
         {
             // Encuentra el fin del argumento
-            while (*end && !isspace(*end) && *end != '"' && *end != '\'')
-                end++;
+            while (*start && !isspace(*start) && *start != '"' && *start != '\'')
+                start++;
         }
 
-        // Mover al siguiente token
-        start = end; 
+        // Avanza al siguiente argumento
+        /* end = start; */
     }
 
-    // Verificar que todas las comillas estén cerradas
-    if (inside_quotes)
-        return 0;  // Cita no cerrada detectada
-
-    return 1; // Todos los argumentos son válidos
+    return 1;  // Todos los argumentos son válidos
 }
-
 
 // Manejo de errores
 void exit_with_error(const char *message)
 {
-    write(2, message, ft_strlen(message));
+    printf("mi error\n");
+    write(2, message, strlen(message));
 }
 
 int ft_parsing(char *line)
@@ -235,6 +196,7 @@ int ft_parsing(char *line)
 
     if (ft_strstr(line, "echo"))
         return (0);
+
     if (check_quotes(line) == 0)
     {
         exit_with_error("quotes error\n");

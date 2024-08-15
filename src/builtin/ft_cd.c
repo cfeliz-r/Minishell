@@ -6,35 +6,75 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 09:35:24 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/15 11:05:51 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_cd(char *route)
+// Función para eliminar comillas al principio y al final de una cadena
+static char *remove_quotes(char *str)
 {
-	char	**str_route;
-	int		i;
+    char *cleaned_str;
+    size_t len;
 
-	i = 0;
-	str_route = ft_split(route, ' ');
-	manage_error(0, 0);
-	while (str_route[i] != NULL)
-	{
-		i++;
-	}
-	if (i > 2)
-		printf("cd: string not in pwd: %s\n", str_route[1]);
-	else
-	{
-		if (i != 1 && access(str_route[1], F_OK | R_OK) == 0)
-			chdir(str_route[1]);
-		else
-		{
-			perror("invalid route");
-			manage_error(1, 0);
-		}
-	}
-	clean_up(str_route, NULL, 0);
+    if (str == NULL)
+        return (NULL);
+    
+    len = strlen(str);
+    
+    // Verificar si la cadena comienza y termina con comillas
+    if ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\''))
+    {
+        // Crear nueva cadena sin comillas
+        cleaned_str = malloc(len - 1);
+        if (cleaned_str == NULL)
+            return (NULL);
+        memcpy(cleaned_str, str + 1, len - 2);
+        cleaned_str[len - 2] = '\0';
+        return (cleaned_str);
+    }
+    
+    // Si no hay comillas, retornar la cadena original
+    return (str);
+}
+
+void ft_cd(char *route)
+{
+    char **str_route;
+    int i;
+
+    i = 0;
+    str_route = ft_split(route, ' ');
+
+    // Verificar y eliminar comillas de la ruta si es necesario
+    if (str_route[1] != NULL)
+    {
+        char *cleaned_route = remove_quotes(str_route[1]);
+        if (cleaned_route != NULL)
+        {
+            // Verificar la validez de la ruta y cambiar directorio
+            if (i > 2)
+                printf("cd: string not in pwd: %s\n", str_route[1]);
+            else
+            {
+                if (access(cleaned_route, F_OK | R_OK) == 0)
+                    chdir(cleaned_route);
+                else
+                {
+                    perror("cd");
+                    manage_error(1, 0);
+                }
+            }
+            free(cleaned_route); // Liberar memoria de la ruta limpiada
+        }
+        else
+        {
+            printf("cd: memory allocation error\n");
+            manage_error(1, 0);
+        }
+    }
+
+    // Liberar memoria de los argumentos divididos
+    clean_up(str_route, NULL, 0);
 }

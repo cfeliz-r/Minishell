@@ -82,7 +82,6 @@ int all_digits(const char *str)
 				free(commands[i].input_redirection);
 				free(commands[i].output_redirection);
 				free(commands[i].cmd_complete);
-				free(commands[i].heredoc_delimiter);
 				i++;
 			}
 			free(commands);
@@ -138,8 +137,6 @@ int all_digits(const char *str)
 			free(command->output_redirection);
 		if (command->cmd_complete)
 			free(command->cmd_complete);
-		if(command->heredoc_delimiter)
-			free(command->heredoc_delimiter);
 		ft_memset(command, 0, sizeof(t_command));
 		
 	}

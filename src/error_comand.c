@@ -12,12 +12,11 @@
 
 #include "../minishell.h"
 
-// Verifica si las comillas están balanceadas
  int check_quotes(char *command)
 {
     int i;
-    int quotes_2 = 0; // Comillas dobles
-    int quotes_1 = 0; // Comillas simples
+    int quotes_2 = 0;
+    int quotes_1 = 0;
 
     i = 0;
     while (command[i] != '\0')
@@ -39,7 +38,6 @@
         return (manage_error(200, 0), 0);
 }
 
-// Verifica si los caracteres especiales están bien colocados
 int check_special_chars(char *line)
 {
     int prev_char_was_special = 0;
@@ -49,7 +47,7 @@ int check_special_chars(char *line)
         if (*line == '|')
         {
             if (prev_char_was_special)
-                return 0; // Dos caracteres especiales seguidos
+                return 0;
             prev_char_was_special = 1;
         }
         else
@@ -61,39 +59,32 @@ int check_special_chars(char *line)
     return 1;
 }
 
-// Verifica si las redirecciones están bien formateadas
 int check_redirections(char *line)
 {
     while (*line)
     {
         if (*line == '>' || *line == '<')
         {
-            if (*(line + 1) == *line) // Maneja `>>` o `<<`
+            if (*(line + 1) == *line)
                 line++;
-            
-            // Verifica si la redirección está seguida por un espacio o fin de línea
+
             while (isspace(*(line + 1)))
                 line++;
             
             if (*(line + 1) == '\0')
-                return 0; // Redirección sin destino
+                return 0;
         }
         line++;
     }
     return 1;
 }
 
-// Verifica la sintaxis general
 int check_syntax(char *line)
 {
     while (isspace(*line))
         line++;
-    
-    // Verifica si la línea comienza con un carácter especial
     if (*line == '|')
         return 0;
-
-    // Verifica que la línea no termine con un carácter especial no permitido
     char *end = line + strlen(line) - 1;
     while (end > line && isspace(*end))
         end--;

@@ -59,6 +59,7 @@ void handle_output_redirection(char *output_redirection, t_command *command)
 void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
     char **split_result;
+    int i = 0;
 
     *heredoc_redirection = 0;
     heredoc_redirection += 2;
@@ -69,8 +70,30 @@ void handle_hdoc(char *heredoc_redirection, t_command *command)
         return;
     }
     split_result = ft_split(heredoc_redirection, ' ');
-    if (split_result && split_result[0])
-        command->heredoc_delimiter = ft_strdup(split_result[0]);
+    if (split_result)
+    {
+        // Cuenta la cantidad de delimitadores
+        while (split_result[i])
+            i++;
+        
+        // Reserva espacio para los delimitadores en la estructura
+        command->heredoc_delimiters = malloc(sizeof(char *) * (i + 1));
+        if (!command->heredoc_delimiters)
+        {
+            command->is_correct = 1;
+            clean_up(split_result, NULL, 0);
+            return;
+        }
+
+        // Copia los delimitadores al array de heredoc_delimiters
+        i = 0;
+        while (split_result[i])
+        {
+            command->heredoc_delimiters[i] = ft_strdup(split_result[i]);
+            i++;
+        }
+        command->heredoc_delimiters[i] = NULL; // Termina con NULL
+    }
     else
     {
         ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
@@ -78,6 +101,7 @@ void handle_hdoc(char *heredoc_redirection, t_command *command)
     }
     clean_up(split_result, NULL, 0);
 }
+
 
 void process_redirections(char *command_with_redirections, t_command *command)
 {

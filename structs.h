@@ -27,7 +27,7 @@ typedef struct s_command
     char *cmd_complete;
     char *path;
     char *input_redirection;
-    char    *heredoc_delimiter;
+    char **heredoc_delimiters;
     char *output_redirection; 
     int append_output;
 } t_command;

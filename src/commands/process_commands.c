@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/15 14:42:32 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:53:10 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
 
     sa_quit.sa_handler = SIG_DFL;
     sigaction(SIGQUIT, &sa_quit, NULL);
-    handle_heredoc(commands, i);
 
     if (i > 0)
         dup2(pipes[i - 1][0], STDIN_FILENO);
@@ -87,10 +86,9 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
 
     if(handle_redirections(&commands[i]) == -1)
         exit(1);
-
-    // Eliminar comillas de los argumentos antes de llamar a execve
     remove_quotes_from_args(commands[i].args);
-
+    if (commands[i].heredoc_delimiters)
+        handle_heredoc(&commands[i], i);
     if (!(ft_strncmp(commands[i].cmd_complete, "echo ", 5) == 0 ||
           ft_strcmp(commands[i].cmd_complete, "\"echo\"") == 0 || 
           ft_strcmp(commands[i].cmd_complete, "'echo'") == 0 ||
@@ -108,6 +106,8 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
           ft_strcmp(commands[i].cmd_complete, "'cd'") == 0 ||
           ft_strcmp(commands[i].cmd_complete, "cd\0") == 0))
     {
+        if (validate_command(&commands[i], envp) == 0)
+            exit(1);
         if (execve(commands[i].path, commands[i].args, env_array) == -1)
         {
             manage_error(200, 0);
@@ -126,7 +126,6 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     int i;
     char **env_array;
     struct sigaction sa_int;
-   
     pipes = malloc((num_cmds - 1) * sizeof(int *));
     setup_pipes(pipes, num_cmds);
     env_array = convert_envp_to_array(envp);
@@ -142,6 +141,7 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
             child_process(commands, i, num_cmds, env_array, envp, pipes);
         }
     }
+   
     close_pipes(pipes, num_cmds);
     i = -1;
     while(++i < num_cmds)

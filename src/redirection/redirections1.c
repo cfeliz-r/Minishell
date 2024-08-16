@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 19:40:30 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:28:45 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,9 @@ void handle_input_redirection(char *input_redirection, t_command *command)
 
     *input_redirection = 0;
     input_redirection++;
-    if (*input_redirection == '\0')
-    {
-        ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-        command->is_correct = 1;
-        return;
-    }
     split_result = ft_split(input_redirection, ' ');
     if (split_result && split_result[0])
         command->input_redirection = ft_strdup(split_result[0]);
-    else
-    {
-        ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-        command->is_correct = 1;
-    }
     clean_up(split_result, NULL, 0);
 }
 void handle_output_redirection(char *output_redirection, t_command *command)
@@ -40,12 +29,6 @@ void handle_output_redirection(char *output_redirection, t_command *command)
 
     *output_redirection = 0;
     output_redirection++;
-    if (*output_redirection == '\0')
-    {
-        ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-        command->is_correct = 1;
-        return;
-    }
     if (*output_redirection == '>')
     {
         command->append_output = 1;
@@ -59,45 +42,27 @@ void handle_output_redirection(char *output_redirection, t_command *command)
 void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
     char **split_result;
-    int i = 0;
+    int i;
 
     *heredoc_redirection = 0;
     heredoc_redirection += 2;
-    if (*heredoc_redirection == '\0')
-    {
-        ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-        command->is_correct = 1;
-        return;
-    }
     split_result = ft_split(heredoc_redirection, ' ');
+    i = -1;
     if (split_result)
     {
-        // Cuenta la cantidad de delimitadores
-        while (split_result[i])
-            i++;
-        
-        // Reserva espacio para los delimitadores en la estructura
+        while (split_result[++i])
+            ;
         command->heredoc_delimiters = malloc(sizeof(char *) * (i + 1));
         if (!command->heredoc_delimiters)
         {
             command->is_correct = 1;
             clean_up(split_result, NULL, 0);
-            return;
+            return ;
         }
-
-        // Copia los delimitadores al array de heredoc_delimiters
-        i = 0;
-        while (split_result[i])
-        {
+        i = -1;
+        while (split_result[++i])
             command->heredoc_delimiters[i] = ft_strdup(split_result[i]);
-            i++;
-        }
-        command->heredoc_delimiters[i] = NULL; // Termina con NULL
-    }
-    else
-    {
-        ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-        command->is_correct = 1;
+        command->heredoc_delimiters[i] = NULL;
     }
     clean_up(split_result, NULL, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 19:39:25 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:57:00 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,12 @@ void handle_heredoc(t_command *commands, int i)
             if (heredoc_fd == -1)
             {
                 manage_error(200, 0);
-                exit(1);
+                return;
             }
             dup2(heredoc_fd, STDIN_FILENO);
             close(heredoc_fd);
             j++;
         }
-        for (j = 0; commands[i].heredoc_delimiters[j]; j++)
-            free(commands[i].heredoc_delimiters[j]);
-        free(commands[i].heredoc_delimiters);
     }
      enable_signals();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/12 19:01:22 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:37:25 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,12 @@ int all_digits(const char *str)
 			free(command->output_redirection);
 		if (command->cmd_complete)
 			free(command->cmd_complete);
+		if (command->heredoc_delimiters)
+		{
+			while (command->heredoc_delimiters[i])
+				free(command->heredoc_delimiters[i++]);
+			free(command->heredoc_delimiters);
+		}
 		ft_memset(command, 0, sizeof(t_command));
 		
 	}

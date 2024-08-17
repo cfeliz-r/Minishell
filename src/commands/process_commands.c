@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 12:58:43 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:18:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char *remove_quotes(char *str)
     char *result;
     int i, j;
 
-    result = malloc(strlen(str) + 1);  // Asignar memoria para el resultado
+    result = malloc(strlen(str) + 1);
     if (!result)
         return NULL;
     
@@ -50,15 +50,14 @@ char *remove_quotes(char *str)
     {
         if (str[i] != '\'' && str[i] != '"')
         {
-            result[j++] = str[i];  // Copiar solo los caracteres que no son comillas
+            result[j++] = str[i];
         }
         i++;
     }
-    result[j] = '\0';  // Terminar la cadena resultante
+    result[j] = '\0';
     return result;
 }
 
-// Función que elimina comillas de todos los argumentos
 void remove_quotes_from_args(char **args)
 {
     int i;
@@ -70,8 +69,8 @@ void remove_quotes_from_args(char **args)
         new_arg = remove_quotes(args[i]);
         if (new_arg)
         {
-            free(args[i]);     // Liberar el argumento original
-            args[i] = new_arg; // Asignar el argumento sin comillas
+            free(args[i]);
+            args[i] = new_arg;
         }
         i++;
     }
@@ -117,9 +116,9 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
             exit(1);
         }
     }
-
     if (build_up(&commands[i], envp) == 1)
         exit(0);
+    exit(1);
 }
 
 void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
@@ -158,7 +157,6 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while (++i < num_cmds)
         waitpid(-1, NULL, 0);
-    
     handle_cd(commands);
     free(pipes);
     clean_up(env_array, NULL, 0);

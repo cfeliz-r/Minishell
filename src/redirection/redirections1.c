@@ -6,13 +6,13 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 12:34:16 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:07:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void handle_input_redirection(char *input_redirection, t_command *command)
+static void handle_input_redirection(char *input_redirection, t_command *command)
 {
     char **split_result;
 
@@ -23,7 +23,7 @@ void handle_input_redirection(char *input_redirection, t_command *command)
         command->input_redirection = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
 }
-void handle_output_redirection(char *output_redirection, t_command *command)
+static void handle_output_redirection(char *output_redirection, t_command *command)
 {
     char **split_result;
 
@@ -39,7 +39,7 @@ void handle_output_redirection(char *output_redirection, t_command *command)
         command->output_redirection = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
 }
-void handle_hdoc(char *heredoc_redirection, t_command *command)
+static void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
     char **split_result;
     int i;
@@ -49,8 +49,6 @@ void handle_hdoc(char *heredoc_redirection, t_command *command)
     split_result = ft_split(heredoc_redirection, ' ');
     if (!split_result)
         return;
-
-    // Calcular el número de delimitadores
     for (i = 0; split_result[i]; i++)
         ;
 
@@ -68,8 +66,6 @@ void handle_hdoc(char *heredoc_redirection, t_command *command)
     command->heredoc_delimiters[i] = NULL;
     clean_up(split_result, NULL, 0);
 }
-
-
 
 void process_redirections(char *command_with_redirections, t_command *command)
 {

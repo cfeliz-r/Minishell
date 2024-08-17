@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 12:50:38 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:05:01 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,4 @@ int	process_here_doc(t_command *command)
 
 	close(pipefd[1]);
 	return (pipefd[0]);
-}
-
-void	handle_heredoc(t_command *commands, int i)
-{
-	int		heredoc_fd;
- 
-	if (commands[i].heredoc_delimiters != NULL)
-	{
-		heredoc_fd = process_here_doc(&commands[i]);
-		if (heredoc_fd == -1)
-		{
-			perror("minishell: heredoc error");
-			return ;
-		}
-		dup2(heredoc_fd, STDIN_FILENO);
-		close(heredoc_fd);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/16 20:28:45 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:34:16 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,28 @@ void handle_hdoc(char *heredoc_redirection, t_command *command)
     *heredoc_redirection = 0;
     heredoc_redirection += 2;
     split_result = ft_split(heredoc_redirection, ' ');
-    i = -1;
-    if (split_result)
+    if (!split_result)
+        return;
+
+    // Calcular el número de delimitadores
+    for (i = 0; split_result[i]; i++)
+        ;
+
+    command->heredoc_delimiters = malloc(sizeof(char *) * (i + 1));
+    if (!command->heredoc_delimiters)
     {
-        while (split_result[++i])
-            ;
-        command->heredoc_delimiters = malloc(sizeof(char *) * (i + 1));
-        if (!command->heredoc_delimiters)
-        {
-            command->is_correct = 1;
-            clean_up(split_result, NULL, 0);
-            return ;
-        }
-        i = -1;
-        while (split_result[++i])
-            command->heredoc_delimiters[i] = ft_strdup(split_result[i]);
-        command->heredoc_delimiters[i] = NULL;
+        command->is_correct = 1;
+        clean_up(split_result, NULL, 0);
+        return;
     }
+
+    for (i = 0; split_result[i]; i++)
+        command->heredoc_delimiters[i] = ft_strdup(split_result[i]);
+    
+    command->heredoc_delimiters[i] = NULL;
     clean_up(split_result, NULL, 0);
 }
+
 
 
 void process_redirections(char *command_with_redirections, t_command *command)

@@ -40,7 +40,7 @@ void handle_input_redirection(char *input_redirection, t_command *command);
 int	handle_export(t_command *comand, t_list_env *environ);
 void	siginit(void);
 
-
+int	process_here_doc(t_command *command);
 void sigint_handler_ha(int sig);
 int	handle_cd(t_command *comand);
 int	handle_echo(t_command *comand);
@@ -48,7 +48,6 @@ int	handle_env(t_command *comand, t_list_env *environ);
 int	handle_pwd(t_command *comand);
 size_t aux_count(char **array);
 int all_digits(const char *str);
-int process_here_doc(char *delimiter);
 void handle_heredoc(t_command *commands, int i);
 void        setup_signals(void);
 int         count_envp(t_list_env *envp);

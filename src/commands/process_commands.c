@@ -6,12 +6,35 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/16 20:53:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:58:43 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int is_builtin_command(char *cmd)
+{
+    if (ft_strncmp(cmd, "echo ", 5) == 0 ||
+        ft_strcmp(cmd, "\"echo\"") == 0 ||
+        ft_strcmp(cmd, "'echo'") == 0 ||
+        ft_strcmp(cmd, "echo") == 0 ||
+        ft_strncmp(cmd, "env ", 4) == 0 ||
+        ft_strcmp(cmd, "\"env\"") == 0 ||
+        ft_strcmp(cmd, "'env'") == 0 ||
+        ft_strcmp(cmd, "env") == 0 ||
+        ft_strncmp(cmd, "pwd ", 4) == 0 ||
+        ft_strcmp(cmd, "\"pwd\"") == 0 ||
+        ft_strcmp(cmd, "'pwd'") == 0 ||
+        ft_strcmp(cmd, "pwd") == 0 ||
+        ft_strncmp(cmd, "cd ", 3) == 0 ||
+        ft_strcmp(cmd, "\"cd\"") == 0 ||
+        ft_strcmp(cmd, "'cd'") == 0 ||
+        ft_strcmp(cmd, "cd") == 0)
+    {
+        return 1;
+    }
+    return 0;
+}
 char *remove_quotes(char *str)
 {
     char *result;
@@ -76,35 +99,15 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
 
     sa_quit.sa_handler = SIG_DFL;
     sigaction(SIGQUIT, &sa_quit, NULL);
-
     if (i > 0)
         dup2(pipes[i - 1][0], STDIN_FILENO);
     if (i < num_cmds - 1)
         dup2(pipes[i][1], STDOUT_FILENO);
-    
     close_pipes(pipes, num_cmds);
-
     if(handle_redirections(&commands[i]) == -1)
         exit(1);
     remove_quotes_from_args(commands[i].args);
-    if (commands[i].heredoc_delimiters)
-        handle_heredoc(&commands[i], i);
-    if (!(ft_strncmp(commands[i].cmd_complete, "echo ", 5) == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "\"echo\"") == 0 || 
-          ft_strcmp(commands[i].cmd_complete, "'echo'") == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "echo") == 0 || 
-          ft_strncmp(commands[i].cmd_complete, "env ", 4) == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "\"env\"") == 0 || 
-          ft_strcmp(commands[i].cmd_complete, "'env'") == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "env") == 0 || 
-          ft_strncmp(commands[i].cmd_complete, "pwd ", 4) == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "\"pwd\"") == 0 || 
-          ft_strcmp(commands[i].cmd_complete, "'pwd'") == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "pwd") == 0 || 
-          ft_strncmp(commands[i].cmd_complete, "cd ", 3) == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "\"cd\"") == 0 || 
-          ft_strcmp(commands[i].cmd_complete, "'cd'") == 0 ||
-          ft_strcmp(commands[i].cmd_complete, "cd\0") == 0))
+    if (is_builtin_command(commands[i].cmd_complete) == 0)
     {
         if (validate_command(&commands[i], envp) == 0)
             exit(1);
@@ -119,13 +122,13 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
         exit(0);
 }
 
-
 void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 {
     int **pipes;
     int i;
     char **env_array;
     struct sigaction sa_int;
+
     pipes = malloc((num_cmds - 1) * sizeof(int *));
     setup_pipes(pipes, num_cmds);
     env_array = convert_envp_to_array(envp);
@@ -134,19 +137,30 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while (++i < num_cmds)
     {
+         if (commands[i].heredoc_delimiters)
+        {
+            if (process_here_doc(&commands[i]) == -1)
+            {
+                close_pipes(pipes, num_cmds);
+                clean_up(env_array, NULL, 0);
+                return;
+            }
+        }
         if (fork() == 0)
-        {   
+        {
             sa_int.sa_handler = sigint_handler_ha;
             sigaction(SIGINT, &sa_int, NULL);
             child_process(commands, i, num_cmds, env_array, envp, pipes);
         }
     }
-   
+
     close_pipes(pipes, num_cmds);
     i = -1;
-    while(++i < num_cmds)
+    while (++i < num_cmds)
         waitpid(-1, NULL, 0);
+    
     handle_cd(commands);
     free(pipes);
     clean_up(env_array, NULL, 0);
 }
+

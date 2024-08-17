@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/15 11:05:51 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:14:30 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void ft_cd(char *route)
                     manage_error(1, 0);
                 }
             }
-            free(cleaned_route); // Liberar memoria de la ruta limpiada
+            
+            if (cleaned_route != str_route[1])
+                free(cleaned_route);
         }
         else
         {

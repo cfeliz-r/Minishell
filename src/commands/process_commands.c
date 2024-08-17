@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 17:19:29 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:47:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,22 @@
 int is_builtin_command(char *cmd)
 {
     if (ft_strncmp(cmd, "echo ", 5) == 0 ||
-        ft_strcmp(cmd, "\"echo\"") == 0 ||
-        ft_strcmp(cmd, "'echo'") == 0 ||
+        ft_strncmp(cmd, "\"echo\" ", 7) == 0 ||
+        ft_strncmp(cmd, "'echo' ", 7) == 0 ||
         ft_strcmp(cmd, "echo") == 0 ||
         ft_strncmp(cmd, "env ", 4) == 0 ||
-        ft_strcmp(cmd, "\"env\"") == 0 ||
-        ft_strcmp(cmd, "'env'") == 0 ||
+        ft_strncmp(cmd, "\"env\" ", 6) == 0 ||
+        ft_strncmp(cmd, "'env' ", 6) == 0 ||
         ft_strcmp(cmd, "env") == 0 ||
         ft_strncmp(cmd, "pwd ", 4) == 0 ||
+        ft_strncmp(cmd, "'pwd' ", 6) == 0 ||
+        ft_strncmp(cmd, "\"pwd\" ", 6) == 0 ||
         ft_strcmp(cmd, "\"pwd\"") == 0 ||
         ft_strcmp(cmd, "'pwd'") == 0 ||
         ft_strcmp(cmd, "pwd") == 0 ||
         ft_strncmp(cmd, "cd ", 3) == 0 ||
-        ft_strcmp(cmd, "\"cd\"") == 0 ||
-        ft_strcmp(cmd, "'cd'") == 0 ||
+        ft_strncmp(cmd, "\"cd\" ", 5) == 0 ||
+        ft_strncmp(cmd, "'cd' ", 5) == 0 ||
         ft_strcmp(cmd, "cd") == 0)
     {
         return 1;

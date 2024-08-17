@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/15 13:08:33 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:36:24 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,7 @@ char *find_command_path(char *cmd, t_list_env *envp)
     }
 
     // Comandos integrados (built-ins)
-    if (ft_strncmp(clean_cmd, "cd ", 3) == 0 || ft_strcmp(clean_cmd, "cd") == 0 || 
-        ft_strncmp(clean_cmd, "echo ", 5) == 0 || ft_strcmp(clean_cmd, "echo") == 0 || 
-        ft_strncmp(clean_cmd, "env ", 4) == 0 || ft_strcmp(clean_cmd, "env") == 0 || 
-        ft_strncmp(clean_cmd, "pwd ", 4) == 0 || ft_strcmp(clean_cmd, "pwd") == 0 || 
-        ft_strncmp(clean_cmd, "export ", 7) == 0 || ft_strcmp(clean_cmd, "export") == 0 || 
-        ft_strncmp(clean_cmd, "unset ", 6) == 0 || ft_strcmp(clean_cmd, "unset") == 0)
+    if (is_builtin_command(clean_cmd) == 1 )
     {
         return (clean_cmd); // Retornar el comando limpio sin comillas
     }
@@ -110,7 +105,6 @@ char *find_command_path(char *cmd, t_list_env *envp)
             return (NULL);
         }
     }
-
     // Obtener rutas del PATH y buscar el comando
     paths = get_paths(envp);
     if (paths == NULL)

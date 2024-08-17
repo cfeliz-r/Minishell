@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 13:03:35 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:19:29 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_command *init_commands(char **command_strings, int num_cmds)
     while (i < num_cmds)
     {
         ft_memset(&commands[i], 0, sizeof(t_command));
-        commands[i].cmd_complete = ft_strdup(remove_front_and_back_spaces(command_strings[i]));
+        commands[i].cmd_cpt = ft_strdup(remove_front_and_back_spaces(command_strings[i]));
         i++;
     }
     return (commands);

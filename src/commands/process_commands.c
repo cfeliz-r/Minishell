@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 15:18:22 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:19:29 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     if (i < num_cmds - 1)
         dup2(pipes[i][1], STDOUT_FILENO);
     close_pipes(pipes, num_cmds);
-    if(handle_redirections(&commands[i]) == -1)
-        exit(1);
+    /* if(handle_redirections(&commands[i]) == -1)
+        exit(1); */
     remove_quotes_from_args(commands[i].args);
-    if (is_builtin_command(commands[i].cmd_complete) == 0)
+    if (is_builtin_command(commands[i].cmd_cpt) == 0)
     {
         if (validate_command(&commands[i], envp) == 0)
             exit(1);
@@ -136,7 +136,7 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while (++i < num_cmds)
     {
-         if (commands[i].heredoc_delimiters)
+        if (commands[i].delimiters)
         {
             if (process_here_doc(&commands[i]) == -1)
             {
@@ -145,14 +145,17 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
                 return;
             }
         }
+        
         if (fork() == 0)
         {
+            if( handle_redirections(&commands[i]) == -1)
+                exit(1);
+            
             sa_int.sa_handler = sigint_handler_ha;
             sigaction(SIGINT, &sa_int, NULL);
             child_process(commands, i, num_cmds, env_array, envp, pipes);
         }
     }
-
     close_pipes(pipes, num_cmds);
     i = -1;
     while (++i < num_cmds)

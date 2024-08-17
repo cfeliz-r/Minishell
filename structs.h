@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/17 15:45:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:19:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ typedef struct s_command
 {
     int is_correct;
     char **args;
-    char *cmd_complete;
+    char *cmd_cpt;
     char *path;
-    char *input_redirection;
-    char **heredoc_delimiters;
-    char *output_redirection; 
-    int append_output;
+    char *inredir;
+    char **delimiters;
+    char *outredir; 
+    int appd_out;
 } t_command;
 
 typedef struct s_parse_context

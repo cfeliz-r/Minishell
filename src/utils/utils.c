@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/16 20:37:25 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:19:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ int all_digits(const char *str)
 			{
 				free(commands[i].args);
 				free(commands[i].path);
-				free(commands[i].input_redirection);
-				free(commands[i].output_redirection);
-				free(commands[i].cmd_complete);
+				free(commands[i].inredir);
+				free(commands[i].outredir);
+				free(commands[i].cmd_cpt);
 				i++;
 			}
 			free(commands);
@@ -131,17 +131,17 @@ int all_digits(const char *str)
 		i = 0;
 		if (command->path)
 			free(command->path);
-		if (command->input_redirection)
-			free(command->input_redirection);
-		if (command->output_redirection)
-			free(command->output_redirection);
-		if (command->cmd_complete)
-			free(command->cmd_complete);
-		if (command->heredoc_delimiters)
+		if (command->inredir)
+			free(command->inredir);
+		if (command->outredir)
+			free(command->outredir);
+		if (command->cmd_cpt)
+			free(command->cmd_cpt);
+		if (command->delimiters)
 		{
-			while (command->heredoc_delimiters[i])
-				free(command->heredoc_delimiters[i++]);
-			free(command->heredoc_delimiters);
+			while (command->delimiters[i])
+				free(command->delimiters[i++]);
+			free(command->delimiters);
 		}
 		ft_memset(command, 0, sizeof(t_command));
 		

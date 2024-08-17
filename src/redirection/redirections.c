@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/13 19:32:37 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:19:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int handle_redirections(t_command *command)
 	int fd;
 	int fd2;
 	
-	if (command->input_redirection)
+	if (command->inredir)
 	{
-		fd = open(command->input_redirection, O_RDONLY);
+		fd = open(command->inredir, O_RDONLY);
 		if (fd == -1)
 		    return(perror(""), -1);
 		
@@ -27,12 +27,12 @@ int handle_redirections(t_command *command)
             return (perror(""), -1);
 		close(fd);
 	}
-	if (command->output_redirection)
+	if (command->outredir)
 	{
-		if (command->append_output)
-			fd2 = open(command->output_redirection, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (command->appd_out)
+			fd2 = open(command->outredir, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			fd2 = open(command->output_redirection, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd2 = open(command->outredir, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd2 == -1)
 			return(perror(""), -1);
 		if (dup2(fd2, STDOUT_FILENO) == -1)

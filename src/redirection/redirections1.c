@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 15:07:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:19:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void handle_input_redirection(char *input_redirection, t_command *command
     input_redirection++;
     split_result = ft_split(input_redirection, ' ');
     if (split_result && split_result[0])
-        command->input_redirection = ft_strdup(split_result[0]);
+        command->inredir = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
 }
 static void handle_output_redirection(char *output_redirection, t_command *command)
@@ -31,12 +31,12 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
     output_redirection++;
     if (*output_redirection == '>')
     {
-        command->append_output = 1;
+        command->appd_out = 1;
         output_redirection++;
     }
     split_result = ft_split(output_redirection, ' ');
     if (split_result && split_result[0])
-        command->output_redirection = ft_strdup(split_result[0]);
+        command->outredir = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
 }
 static void handle_hdoc(char *heredoc_redirection, t_command *command)
@@ -49,21 +49,21 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     split_result = ft_split(heredoc_redirection, ' ');
     if (!split_result)
         return;
-    for (i = 0; split_result[i]; i++)
-        ;
-
-    command->heredoc_delimiters = malloc(sizeof(char *) * (i + 1));
-    if (!command->heredoc_delimiters)
+    i = 0;
+    while(split_result[i])
+         i++;
+    command->delimiters = malloc(sizeof(char *) * (i + 1));
+    if (!command->delimiters)
     {
         command->is_correct = 1;
         clean_up(split_result, NULL, 0);
         return;
     }
-
-    for (i = 0; split_result[i]; i++)
-        command->heredoc_delimiters[i] = ft_strdup(split_result[i]);
+    i = -1;
+    while(split_result[++i])
+        command->delimiters[i] = ft_strdup(split_result[i]);
     
-    command->heredoc_delimiters[i] = NULL;
+    command->delimiters[i] = NULL;
     clean_up(split_result, NULL, 0);
 }
 

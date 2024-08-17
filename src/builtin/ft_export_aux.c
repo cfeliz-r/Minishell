@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 18:32:29 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 18:38:24 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:31:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,31 +92,44 @@ void update_content_export(t_list_env *current, const char *key, const char *val
 
 void add_or_update_export(t_list_env **head, const char *variable)
 {
-	char		*key;
-	char		*value;
-	char		*var_copy;
-	t_list_env	*current;
+    char        *key;
+    char        *value;
+    char        *var_copy;
+    t_list_env  *current;
 
-	var_copy = ft_strdup(variable);
-	if (!var_copy)
-		return;
-	value = ft_strchr(var_copy, '=');
-	key = var_copy;
-	if (value && *(value++))
-		*(value - 1) = '\0';
-	current = *head;
-	while (current)
-	{
-		if (!ft_strncmp(current->envp_content, key, ft_strlen(key)) &&
-			current->envp_content[ft_strlen(key)] == '=')
-			return (update_content_export(current, key, value),
-					free(var_copy));
-		current = current->next;
-	}
-	ft_lstadd_back(head, create_node_export(variable));
-	free(var_copy);
-}
+    var_copy = ft_strdup(variable);
+    if (!var_copy)
+        return;
+    
+    value = ft_strchr(var_copy, '=');
+    key = var_copy;
+    
+    if (value && *(value++))
+        *(value - 1) = '\0'; // Termina la clave y apunta value al valor
 
+    current = *head;
+    while (current)
+    {
+        // Verifica si la variable ya existe en la lista
+        if (!ft_strncmp(current->envp_content, key, ft_strlen(key)) &&
+            (current->envp_content[ft_strlen(key)] == '=' || 
+             current->envp_content[ft_strlen(key)] == '\0'))
+        {
+            if (value)
+                update_content_export(current, key, value); // Actualiza la variable si tiene un valor
+            else if (strchr(current->envp_content, '=') == NULL)
+                update_content_export(current, key, ""); // Si no tiene valor previo, agrega un '=' vacío
+
+            free(var_copy);
+            return; // Sale de la función para evitar agregar una nueva variable
+        }
+        current = current->next;
+    }
+
+    // Si no existe la variable, se añade una nueva
+    ft_lstadd_back(head, create_node_export(variable));
+    free(var_copy);
+} 
 
 void handle_export_no_args(t_list_env **envp)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/14 12:41:31 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:31:58 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ static void remove_env_var_unset(t_list_env **envp, char *var)
     previous = NULL;
     while (current)
     {
-        if (ft_strncmp(current->envp_content, var, ft_strlen(var)) == 0 &&
-            current->envp_content[ft_strlen(var)] == '=')
+        if ((ft_strncmp(current->envp_content, var, ft_strlen(var)) == 0 &&
+             (current->envp_content[ft_strlen(var)] == '='
+                || current->envp_content[ft_strlen(var)] == '\0')))
         {
             if (previous == NULL)
                 *envp = current->next;

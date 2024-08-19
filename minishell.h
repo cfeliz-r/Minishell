@@ -73,7 +73,7 @@ char		*remove_front_and_back_spaces(char *str);
 char        *find_env_value(t_list_env *envp_list, const char *key);
 //building
 void        ft_unset(char *input, t_list_env **envp);
-void        ft_echo(char *comand);
+void        ft_echo(char **comand);
 void        ft_pwd(void);
 void        ft_env(t_list_env *env, char *command);
 void        free_list_export(t_list_env *list);

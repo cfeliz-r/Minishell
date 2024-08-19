@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 18:47:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:02:14 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,10 @@
 
 int is_builtin_command(char *cmd)
 {
-    if (ft_strncmp(cmd, "echo ", 5) == 0 ||
-        ft_strncmp(cmd, "\"echo\" ", 7) == 0 ||
-        ft_strncmp(cmd, "'echo' ", 7) == 0 ||
-        ft_strcmp(cmd, "echo") == 0 ||
-        ft_strncmp(cmd, "env ", 4) == 0 ||
-        ft_strncmp(cmd, "\"env\" ", 6) == 0 ||
-        ft_strncmp(cmd, "'env' ", 6) == 0 ||
-        ft_strcmp(cmd, "env") == 0 ||
-        ft_strncmp(cmd, "pwd ", 4) == 0 ||
-        ft_strncmp(cmd, "'pwd' ", 6) == 0 ||
-        ft_strncmp(cmd, "\"pwd\" ", 6) == 0 ||
-        ft_strcmp(cmd, "\"pwd\"") == 0 ||
-        ft_strcmp(cmd, "'pwd'") == 0 ||
-        ft_strcmp(cmd, "pwd") == 0 ||
-        ft_strncmp(cmd, "cd ", 3) == 0 ||
-        ft_strncmp(cmd, "\"cd\" ", 5) == 0 ||
-        ft_strncmp(cmd, "'cd' ", 5) == 0 ||
-        ft_strcmp(cmd, "cd") == 0)
+    if (ft_strncmp(cmd, "echo", 6) == 0 ||
+        ft_strncmp(cmd, "env", 4) == 0 ||
+        ft_strncmp(cmd, "pwd", 4) == 0 ||
+        ft_strncmp(cmd, "cd", 3) == 0)
     {
         return 1;
     }
@@ -64,7 +50,6 @@ void remove_quotes_from_args(char **args)
 {
     int i;
     char *new_arg;
-
     i = 0;
     while (args[i])
     {
@@ -105,10 +90,10 @@ static void child_process(t_command *commands, int i, int num_cmds, char **env_a
     if (i < num_cmds - 1)
         dup2(pipes[i][1], STDOUT_FILENO);
     close_pipes(pipes, num_cmds);
-    /* if(handle_redirections(&commands[i]) == -1)
-        exit(1); */
+    if(handle_redirections(&commands[i]) == -1)
+        exit(1);
     remove_quotes_from_args(commands[i].args);
-    if (is_builtin_command(commands[i].cmd_cpt) == 0)
+    if (is_builtin_command(commands[i].args[0]) == 0)
     {
         if (validate_command(&commands[i], envp) == 0)
             exit(1);
@@ -150,9 +135,6 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
         
         if (fork() == 0)
         {
-            if( handle_redirections(&commands[i]) == -1)
-                exit(1);
-            
             sa_int.sa_handler = sigint_handler_ha;
             sigaction(SIGINT, &sa_int, NULL);
             child_process(commands, i, num_cmds, env_array, envp, pipes);

@@ -39,14 +39,15 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
         command->outredir = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
 }
-static int ft_split_count(char **split_result)
+
+ static int  ft_count(char **split_result)
 {
     int i;
 
     i = 0;
-    while(split_result[i] != NULL)
+    while(split_result[i])
         i++;
-    return (i);
+    return i;
 }
 static void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
@@ -57,14 +58,14 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     *heredoc_redirection = 0;
     heredoc_redirection += 2;
     split_result = ft_split(heredoc_redirection, ' ');
-    if (!split_result)
+    if(!split_result)
         return;
-    command->delimiters = malloc(sizeof(char *) * ft_split_count(split_result) + 1);
+    command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));
     if (!command->delimiters)
         return;
     i = 0;
     j = 0;
-    while(split_result[i] != NULL)
+    while(split_result[i])
     {
         if(ft_strncmp(split_result[i], "<<", 2) == 0)
         {

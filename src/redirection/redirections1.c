@@ -62,7 +62,7 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     }
     i = 0;
     j = 0;
-    while(split_result[i])
+    while(split_result[i] != NULL)
     {
         if(ft_strncmp(split_result[i], "<<", 2) == 0)
         {

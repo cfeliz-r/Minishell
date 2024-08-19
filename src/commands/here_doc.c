@@ -30,8 +30,8 @@ int	process_here_doc(t_command *cmd)
 		{
 			free(line);
 			i++;
-			if (cmd->delimiters[i] == cmd->delimiters[i - 1]
-				|| cmd->inredir != NULL || cmd->outredir != NULL ||  cmd->appd_out != 0)
+			if (cmd->delimiters[i] == cmd->delimiters[i - 1] || cmd->delimiters[i] == NULL
+				|| cmd->delimiters[i][0] == '>' || cmd->appd_out == 1)
 				break ;
 			continue ; 
 		}

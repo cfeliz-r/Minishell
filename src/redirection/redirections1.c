@@ -43,6 +43,7 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
     char **split_result;
     int i;
+    int j;
 
     *heredoc_redirection = 0;
     heredoc_redirection += 2;
@@ -59,11 +60,20 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
         clean_up(split_result, NULL, 0);
         return;
     }
-    i = -1;
-    while(split_result[++i])
-        command->delimiters[i] = ft_strdup(split_result[i]);
-    
-    command->delimiters[i] = NULL;
+    i = 0;
+    j = 0;
+    while(split_result[i])
+    {
+        if(ft_strncmp(split_result[i], "<<", 2) == 0)
+        {
+            i++;
+            continue;
+        }
+        command->delimiters[j] = ft_strdup(split_result[i]);
+        i++;
+        j++;
+    }
+    command->delimiters[j] = NULL;
     clean_up(split_result, NULL, 0);
 }
 

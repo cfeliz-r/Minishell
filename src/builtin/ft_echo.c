@@ -6,23 +6,39 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/19 12:15:57 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:41:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
+
+static void	clean_up_echo(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+		free(arr);
+	}
+}
+
 int	is_n_option(char *str)
 {
-
 	int	i;
 
 	i = 1;
 	if (str[0] == '-')
 	{
 		while (str[i] == 'n')
-			++i;
+			i++;
 		if (str[i] == '\0' && i != 1)
 			return (1);
 	}
@@ -61,7 +77,7 @@ static void	print_echo_parts(char **str, int start_index)
 	}
 }
 
-void	ft_echo(char **comand)
+void	ft_echo(char *comand)
 {
 	char	**str;
 	int		i;
@@ -69,13 +85,10 @@ void	ft_echo(char **comand)
 
 	i = 0;
 	n_option = 0;
-    if (!comand[1])
-    {
-        write(STDOUT_FILENO, "\n", 1);
-        return ;
-    }
-	str = comand + 1;
-	while (str[0] && is_n_option(str[i]))
+	str = ft_split(comand + 5, ' ');
+	if (!str)
+		return ((void)manage_error(200, 0));
+	while (str[i] && is_n_option(str[i]))
 	{
 		n_option = 1;
 		i++;
@@ -84,6 +97,7 @@ void	ft_echo(char **comand)
 		print_echo_parts(str, i);
 	if (!n_option)
 		write(STDOUT_FILENO, "\n", 1);
+	clean_up_echo(str);
 	manage_error(0, 0);
 	return ;
 }

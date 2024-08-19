@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/19 11:58:41 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:41:13 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	handle_echo(t_command *comand)
 {
 	if (ft_strncmp(comand->args[0], "echo ", 5) == 0 || ft_strcmp(comand->args[0], "echo") == 0)
 	{
-		ft_echo(comand->args);
+		ft_echo(comand->cmd_cpt);
 		return (1);
 	}
 	return (0);

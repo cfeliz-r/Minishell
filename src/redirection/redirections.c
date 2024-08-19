@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 17:19:48 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:44:04 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char *ft_redir_cmd(char *input, t_list_env *envp)
 
     if (!input)
         return (NULL);
-    if (ft_strncmp(input, "<", 1) == 0)
+    if (ft_strncmp(input, "<", 1) == 0 && ft_strncmp(input, "<<", 2) != 0)
     {
         aux = ft_split(input, ' ');
         i = 0;

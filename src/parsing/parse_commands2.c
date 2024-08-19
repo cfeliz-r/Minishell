@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/17 17:19:29 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:39:27 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void handle_key_redir(char *command_with_redirections, t_command *command)
         command->args = ft_split(command_with_redirections, ' ');
         if (!command->args || !command->args[0])
         {
-            ft_putstr_fd("minishell: invalid argument\n", 2);
             command->is_correct = 1;
         }
     }

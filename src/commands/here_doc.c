@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/19 14:41:47 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 11:16:00 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	process_here_doc(t_command *cmd)
 			free(line);
 			i++;
 			if (cmd->delimiters[i] == cmd->delimiters[i - 1] || cmd->delimiters[i] == NULL
-				|| cmd->delimiters[i][0] == '>' || cmd->appd_out == 1)
+				|| cmd->delimiters[i][0] == '>' || cmd->appd_out == 1 || cmd->delimiters[i][0]== '<')
 				break ;
 			continue ; 
 		}

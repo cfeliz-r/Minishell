@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 16:44:22 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:11:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void process_redirections(char *command_with_redirections, t_command *command)
     char *input_redirection = ft_strchr(command_with_redirections, '<');
     char *output_redirection = ft_strchr(command_with_redirections, '>');
 
-    if (heredoc_redirection != NULL)
+    if (heredoc_redirection != 0)
         {
             if(contains_quotes(heredoc_redirection))
                 return;
             handle_hdoc(heredoc_redirection, command);
         }
-    if (input_redirection != NULL && !heredoc_redirection)
+    if (input_redirection != 0 && !heredoc_redirection)
         handle_input_redirection(input_redirection, command);
-    if (output_redirection != NULL)
+    if (output_redirection != 0)
         handle_output_redirection(output_redirection, command);
 }

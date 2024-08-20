@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 11:59:27 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:26:37 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	process_input(t_list_env *envp)
 		siginit();
 		line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
 		add_history(line);
+		if (line == NULL)
+			exit(0);
 		if (ft_parsing(line) == 0)
 		{
 			if (!line || ft_strncmp(line, "exit ", 5) == 0

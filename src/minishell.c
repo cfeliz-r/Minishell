@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 14:26:37 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:27:03 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	process_input(t_list_env *envp)
 			|| ft_strcmp(line, "\"exit\"") == 0 || ft_strcmp(line, "'exit'") == 0
 				|| ft_strcmp(line, "exit") == 0)
 			{
-				if (!line)
-					exit(0);
 				else
 					ft_exit(line);
 				free(line);

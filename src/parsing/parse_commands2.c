@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 16:03:09 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:22:47 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ t_command *init_commands(char **command_strings, int num_cmds)
     }
     return (commands);
 }
-void handle_key_redir(char *command_with_redirections, t_command *command, t_list_env *envp)
+void handle_key_redir(char *command_with_redirections, t_command *command)
 {
-    process_redirections(command_with_redirections, command, envp);
+    process_redirections(command_with_redirections, command);
 
     if (command->is_correct == 0)
     {
@@ -128,7 +128,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
     {
         if (commands[i].is_correct)
             continue;
-        handle_key_redir(command_strings[i], &commands[i], envp);
+        handle_key_redir(command_strings[i], &commands[i]);
     }
     clean_up(command_strings, NULL, 0);
     return (commands);

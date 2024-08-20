@@ -49,7 +49,7 @@ int is_builtin_command(char *cmd);
 void        remove_quotes_from_args(char **args);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
 int         ft_parsing(char *line);
-void process_redirections(char *command_with_redirections, t_command *command, t_list_env *envp);
+void process_redirections(char *command_with_redirections, t_command *command);
 int         handle_export(t_command *comand, t_list_env *environ);
 void        siginit(void);
 int         process_here_doc(t_command *command);
@@ -67,7 +67,7 @@ t_command   *init_commands(char **command_strings, int num_cmds);
 char        *ft_redir_cmd(char *input, t_list_env *envp);
 int         validate_command(t_command *command, t_list_env *envp);
 int         manage_error(int error_code, int return_value);
-void        handle_key_redir(char *command_with_redirections, t_command *command, t_list_env *envp);
+void        handle_key_redir(char *command_with_redirections, t_command *command);
 void        execute_commands(t_list_env *list, char *cmd);
 //lists
 t_list_env  *create_list_envp(char **envp);

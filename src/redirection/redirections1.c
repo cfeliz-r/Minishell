@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 16:08:19 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:44:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
     return i;
 }
 
-static void handle_hdoc(char *heredoc_redirection, t_command *command, t_list_env *envp)
+static void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
     char **split_result;
     int i;
@@ -60,27 +60,15 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command, t_list_en
     heredoc_redirection += 2;
     split_result = ft_split(heredoc_redirection, ' ');
     if (!split_result)
-        return;
-    
+        return; 
     command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));
     if (!command->delimiters)
         return;
-
     i = 0;
     j = 0;
     while (split_result[i] != NULL)
     {
         if (ft_strncmp(split_result[i], "<<", 2) == 0)
-        {
-            i++;
-            continue;
-        }
-        if (access(split_result[i], F_OK | X_OK) == 0)
-        {
-            i++;
-            continue;
-        }
-        if (find_command_path(split_result[i], envp) != NULL)
         {
             i++;
             continue;
@@ -91,7 +79,7 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command, t_list_en
     clean_up(split_result, NULL, 0);
 }
 
-void process_redirections(char *command_with_redirections, t_command *command, t_list_env *envp)
+void process_redirections(char *command_with_redirections, t_command *command)
 {
     char *heredoc_redirection = ft_strstr(command_with_redirections, "<<");
     char *input_redirection = ft_strchr(command_with_redirections, '<');
@@ -101,7 +89,7 @@ void process_redirections(char *command_with_redirections, t_command *command, t
         {
             if(contains_quotes(heredoc_redirection))
                 return;
-            handle_hdoc(heredoc_redirection, command, envp);
+            handle_hdoc(heredoc_redirection, command);
         }
     if (input_redirection != NULL && !heredoc_redirection)
         handle_input_redirection(input_redirection, command);

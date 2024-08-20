@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 13:15:47 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:12:57 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
         return;
     i = 0;
     j = 0;
-    while(split_result[i])
+    while(split_result[i] != NULL)
     {
         if(ft_strncmp(split_result[i], "<<", 2) == 0)
         {

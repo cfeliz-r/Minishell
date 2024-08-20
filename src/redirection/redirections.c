@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 13:13:49 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:21:01 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int handle_redirections(t_command *command)
 	int fd;
 	int fd2;
 	
-	if (command->inredir && contains_quotes(command->inredir) == 0)
+	if (command->inredir != NULL && contains_quotes(command->inredir) == 0)
 	{
 		fd = open(command->inredir, O_RDONLY);
 		if (fd == -1)
@@ -27,7 +27,7 @@ int handle_redirections(t_command *command)
             return (perror(""), -1);
 		close(fd);
 	}
-	if (command->outredir && contains_quotes(command->outredir) == 0)
+	if (command->outredir != NULL && contains_quotes(command->outredir) == 0)
 	{
 		if (command->appd_out)
 			fd2 = open(command->outredir, O_WRONLY | O_CREAT | O_APPEND, 0644);

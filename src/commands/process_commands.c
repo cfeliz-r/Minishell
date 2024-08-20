@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 12:56:05 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:18:56 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,15 @@ void remove_quotes_from_args(char **args)
     i = 0;
     while (args[i])
     {
-        if (ft_strcmp(args[0], "echo") != 0)
+        new_arg = remove_quotes(args[i]);
+        if (new_arg)
         {
-            new_arg = remove_quotes(args[i]);
-            if (new_arg)
-            {
-                free(args[i]);
-                args[i] = new_arg;
-            }
+            free(args[i]);
+            args[i] = new_arg;
         }
         i++;
     }
 }
-
 
 static void setup_pipes(int **pipes, int num_cmds)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/19 11:46:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:18:23 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int check_redirections(char *line)
         {
             if (*(line + 1) == *line)
                 line++;
-
             while (isspace(*(line + 1)))
                 line++;
             
@@ -173,12 +172,43 @@ int validate_arguments(char *line)
 // Manejo de errores
 void exit_with_error(const char *message)
 {
-    printf("mi error\n");
     write(2, message, strlen(message));
+}
+
+char *remove_spaces(const char *str)
+{
+    if (str == NULL)
+        return NULL;
+
+    // Contar el tamaño del nuevo string sin espacios
+    size_t length = strlen(str);
+    size_t i, j = 0;
+
+    // Alocar memoria para el nuevo string
+    char *result = malloc(length + 1);  // +1 para el carácter de terminación '\0'
+    if (result == NULL)
+        return NULL;
+
+    // Copiar solo los caracteres que no son espacios
+    for (i = 0; i < length; i++)
+    {
+        if (str[i] != ' ')
+        {
+            result[j++] = str[i];
+        }
+    }
+
+    // Añadir el carácter de terminación al final del nuevo string
+    result[j] = '\0';
+
+    return result;
 }
 
 int ft_parsing(char *line)
 {
+    char *aux;
+
+    aux = line;
     if (!line || !*line)
     {
         exit_with_error("empty command line\n");
@@ -187,7 +217,18 @@ int ft_parsing(char *line)
 
     if (ft_strstr(line, "echo"))
         return (0);
-
+    if(line != NULL)
+    {
+        aux = remove_spaces(aux);
+        if(ft_strncmp(aux, "\"<\"", 3) == 0 || ft_strncmp(aux, "\">\"", 3) == 0 || ft_strncmp(aux, "\">>\"", 4) == 0 || ft_strncmp(aux, "\"<<\"", 4) == 0)
+        {
+            exit_with_error("command not found\n");
+            free(aux);
+            return 1;
+        }
+        free(aux);
+        
+    }
     if (check_quotes(line) == 0)
     {
         exit_with_error("quotes error\n");

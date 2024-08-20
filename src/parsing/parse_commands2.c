@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/19 14:39:27 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 11:57:28 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char **split_commands(const char *input)
     if (!commands || !current_command)
         return NULL;
 
-    while (input[i])
+    while (input[i] != '\0')
     {
         if (input[i] == '\'' && ctx.in_double_quotes == 0)
             ctx.in_single_quotes = !ctx.in_single_quotes;

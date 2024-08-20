@@ -25,6 +25,25 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+
+
+int	handle_quotes_3(char **start);
+void	siginit(void);
+void	process_input(t_list_env *envp);
+int	all_isspace(char *start, char *end);
+int	has_space(char *start, char *end);
+int	validate_arguments(char *line);
+void	exit_with_error(const char *message);
+char	*remove_spaces(const char *str);
+int	check_syntax(char *line);
+int	check_redirections(char *line);
+int	check_special_chars(char *line);
+int	check_quotes(char *command);
+int	contains_quotes(const char *str);
+int	handle_initial_checks(char *line, char **aux);
+int	check_quotes_and_special_chars(char *line);
+int	check_redirections_and_syntax(char *line);
+int	handle_syntax_checks(char *line);
 int contains_quotes(const char *str);
 int is_builtin_command(char *cmd);
 void        remove_quotes_from_args(char **args);

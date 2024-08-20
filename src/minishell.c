@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 14:27:12 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:44:43 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_exit(char *exits)
 		exit(2);
 	}
 	if (aux_count(aux) == 2)
-		exit_code = ft_atoi(aux[1]);	
+		exit_code = ft_atoi(aux[1]);
 	clean_up(aux, NULL, 0);
 	exit(exit_code);
 }
@@ -52,15 +52,15 @@ void	ft_exit(char *exits)
 void	process_input_aux(char	*line, t_list_env *envp)
 {
 	char	*interpreted_line;
-	
+
 	if (line[0] == '\0')
 		return ;
 	if (ft_strncmp(line, "export ", 7) == 0
-	||ft_strcmp(line, "'export'") == 0 || ft_strcmp(line, "\"export\"") == 0
+		||ft_strcmp(line, "'export'") == 0 || ft_strcmp(line, "\"export\"") == 0
 		|| ft_strcmp(line, "export") == 0)
 		ft_export(line, &envp);
 	if (ft_strncmp(line, "unset ", 6) == 0
-	||ft_strcmp(line, "'unset'") == 0 || ft_strcmp(line, "\"unset\"") == 0
+		||ft_strcmp(line, "'unset'") == 0 || ft_strcmp(line, "\"unset\"") == 0
 		|| ft_strcmp(line, "unset") == 0)
 		ft_unset(line, &envp);
 	else
@@ -90,7 +90,8 @@ void	process_input(t_list_env *envp)
 		if (ft_parsing(line) == 0)
 		{
 			if (!line || ft_strncmp(line, "exit ", 5) == 0
-			|| ft_strcmp(line, "\"exit\"") == 0 || ft_strcmp(line, "'exit'") == 0
+				|| ft_strcmp(line, "\"exit\"") == 0
+				|| ft_strcmp(line, "'exit'") == 0
 				|| ft_strcmp(line, "exit") == 0)
 			{
 				ft_exit(line);
@@ -102,35 +103,14 @@ void	process_input(t_list_env *envp)
 		}
 	}
 }
+
 void	siginit(void)
 {
 	struct sigaction	sa_int;
-	//struct sigaction	sa_quit;
 
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);
 	sa_int.sa_handler = SIG_IGN;
-	//sa_int.sa_flags = 0;
 	sigaction(SIGQUIT, &sa_int, NULL);
-}
-
-
-int	main(int argc, char **argv, char **envp)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-	t_list_env			*envp_list;
-
-	(void)argv;
-	sa_int.sa_handler = sigint_handler;
-	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = 0;
-	sigaction(SIGQUIT, &sa_quit, NULL);
-	envp_list = create_list_envp(envp);
-	if (argc == 1)
-		process_input(envp_list);
-	return (0);
 }

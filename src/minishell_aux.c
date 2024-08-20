@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/19 12:41:13 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:46:05 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	handle_pwd(t_command *comand)
 {
-	if (ft_strncmp(comand->args[0], "pwd ", 4) == 0 || ft_strcmp(comand->args[0], "pwd") == 0)
+	if (ft_strncmp(comand->args[0], "pwd ", 4) == 0
+		|| ft_strcmp(comand->args[0], "pwd") == 0)
 	{
 		ft_pwd();
 		return (1);
@@ -25,7 +26,8 @@ int	handle_pwd(t_command *comand)
 /* Función para manejar el comando env */
 int	handle_env(t_command *comand, t_list_env *environ)
 {
-	if (ft_strncmp(comand->args[0], "env ", 4) == 0 || ft_strcmp(comand->args[0], "env") == 0)
+	if (ft_strncmp(comand->args[0], "env ", 4) == 0
+		|| ft_strcmp(comand->args[0], "env") == 0)
 	{
 		ft_env(environ, comand->args[0]);
 		return (1);
@@ -36,7 +38,8 @@ int	handle_env(t_command *comand, t_list_env *environ)
 /* Función para manejar el comando echo */
 int	handle_echo(t_command *comand)
 {
-	if (ft_strncmp(comand->args[0], "echo ", 5) == 0 || ft_strcmp(comand->args[0], "echo") == 0)
+	if (ft_strncmp(comand->args[0], "echo ", 5) == 0
+		|| ft_strcmp(comand->args[0], "echo") == 0)
 	{
 		ft_echo(comand->cmd_cpt);
 		return (1);
@@ -47,7 +50,8 @@ int	handle_echo(t_command *comand)
 int	handle_cd(t_command *comand)
 {
 	if (ft_strncmp(comand->cmd_cpt, "cd ", 3) == 0
-	||ft_strncmp(comand->cmd_cpt, "'cd' ", 5) == 0 || ft_strncmp(comand->cmd_cpt, "\"cd\" ", 5) == 0
+		||ft_strncmp(comand->cmd_cpt, "'cd' ", 5) == 0
+		|| ft_strncmp(comand->cmd_cpt, "\"cd\" ", 5) == 0
 		|| ft_strncmp(comand->cmd_cpt, "cd\0", 3) == 0)
 	{
 		ft_cd(comand->cmd_cpt);
@@ -59,7 +63,8 @@ int	handle_cd(t_command *comand)
 int	handle_export(t_command *comand, t_list_env *environ)
 {
 	if (ft_strncmp(comand->cmd_cpt, "export ", 7) == 0
-	||ft_strncmp(comand->cmd_cpt, "'export' ", 9) == 0 || ft_strncmp(comand->cmd_cpt, "\"export\" ", 9) == 0
+		||ft_strncmp(comand->cmd_cpt, "'export' ", 9) == 0
+		|| ft_strncmp(comand->cmd_cpt, "\"export\" ", 9) == 0
 		|| ft_strcmp(comand->cmd_cpt, "export") == 0)
 	{
 		ft_export(comand->cmd_cpt, &environ);

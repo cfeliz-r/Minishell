@@ -11,9 +11,13 @@ OBJDIR = obj
 # --------------------------------------
 # Archivos fuente
 # --------------------------------------
-SRC = src/minishell.c \
+SRC = src/main.c \
+	  src/minishell.c \
 	  src/minishell_aux.c \
 	  src/error_comand.c \
+	  src/error_comand_aux.c \
+	  src/error_comand_aux2.c \
+	  src/error_comand_aux3.c \
       src/builtin/ft_echo.c \
 	  src/builtin/ft_unset.c \
       src/builtin/ft_pwd.c \

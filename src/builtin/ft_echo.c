@@ -3,102 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 12:47:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:45:58 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	print_parts(char **str, int start_index, int *first_part)
+{
+	char	*part;
 
+	while (str[start_index])
+	{
+		if (str[start_index][0] == '<' || str[start_index][0] == '>')
+		{
+			start_index += 2;
+			continue ;
+		}
+		part = strip_quotes(str[start_index]);
+		if (part)
+		{
+			if (!*first_part)
+				write(STDOUT_FILENO, " ", 1);
+			write(STDOUT_FILENO, part, strlen(part));
+			free(part);
+			*first_part = 0;
+		}
+		start_index++;
+	}
+}
 
-static void	clean_up_echo(char **arr)
+void	handle_n_option(char **str, int *n_option)
 {
 	int	i;
 
 	i = 0;
-	if (arr)
-	{
-		while (arr[i])
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-}
-
-int	is_n_option(char *str)
-{
-	int	i;
-
-	i = 1;
-	if (str[0] == '-')
-	{
-		while (str[i] == 'n')
-			i++;
-		if (str[i] == '\0' && i != 1)
-			return (1);
-	}
-	return (0);
-}
-
-static void	print_echo_parts(char **str, int start_index)
-{
-	int	first;
-	int	i;
-
-	first = 1;
-	i = start_index;
-	while (str[i] != NULL)
-	{
-		if (ft_strcmp(str[i], ">") == 0)
-			break ;
-		else if (ft_strcmp(str[i], "<") == 0)
-		{
-			if (str[i + 1] && access(str[i + 1], F_OK) == -1)
-			{
-				printf("%s: No such file or directory\n", str[i + 1]);
-				break ;
-			}
-			else
-			{
-				i += 2;
-				continue ;
-			}
-		}
-		if (!first)
-			write(STDOUT_FILENO, " ", 1);
-		ft_putstr_fd(str[i], STDOUT_FILENO);
-		first = 0;
-		i++;
-	}
-}
-
-void	ft_echo(char *comand)
-{
-	char	**str;
-	int		i;
-	int		n_option;
-
-	i = 0;
-	n_option = 0;
-	str = ft_split(comand + 5, ' ');
-	if (!str)
-		return ((void)manage_error(200, 0));
 	while (str[i] && is_n_option(str[i]))
 	{
-		n_option = 1;
+		*n_option = 1;
 		i++;
 	}
-	if (str)
-		print_echo_parts(str, i);
-	if (!n_option)
-		write(STDOUT_FILENO, "\n", 1);
-	clean_up_echo(str);
-	manage_error(0, 0);
-	return ;
 }
 
+void	ft_echo(char *command)
+{
+	char	**str;
+	int		n_option;
+	int		start_index;
+	int		first_part;
+
+	n_option = 0;
+	if (ft_strlen(command) >= 5)
+	{
+		str = split_special(command + 5);
+		if (!str)
+			return ;
+		handle_n_option(str, &n_option);
+		start_index = 0;
+		first_part = 1;
+		print_parts(str, start_index, &first_part);
+		if (!n_option)
+			write(STDOUT_FILENO, "\n", 1);
+		clean_up_echo(str);
+	}
+	else
+		write(STDOUT_FILENO, "\n", 1);
+}

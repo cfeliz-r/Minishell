@@ -27,6 +27,18 @@
 
 
 
+void	handle_n_option(char **str, int *n_option);
+void	print_parts(char **str, int start_index, int *first_part);
+char	*strip_quotes(char *str);
+char	**split_special(const char *input);
+void	split_and_add_commands(const char *input, t_split_context *ctx);
+void	init_vars(t_split_context *ctx);
+void	add_command(t_split_context *ctx);
+int	is_separator(const char *input, t_split_context *ctx);
+void	handle_quotes_and_spaces(const char *input, t_split_context *ctx);
+void	init_memory(const char *input, t_split_context *ctx);
+int	is_n_option(char *str);
+void	clean_up_echo(char **arr);
 int	handle_quotes_3(char **start);
 void	siginit(void);
 void	process_input(t_list_env *envp);

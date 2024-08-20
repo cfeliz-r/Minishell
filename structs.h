@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 16:26:07 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:07:43 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,16 @@ typedef struct s_quote_context {
     int in_single_quotes;
     int in_double_quotes;
 } t_quote_context;
+
+typedef struct s_split_context {
+    size_t  len;
+    char    **commands;
+    char    *current_command;
+    size_t  i;
+    size_t  j;
+    size_t  cmd_idx;
+    int     in_single_quotes;
+    int     in_double_quotes;
+} t_split_context;
 
 #endif

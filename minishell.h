@@ -25,7 +25,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 
-
+int contains_quotes(const char *str);
 int is_builtin_command(char *cmd);
 void        remove_quotes_from_args(char **args);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);

@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 12:18:23 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:04:47 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int contains_quotes(const char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == '\'' || str[i] == '"')
+            return (1);  // Retorna 1 si encuentra una comilla simple o doble
+        i++;
+    }
+    return (0);  // Retorna 0 si no encuentra comillas
+}
 
  int check_quotes(char *command)
 {
@@ -215,12 +229,11 @@ int ft_parsing(char *line)
         return 1;
     }
 
-    if (ft_strstr(line, "echo"))
-        return (0);
     if(line != NULL)
     {
         aux = remove_spaces(aux);
-        if(ft_strncmp(aux, "\"<\"", 3) == 0 || ft_strncmp(aux, "\">\"", 3) == 0 || ft_strncmp(aux, "\">>\"", 4) == 0 || ft_strncmp(aux, "\"<<\"", 4) == 0)
+        if(ft_strncmp(aux, "\"<\"", 3) == 0 || ft_strncmp(aux, "\">\"", 3) == 0 ||
+            ft_strncmp(aux, "\">>\"", 4) == 0 || ft_strncmp(aux, "\"<<\"", 4) == 0)
         {
             exit_with_error("command not found\n");
             free(aux);

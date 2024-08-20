@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/19 12:02:14 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:56:05 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int is_builtin_command(char *cmd)
 char *remove_quotes(char *str)
 {
     char *result;
-    int i, j;
+    int i;
+    int j;
 
-    result = malloc(strlen(str) + 1);
+    result = malloc(ft_strlen(str) + 1);
     if (!result)
         return NULL;
     
@@ -37,9 +38,7 @@ char *remove_quotes(char *str)
     while (str[i])
     {
         if (str[i] != '\'' && str[i] != '"')
-        {
             result[j++] = str[i];
-        }
         i++;
     }
     result[j] = '\0';
@@ -53,11 +52,14 @@ void remove_quotes_from_args(char **args)
     i = 0;
     while (args[i])
     {
-        new_arg = remove_quotes(args[i]);
-        if (new_arg)
+        if (ft_strcmp(args[0], "echo") != 0)
         {
-            free(args[i]);
-            args[i] = new_arg;
+            new_arg = remove_quotes(args[i]);
+            if (new_arg)
+            {
+                free(args[i]);
+                args[i] = new_arg;
+            }
         }
         i++;
     }

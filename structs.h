@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/20 18:07:43 by manufern         ###   ########.fr       */
-=======
-/*   Updated: 2024/08/21 09:49:16 by cfeliz-r         ###   ########.fr       */
->>>>>>> 5323341 (ajustada la reedirecciones! varias en una linea)
+/*   Updated: 2024/08/21 11:09:32 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

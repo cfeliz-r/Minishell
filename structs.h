@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/21 11:09:32 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:31:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_command
     char *path;
     char *inredir;
     char **delimiters;
-    char **outredirs; 
+    char **outredirs;
     int appd_out;
 } t_command;
 

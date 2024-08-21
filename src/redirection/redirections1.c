@@ -6,22 +6,35 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/21 12:16:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:52:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+ static int  ft_count(char **split_result)
+{
+    int i;
+
+    i = 0;
+    while(split_result[i])
+        i++;
+    return i;
+}
+
 static void handle_input_redirection(char *input_redirection, t_command *command)
 {
     char **split_result;
-
+    
+    if(ft_strncmp(command->cmd_cpt, "echo", 4) != 0)
+        *input_redirection = 0;
     input_redirection++;
     split_result = split_special(input_redirection);
     if (split_result && split_result[0])
         command->inredir = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
 }
+
 static void handle_output_redirection(char *output_redirection, t_command *command)
 {
     char **split_result;
@@ -75,18 +88,6 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
     free(output_redirection);
 }
 
-
-
-
- static int  ft_count(char **split_result)
-{
-    int i;
-
-    i = 0;
-    while(split_result[i])
-        i++;
-    return i;
-}
 
 static void handle_hdoc(char *heredoc_redirection, t_command *command)
 {

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/21 11:29:24 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:38:08 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
                 return;
             }
         }
-        
         if (fork() == 0)
         {
             sa_int.sa_handler = sigint_handler_ha;

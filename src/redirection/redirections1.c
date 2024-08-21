@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/21 10:57:11 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:22:25 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 
     *input_redirection = 0;
     input_redirection++;
-    split_result = ft_split(input_redirection, ' ');
+    split_result = split_special(input_redirection);
     if (split_result && split_result[0])
         command->inredir = ft_strdup(split_result[0]);
     clean_up(split_result, NULL, 0);
@@ -37,7 +37,7 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
         output_redirection++;
     }
     output_redirection = ft_strtrim(output_redirection, " ");
-    split_result = ft_split(output_redirection, ' ');
+    split_result = split_special(output_redirection);
 
     if (!split_result)
         return;
@@ -97,7 +97,7 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 
     *heredoc_redirection = 0;
     heredoc_redirection += 2;
-    split_result = ft_split(heredoc_redirection, ' ');
+    split_result = split_special(heredoc_redirection);
     if (!split_result)
         return; 
     command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/21 11:53:12 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:19:03 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 void	print_parts(char **str, int start_index, int *first_part)
 {
 	char	*part;
-
-	while (str[start_index])
+	while (str[start_index] != NULL)
 	{
 		if (str[start_index][0] == '<' || str[start_index][0] == '>')
 		{
-			start_index++;
+			start_index = start_index + 2;
 			continue ;
 		}
 		part = strip_quotes(str[start_index]);

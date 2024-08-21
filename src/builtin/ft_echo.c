@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 18:45:58 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:53:12 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_parts(char **str, int start_index, int *first_part)
 	{
 		if (str[start_index][0] == '<' || str[start_index][0] == '>')
 		{
-			start_index += 2;
+			start_index++;
 			continue ;
 		}
 		part = strip_quotes(str[start_index]);
@@ -28,7 +28,7 @@ void	print_parts(char **str, int start_index, int *first_part)
 		{
 			if (!*first_part)
 				write(STDOUT_FILENO, " ", 1);
-			write(STDOUT_FILENO, part, strlen(part));
+			write(STDOUT_FILENO, part, ft_strlen(part));
 			free(part);
 			*first_part = 0;
 		}

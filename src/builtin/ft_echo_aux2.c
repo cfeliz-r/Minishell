@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_aux2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 18:15:56 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 18:28:12 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:48:23 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	add_command(t_split_context *ctx)
 	if (ctx->j > 0)
 	{
 		ctx->current_command[ctx->j] = '\0';
-		ctx->commands[ctx->cmd_idx] = strdup(ctx->current_command);
+		ctx->commands[ctx->cmd_idx] = ft_strdup(ctx->current_command);
 		ctx->cmd_idx++;
 		ctx->j = 0;
 	}
@@ -68,16 +68,16 @@ char	*strip_quotes(char *str)
 	size_t	len;
 	char	*result;
 
-	len = strlen(str);
+	len = ft_strlen(str);
 	if ((str[0] == '\'' && str[len - 1] == '\'')
 		|| (str[0] == '"' && str[len - 1] == '"'))
 	{
 		result = malloc(len - 1);
 		if (!result)
 			return (NULL);
-		strncpy(result, str + 1, len - 2);
+		ft_strncpy(result, str + 1, len - 2);
 		result[len - 2] = '\0';
 		return (result);
 	}
-	return (strdup(str));
+	return (ft_strdup(str));
 }

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/21 10:59:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:29:24 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int is_builtin_command(char *cmd)
     if (ft_strncmp(cmd, "echo", 6) == 0 ||
         ft_strncmp(cmd, "env", 4) == 0 ||
         ft_strncmp(cmd, "pwd", 4) == 0 ||
-        ft_strncmp(cmd, "cd", 3) == 0)
+        ft_strncmp(cmd, "cd", 3) == 0 ||
+        ft_strncmp(cmd, "export", 7) == 0 ||
+        ft_strncmp(cmd, "unset", 6) == 0)
     {
         return 1;
     }

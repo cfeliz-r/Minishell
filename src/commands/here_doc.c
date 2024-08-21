@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 15:42:05 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 09:51:15 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	process_here_doc(t_command *cmd)
 			continue ; 
 		}
 		temp = ft_strjoin(line, "\n");
-		write(pipefd[1], temp, strlen(temp));
+		write(pipefd[1], temp, ft_strlen(temp));
 		free(temp);
 		free(line);
 	}

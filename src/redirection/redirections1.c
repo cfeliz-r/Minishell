@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 17:11:42 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:57:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 static void handle_output_redirection(char *output_redirection, t_command *command)
 {
     char **split_result;
+    int i = 0;
+    int count = 0;
 
     *output_redirection = 0;
     output_redirection++;
@@ -34,11 +36,48 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
         command->appd_out = 1;
         output_redirection++;
     }
+    output_redirection = ft_strtrim(output_redirection, " ");
     split_result = ft_split(output_redirection, ' ');
-    if (split_result && split_result[0])
-        command->outredir = ft_strdup(split_result[0]);
+
+    if (!split_result)
+        return;
+
+    while (split_result[i] != NULL)
+    {
+        if (ft_strcmp(split_result[i], ">") != 0)
+            count++;
+        i++;
+    }
+
+    if (count > 0)
+    {
+        command->outredirs = malloc(sizeof(char *) * (count + 1));
+        if (!command->outredirs)
+        {
+            clean_up(split_result, NULL, 0);
+            return;
+        }
+    }
+    i = 0;
+    count = 0;
+    while (split_result[i] != NULL)
+    {
+        if (ft_strncmp(split_result[i], ">", 1) != 0)
+        {
+            command->outredirs[count] = ft_strdup(split_result[i]);
+            count++;
+        }
+        i++;
+    }
+    if (command->outredirs)
+        command->outredirs[count] = NULL;
+
     clean_up(split_result, NULL, 0);
+    free(output_redirection);
 }
+
+
+
 
  static int  ft_count(char **split_result)
 {
@@ -79,11 +118,11 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     clean_up(split_result, NULL, 0);
 }
 
-void process_redirections(char *command_with_redirections, t_command *command)
+void process_redirections(t_command *command)
 {
-    char *heredoc_redirection = ft_strstr(command_with_redirections, "<<");
-    char *input_redirection = ft_strchr(command_with_redirections, '<');
-    char *output_redirection = ft_strchr(command_with_redirections, '>');
+    char *heredoc_redirection = ft_strstr(command->cmd_cpt, "<<");
+    char *input_redirection = ft_strchr(command->cmd_cpt, '<');
+    char *output_redirection = ft_strchr(command->cmd_cpt, '>');
 
     if (heredoc_redirection != 0)
         {

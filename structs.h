@@ -6,7 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/20 18:07:43 by manufern         ###   ########.fr       */
+=======
+/*   Updated: 2024/08/21 09:49:16 by cfeliz-r         ###   ########.fr       */
+>>>>>>> 5323341 (ajustada la reedirecciones! varias en una linea)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +31,7 @@ typedef struct s_command
     char *path;
     char *inredir;
     char **delimiters;
-    char *outredir; 
+    char **outredirs; 
     int appd_out;
 } t_command;
 

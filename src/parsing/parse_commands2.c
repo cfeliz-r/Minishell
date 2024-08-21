@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 16:22:47 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:00:29 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ t_command *init_commands(char **command_strings, int num_cmds)
     }
     return (commands);
 }
-void handle_key_redir(char *command_with_redirections, t_command *command)
+void handle_key_redir(t_command *command)
 {
-    process_redirections(command_with_redirections, command);
+    process_redirections(command);
 
     if (command->is_correct == 0)
     {
-        command->args = ft_split(command_with_redirections, ' ');
+        command->args = ft_split(command->cmd_cpt, ' ');
         if (!command->args || !command->args[0])
         {
             command->is_correct = 1;
@@ -110,13 +110,12 @@ int validate_command(t_command *command, t_list_env *envp)
 t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
     char        **command_strings;
     t_command   *commands;
-    int         i;
+    int        i;
     char *aux;
 
     aux = ft_redir_cmd(input, envp);
     command_strings = split_commands(aux);
     free(aux);
-
     if (!command_strings || command_strings[0] == NULL)
         return (manage_error(200, 0), free(command_strings), NULL);
     *num_cmds = 0;
@@ -125,11 +124,11 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
     commands = init_commands(command_strings, *num_cmds);
     i = -1;
     while (++i < *num_cmds)
-    {
-        if (commands[i].is_correct)
+   {
+        if(commands->is_correct)
             continue;
-        handle_key_redir(command_strings[i], &commands[i]);
-    }
+        handle_key_redir(&commands[i]);
+   } 
     clean_up(command_strings, NULL, 0);
     return (commands);
 }

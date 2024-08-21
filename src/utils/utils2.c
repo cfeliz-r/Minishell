@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:45:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 15:48:16 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:01:33 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	clean_up(char **args, t_command *commands, int num_cmds)
 			free(commands[i].args);
 			free(commands[i].path);
 			free(commands[i].inredir);
-			free(commands[i].outredir);
+			free(commands[i].outredirs);
 			free(commands[i].cmd_cpt);
 			i++;
 		}
@@ -90,8 +90,13 @@ void	free_command(t_command *command)
 		free(command->path);
 	if (command->inredir)
 		free(command->inredir);
-	if (command->outredir)
-		free(command->outredir);
+	if (command->outredirs)
+		{
+			i = -1;
+			while (command->outredirs[++i])
+				free(command->outredirs[i]);
+			free(command->outredirs);
+		}
 	if (command->cmd_cpt)
 		free(command->cmd_cpt);
 	i = 0;

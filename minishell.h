@@ -27,6 +27,7 @@
 
 
 
+<<<<<<< HEAD
 void	handle_n_option(char **str, int *n_option);
 void	print_parts(char **str, int start_index, int *first_part);
 char	*strip_quotes(char *str);
@@ -58,10 +59,31 @@ int	check_redirections_and_syntax(char *line);
 int	handle_syntax_checks(char *line);
 int contains_quotes(const char *str);
 int is_builtin_command(char *cmd);
+=======
+int	        handle_quotes_3(char **start);
+void	    siginit(void);
+void	    process_input(t_list_env *envp);
+int	        all_isspace(char *start, char *end);
+int	        has_space(char *start, char *end);
+int	        validate_arguments(char *line);
+void	    exit_with_error(const char *message);
+char	    *remove_spaces(const char *str);
+int	        check_syntax(char *line);
+int	        check_redirections(char *line);
+int	        check_special_chars(char *line);
+int	        check_quotes(char *command);
+int	        contains_quotes(const char *str);
+int	        handle_initial_checks(char *line, char **aux);
+int	        check_quotes_and_special_chars(char *line);
+int	        check_redirections_and_syntax(char *line);
+int	        handle_syntax_checks(char *line);
+int         contains_quotes(const char *str);
+int         is_builtin_command(char *cmd);
+>>>>>>> 5323341 (ajustada la reedirecciones! varias en una linea)
 void        remove_quotes_from_args(char **args);
 void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
 int         ft_parsing(char *line);
-void process_redirections(char *command_with_redirections, t_command *command);
+void        process_redirections(t_command *command);
 int         handle_export(t_command *comand, t_list_env *environ);
 void        siginit(void);
 int         process_here_doc(t_command *command);
@@ -79,7 +101,7 @@ t_command   *init_commands(char **command_strings, int num_cmds);
 char        *ft_redir_cmd(char *input, t_list_env *envp);
 int         validate_command(t_command *command, t_list_env *envp);
 int         manage_error(int error_code, int return_value);
-void        handle_key_redir(char *command_with_redirections, t_command *command);
+void handle_key_redir(t_command *command);
 void        execute_commands(t_list_env *list, char *cmd);
 //lists
 t_list_env  *create_list_envp(char **envp);

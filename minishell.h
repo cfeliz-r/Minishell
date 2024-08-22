@@ -42,7 +42,7 @@ void	clean_up_echo(char **arr);
 int	handle_quotes_3(char **start);
 void	siginit(void);
 void	process_input(t_list_env *envp);
-int	all_isspace(char *start, char *end);
+int	all_is_space(char *start, char *end);
 int	has_space(char *start, char *end);
 int	validate_arguments(char *line);
 void	exit_with_error(const char *message);

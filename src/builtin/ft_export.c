@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/13 18:38:24 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:34:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void skip_whitespace(const char **ptr)
 {
-	while (isspace((unsigned char)**ptr))
+	while (is_space((unsigned char)**ptr))
 		(*ptr)++;
 }
 
@@ -72,7 +72,7 @@ static void process_variable(const char **ptr, t_list_env **envp)
 
 		if (!inside_quotes)
 		{
-			while (**ptr && (!isspace((unsigned char)**ptr) || inside_quotes))
+			while (**ptr && (!is_space((unsigned char)**ptr) || inside_quotes))
 			{
 				if (**ptr == '"' || **ptr == '\'')
 					inside_quotes = !inside_quotes;
@@ -89,7 +89,7 @@ void ft_export(char *input, t_list_env **envp)
 {
 	if (!input || !envp)
 		return;
-	if (strcmp(input, "export") == 0 && (input[6] == '\0' || isspace((unsigned char)input[6])))
+	if (strcmp(input, "export") == 0 && (input[6] == '\0' || is_space((unsigned char)input[6])))
 		handle_export_no_args(envp);
 	else if (strncmp(input, "export ", 7) == 0)
 	{

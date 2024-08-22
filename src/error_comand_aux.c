@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 15:29:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:34:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	check_redirections(char *line)
 		{
 			if (*(line + 1) == *line)
 				line++;
-			while (isspace(*(line + 1)))
+			while (is_space(*(line + 1)))
 				line++;
 			if (*(line + 1) == '\0')
 				return (0);
@@ -91,12 +91,12 @@ int	check_syntax(char *line)
 {
 	char	*end;
 
-	while (isspace(*line))
+	while (is_space(*line))
 		line++;
 	if (*line == '|')
 		return (0);
 	end = line + strlen(line) - 1;
-	while (end > line && isspace(*end))
+	while (end > line && is_space(*end))
 		end--;
 	if (*end == '|')
 		return (0);

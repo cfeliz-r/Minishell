@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:04:00 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 15:26:21 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:34:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	all_isspace(char *start, char *end)
+int	all_is_space(char *start, char *end)
 {
 	while (start < end)
 	{
-		if (!isspace(*start))
+		if (!is_space(*start))
 			return (0);
 		start++;
 	}
@@ -27,7 +27,7 @@ int	has_space(char *start, char *end)
 {
 	while (start < end)
 	{
-		if (isspace(*start))
+		if (is_space(*start))
 			return (1);
 		start++;
 	}
@@ -41,7 +41,7 @@ int	validate_arguments(char *line)
 	start = line;
 	while (*start)
 	{
-		while (isspace(*start))
+		while (is_space(*start))
 			start++;
 		if (*start == '\0')
 			break ;
@@ -52,7 +52,7 @@ int	validate_arguments(char *line)
 		}
 		else
 		{
-			while (*start && !isspace(*start)
+			while (*start && !is_space(*start)
 				&& *start != '"' && *start != '\'')
 				start++;
 		}

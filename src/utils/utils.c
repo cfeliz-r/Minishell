@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/22 12:31:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:36:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	is_space(int c)
 {
-	unsigned char	c_c;
+	unsigned char	character;
 
-	c_c = (unsigned char) c;
-	if (c_c == ' ' || c_c == '\t' || c_c == '\n' || c_c == '\v' || \
-	c_c == '\f' || c_c == '\r')
+	character = (unsigned char) c;
+	if (character == ' ' || character == '\t' || character == '\n' || character == '\v' || \
+	character == '\f' || character == '\r')
 		return (1);
 	return (0);
 }

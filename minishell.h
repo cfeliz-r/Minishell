@@ -26,7 +26,7 @@
 #include <signal.h>
 
 
-
+int     is_space(int c);
 void	handle_n_option(char **str, int *n_option);
 void	print_parts(char **str, int start_index, int *first_part);
 char	*strip_quotes(char *str);
@@ -120,5 +120,6 @@ void        ft_cd(char *route);
 void        close_pipes(int **pipes, int num_cmds);
 t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 void        ft_here_doc(char *delimiter, int fd[2]);
+
 
 #endif // MINISHELL_H

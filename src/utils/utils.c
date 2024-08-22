@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/20 15:45:36 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:31:56 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	is_space(int c)
+{
+	unsigned char	c_c;
+
+	c_c = (unsigned char) c;
+	if (c_c == ' ' || c_c == '\t' || c_c == '\n' || c_c == '\v' || \
+	c_c == '\f' || c_c == '\r')
+		return (1);
+	return (0);
+}
 
 size_t	aux_count(char **array)
 {

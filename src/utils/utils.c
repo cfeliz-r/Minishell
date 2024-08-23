@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/22 12:36:22 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 12:53:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,15 @@ void	clean_up_aux(t_command **commands)
 		while (commands[j]->args[i] != NULL)
 			free(commands[j]->args[i++]);
 		free(commands[j]->args);
+		commands[j]->args = NULL;
 		free(commands[j]->path);
+		free(commands[j]->inredir);
+		free(commands[j]->outredirs);
+		free(commands[j]->cmd_cpt);
+		free(commands[j]->delimiters);
+		free(commands[j]);
 		j++;
 		i = 0;
 	}
+	free(commands);
 }

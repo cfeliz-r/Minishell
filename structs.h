@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/21 14:31:22 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:04:27 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTS_H
 # include "minishell.h"
 
+# define INITIAL_BUFFER_SIZE 1024
 typedef struct s_list_envp
 {
 	char			*envp_content;

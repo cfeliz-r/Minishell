@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/21 14:38:08 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:29:10 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     while (++i < num_cmds)
     {
         if (commands[i].delimiters)
-        {
+       { 
             if (process_here_doc(&commands[i]) == -1)
             {
                 close_pipes(pipes, num_cmds);
-                clean_up(env_array, NULL, 0);
+                clean_up(NULL, commands, num_cmds);
                 return;
             }
         }
@@ -147,4 +147,3 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     free(pipes);
     clean_up(env_array, NULL, 0);
 }
-

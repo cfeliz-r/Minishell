@@ -26,13 +26,17 @@ SRC = src/main.c \
       src/builtin/ft_env.c \
 	  src/builtin/ft_export.c \
 	  src/builtin/ft_export_aux.c \
-	   src/builtin/ft_export_aux2.c \
+	  src/builtin/ft_export_aux2.c \
+	  src/builtin/ft_export_aux3.c \
       src/builtin/ft_cd.c \
       src/utils/utils.c \
 	  src/utils/utils2.c \
       src/commands/check_and_path.c \
+	  src/commands/check_and_path_aux.c \
       src/commands/exec_commands.c \
 	  src/commands/process_commands.c \
+	  src/commands/process_commands_aux.c \
+	  src/commands/process_commands_aux2.c \
 	  src/commands/here_doc.c \
 	  src/parsing/parse_commands.c \
       src/parsing/parse_commands2.c \

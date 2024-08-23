@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 13:04:27 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:22:55 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,16 @@ typedef struct s_split_context {
     int     in_single_quotes;
     int     in_double_quotes;
 } t_split_context;
+
+typedef struct s_temp_file_data
+{
+    int         file_counter;
+    char        *file_name;
+    const char  *prefix;
+    int         counter;
+    int         prefix_len;
+    int         counter_len;
+    char        counter_str[11];
+}               t_temp_file_data;
 
 #endif

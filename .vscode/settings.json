@@ -4,6 +4,12 @@
         "minishell.h": "c",
         "types.h": "c",
         "signal.h": "c",
-        "get_next_line_bonus.h": "c"
+        "get_next_line_bonus.h": "c",
+        "wait.h": "c",
+        "errno.h": "c",
+        "readline.h": "c",
+        "history.h": "c",
+        "structs.h": "c",
+        "libft.h": "c"
     }
 }

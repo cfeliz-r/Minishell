@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/22 12:34:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:37:46 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-
-static void skip_whitespace(const char **ptr)
+static void	skip_whitespace(const char **ptr)
 {
 	while (is_space((unsigned char)**ptr))
 		(*ptr)++;
 }
 
-static char *handle_quotes(const char **ptr, int *inside_quotes)
+static char	*handle_quotes(const char **ptr, int *inside_quotes)
 {
-	char quote;
-	char *var_end;
+	char	quote;
+	char	*var_end;
 
 	if (**ptr == '"' || **ptr == '\'')
 	{
@@ -36,15 +34,14 @@ static char *handle_quotes(const char **ptr, int *inside_quotes)
 			var_end = (char *)(*ptr) + strlen(*ptr);
 	}
 	else
-	{
 		var_end = (char *)*ptr;
-	}
-	return var_end;
+	return (var_end);
 }
 
-static void process_variable_end(char *var_start, char *var_end, t_list_env **envp)
+static void	process_variable_end(char *var_start,
+	char *var_end, t_list_env **envp)
 {
-	char *variable;
+	char	*variable;
 
 	if (var_start < var_end)
 	{
@@ -57,11 +54,11 @@ static void process_variable_end(char *var_start, char *var_end, t_list_env **en
 	}
 }
 
-static void process_variable(const char **ptr, t_list_env **envp)
+static void	process_variable(const char **ptr, t_list_env **envp)
 {
-	char *var_start;
-	char *var_end;
-	int inside_quotes;
+	char	*var_start;
+	char	*var_end;
+	int		inside_quotes;
 
 	while (**ptr)
 	{
@@ -69,10 +66,10 @@ static void process_variable(const char **ptr, t_list_env **envp)
 		var_start = (char *)*ptr;
 		inside_quotes = 0;
 		var_end = handle_quotes(ptr, &inside_quotes);
-
 		if (!inside_quotes)
 		{
-			while (**ptr && (!is_space((unsigned char)**ptr) || inside_quotes))
+			while (**ptr && (!is_space((unsigned char)**ptr)
+					|| inside_quotes))
 			{
 				if (**ptr == '"' || **ptr == '\'')
 					inside_quotes = !inside_quotes;
@@ -80,20 +77,22 @@ static void process_variable(const char **ptr, t_list_env **envp)
 			}
 			var_end = (char *)*ptr;
 		}
-
 		process_variable_end(var_start, var_end, envp);
 	}
 }
 
-void ft_export(char *input, t_list_env **envp)
+void	ft_export(char *input, t_list_env **envp)
 {
+	const char	*ptr;
+
 	if (!input || !envp)
-		return;
-	if (strcmp(input, "export") == 0 && (input[6] == '\0' || is_space((unsigned char)input[6])))
+		return ;
+	if (strcmp(input, "export") == 0 && (input[6] == '\0'
+			|| is_space((unsigned char)input[6])))
 		handle_export_no_args(envp);
 	else if (strncmp(input, "export ", 7) == 0)
 	{
-		const char *ptr = input + 7;
+		ptr = input + 7;
 		process_variable(&ptr, envp);
 	}
 }

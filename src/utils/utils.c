@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 12:53:11 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 19:08:39 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	is_space(int c)
 	unsigned char	character;
 
 	character = (unsigned char) c;
-	if (character == ' ' || character == '\t' || character == '\n' || character == '\v' || \
+	if (character == ' ' || character == '\t'
+		|| character == '\n' || character == '\v' || \
 	character == '\f' || character == '\r')
 		return (1);
 	return (0);

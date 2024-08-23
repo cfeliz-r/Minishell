@@ -6,18 +6,18 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 18:32:29 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/17 15:31:44 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:37:30 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_list_env *copy_list_export(t_list_env *original)
+t_list_env	*copy_list_export(t_list_env *original)
 {
-	t_list_env *current_original;
-	t_list_env *current_new;
-	t_list_env *new_list;
-	
+	t_list_env	*current_original;
+	t_list_env	*current_new;
+	t_list_env	*new_list;
+
 	if (!original)
 		return (NULL);
 	new_list = create_node_export(original->envp_content);
@@ -39,12 +39,12 @@ t_list_env *copy_list_export(t_list_env *original)
 	return (new_list);
 }
 
-t_list_env *sort_list_export(t_list_env *head, char *temp)
+t_list_env	*sort_list_export(t_list_env *head, char *temp)
 {
 	int			swapped;
 	t_list_env	*current;
 	t_list_env	*new_last_ptr;
-	 
+
 	new_last_ptr = NULL;
 	while (1)
 	{
@@ -65,18 +65,17 @@ t_list_env *sort_list_export(t_list_env *head, char *temp)
 			break ;
 		new_last_ptr = current;
 	}
-	return head;
+	return (head);
 }
 
-
-
-void update_content_export(t_list_env *current, const char *key, const char *value)
+void	update_content_export(t_list_env *current,
+	const char *key, const char *value)
 {
-	char *new_content;
-	size_t total_len;
-	size_t key_len;
-	size_t value_len;
-	
+	char	*new_content;
+	size_t	total_len;
+	size_t	key_len;
+	size_t	value_len;
+
 	key_len = ft_strlen(key);
 	value_len = ft_strlen(value);
 	total_len = key_len + value_len + 2;
@@ -90,50 +89,9 @@ void update_content_export(t_list_env *current, const char *key, const char *val
 	current->envp_content = new_content;
 }
 
-void add_or_update_export(t_list_env **head, const char *variable)
+void	handle_export_no_args(t_list_env **envp)
 {
-    char        *key;
-    char        *value;
-    char        *var_copy;
-    t_list_env  *current;
-
-    var_copy = ft_strdup(variable);
-    if (!var_copy)
-        return;
-    
-    value = ft_strchr(var_copy, '=');
-    key = var_copy;
-    
-    if (value && *(value++))
-        *(value - 1) = '\0'; // Termina la clave y apunta value al valor
-
-    current = *head;
-    while (current)
-    {
-        // Verifica si la variable ya existe en la lista
-        if (!ft_strncmp(current->envp_content, key, ft_strlen(key)) &&
-            (current->envp_content[ft_strlen(key)] == '=' || 
-             current->envp_content[ft_strlen(key)] == '\0'))
-        {
-            if (value)
-                update_content_export(current, key, value); // Actualiza la variable si tiene un valor
-            else if (strchr(current->envp_content, '=') == NULL)
-                update_content_export(current, key, ""); // Si no tiene valor previo, agrega un '=' vacío
-
-            free(var_copy);
-            return; // Sale de la función para evitar agregar una nueva variable
-        }
-        current = current->next;
-    }
-
-    // Si no existe la variable, se añade una nueva
-    ft_lstadd_back(head, create_node_export(variable));
-    free(var_copy);
-} 
-
-void handle_export_no_args(t_list_env **envp)
-{
-	t_list_env *copied_list;
+	t_list_env	*copied_list;
 
 	copied_list = copy_list_export(*envp);
 	if (copied_list)

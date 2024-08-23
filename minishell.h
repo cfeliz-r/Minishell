@@ -26,6 +26,32 @@
 #include <signal.h>
 
 
+
+void	initialize_output_redirection(char **output_redirection,
+	t_command *command);
+void	store_output_redirections(char **split_result,
+		t_command *command, int count);
+int	count_output_redirections(char **split_result);
+void	setup_signal_handler(struct sigaction *sa_int);
+int	handle_here_doc(t_command *command, int **pipes, int num_cmds);
+void	fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes, struct sigaction *sa_int);
+void	setup_pipes(int **pipes, int num_cmds);
+void	remove_quotes_from_args(char **args);
+char	*remove_quotes(char *str);
+int	is_builtin_command(char *cmd);
+void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
+void	execute_command(t_command *command, char **env_array, t_list_env *envp);
+void	handle_io_redirection(int i, int num_cmds, int **pipes);
+void	set_signal_handlers(void);
+int	is_builtin_command(char *cmd);
+char	*remove_quotes(char *str);
+void	remove_quotes_from_args(char **args);
+void	setup_pipes(int **pipes, int num_cmds);
+char	*join_paths(char *dir, char *cmd);
+char	**get_paths(t_list_env *envp);
+char	*search_paths(char **paths, char *cmd);
+char	*handle_command_path(char *clean_cmd, t_list_env *envp);
+int	is_command_path_valid(char *clean_cmd);
 int     is_space(int c);
 void	handle_n_option(char **str, int *n_option);
 void	print_parts(char **str, int start_index, int *first_part);

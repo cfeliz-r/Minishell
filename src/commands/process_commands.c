@@ -3,147 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 13:29:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:51:38 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int is_builtin_command(char *cmd)
+void	setup_signal_handler(struct sigaction *sa_int)
 {
-    if (ft_strncmp(cmd, "echo", 6) == 0 ||
-        ft_strncmp(cmd, "env", 4) == 0 ||
-        ft_strncmp(cmd, "pwd", 4) == 0 ||
-        ft_strncmp(cmd, "cd", 3) == 0 ||
-        ft_strncmp(cmd, "export", 7) == 0 ||
-        ft_strncmp(cmd, "unset", 6) == 0)
-    {
-        return 1;
-    }
-    return 0;
-}
-char *remove_quotes(char *str)
-{
-    char *result;
-    int i;
-    int j;
-
-    result = malloc(ft_strlen(str) + 1);
-    if (!result)
-        return NULL;
-    
-    i = 0;
-    j = 0;
-    while (str[i])
-    {
-        if (str[i] != '\'' && str[i] != '"')
-            result[j++] = str[i];
-        i++;
-    }
-    result[j] = '\0';
-    return result;
+	sa_int->sa_handler = sigint_handler_2;
+	sigaction(SIGINT, sa_int, NULL);
 }
 
-void remove_quotes_from_args(char **args)
+int	handle_here_doc(t_command *command, int **pipes, int num_cmds)
 {
-    int i;
-    char *new_arg;
-    i = 0;
-    while (args[i])
-    {
-        new_arg = remove_quotes(args[i]);
-        if (new_arg)
-        {
-            free(args[i]);
-            args[i] = new_arg;
-        }
-        i++;
-    }
+	if (command->delimiters && process_here_doc(command) == -1)
+	{
+		close_pipes(pipes, num_cmds);
+		return (-1);
+	}
+	return (0);
 }
 
-static void setup_pipes(int **pipes, int num_cmds)
+void	fork_and_process(t_command *commands, int i,
+	int num_cmds, char **env_array, t_list_env *envp,
+		int **pipes, struct sigaction *sa_int)
 {
-    int i;
-
-    i = -1;
-    while (++i < num_cmds - 1)
-    {
-        pipes[i] = malloc(2 * sizeof(int));
-        if (pipes[i] == NULL || pipe(pipes[i]) == -1)
-        {
-            perror("Error pipe");
-            return;
-        }
-    }
-}
-static void child_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
-{
-    struct sigaction sa_quit;
-
-    sa_quit.sa_handler = SIG_DFL;
-    sigaction(SIGQUIT, &sa_quit, NULL);
-    if (i > 0)
-        dup2(pipes[i - 1][0], STDIN_FILENO);
-    if (i < num_cmds - 1)
-        dup2(pipes[i][1], STDOUT_FILENO);
-    close_pipes(pipes, num_cmds);
-    if(handle_redirections(&commands[i]) == -1)
-        exit(1);
-    remove_quotes_from_args(commands[i].args);
-    if (is_builtin_command(commands[i].args[0]) == 0)
-    {
-        if (validate_command(&commands[i], envp) == 0)
-            exit(1);
-        if (execve(commands[i].path, commands[i].args, env_array) == -1)
-        {
-            manage_error(200, 0);
-            exit(1);
-        }
-    }
-    if (build_up(&commands[i], envp) == 1)
-        exit(0);
-    exit(1);
+	if (fork() == 0)
+	{
+		sa_int->sa_handler = sigint_handler_ha;
+		sigaction(SIGINT, sa_int, NULL);
+		child_process(&commands[i], i, num_cmds, env_array, envp, pipes);
+	}
 }
 
-void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
+void	prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 {
-    int **pipes;
-    int i;
-    char **env_array;
-    struct sigaction sa_int;
+	int					**pipes;
+	int					i;
+	char				**env_array;
+	struct sigaction	sa_int;
 
-    pipes = malloc((num_cmds - 1) * sizeof(int *));
-    setup_pipes(pipes, num_cmds);
-    env_array = convert_envp_to_array(envp);
-    sa_int.sa_handler = sigint_handler_2;
-    sigaction(SIGINT, &sa_int, NULL);
-    i = -1;
-    while (++i < num_cmds)
-    {
-        if (commands[i].delimiters)
-       { 
-            if (process_here_doc(&commands[i]) == -1)
-            {
-                close_pipes(pipes, num_cmds);
-                clean_up(NULL, commands, num_cmds);
-                return;
-            }
-        }
-        if (fork() == 0)
-        {
-            sa_int.sa_handler = sigint_handler_ha;
-            sigaction(SIGINT, &sa_int, NULL);
-            child_process(commands, i, num_cmds, env_array, envp, pipes);
-        }
-    }
-    close_pipes(pipes, num_cmds);
-    i = -1;
-    while (++i < num_cmds)
-        waitpid(-1, NULL, 0);
-    handle_cd(commands);
-    free(pipes);
-    clean_up(env_array, NULL, 0);
+	pipes = malloc((num_cmds - 1) * sizeof(int *));
+	setup_pipes(pipes, num_cmds);
+	env_array = convert_envp_to_array(envp);
+	setup_signal_handler(&sa_int);
+	i = -1;
+	while (++i < num_cmds)
+	{
+		if (handle_here_doc(&commands[i], pipes, num_cmds) == -1)
+		{
+			clean_up(NULL, commands, num_cmds);
+			return ;
+		}
+		fork_and_process(commands, i, num_cmds,
+			env_array, envp, pipes, &sa_int);
+	}
+	close_pipes(pipes, num_cmds);
+	i = -1;
+	while (++i < num_cmds)
+		waitpid(-1, NULL, 0);
+	handle_cd(commands);
+	free(pipes);
+	clean_up(env_array, NULL, 0);
 }

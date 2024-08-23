@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/22 12:34:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 19:17:52 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	check_quotes(char *command)
 	while (command[i] != '\0')
 	{
 		if (command[i] == '"' && !in_single_quotes)
-			in_double_quotes = !in_double_quotes; // Alterna el estado de comillas dobles
+			in_double_quotes = !in_double_quotes;
 		else if (command[i] == '\'' && !in_double_quotes)
-			in_single_quotes = !in_single_quotes; // Alterna el estado de comillas simples
+			in_single_quotes = !in_single_quotes;
 		i++;
 	}
 	if (!in_double_quotes && !in_single_quotes)

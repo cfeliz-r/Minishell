@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/21 12:19:03 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:31:27 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	print_parts(char **str, int start_index, int *first_part)
 {
 	char	*part;
+
 	while (str[start_index] != NULL)
 	{
 		if (str[start_index][0] == '<' || str[start_index][0] == '>')

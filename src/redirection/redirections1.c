@@ -94,6 +94,7 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 	char **split_result;
 	int i;
 	int j;
+	int flag;
 
 	*heredoc_redirection = 0;
 	heredoc_redirection += 2;
@@ -105,14 +106,25 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 		return;
 	i = 0;
 	j = 0;
+	flag = 1;
+	command->error = 0;
 	while (split_result[i] != NULL)
 	{
 		if (ft_strncmp(split_result[i], "<<", 2) == 0)
 		{
 			i++;
+			flag = 1;
 			continue;
 		}
-		command->delimiters[j++] = ft_strdup(split_result[i++]);
+		if(flag == 1)
+		{
+			command->delimiters[j++] = ft_strdup(split_result[i++]);
+			flag = 0;
+			continue;
+		}
+		flag = 0;
+		command->error = 1;
+		i++;
 	}
 	command->delimiters[j] = NULL;
 	clean_up(split_result, NULL, 0);

@@ -30,6 +30,7 @@ typedef struct s_command
     char **delimiters;
     char **outredirs;
     int appd_out;
+    int error;
 } t_command;
 
 typedef struct s_parse_context

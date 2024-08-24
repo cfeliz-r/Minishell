@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 17:51:38 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/24 15:28:39 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	handle_here_doc(t_command *command, int **pipes, int num_cmds)
 {
 	if (command->delimiters && process_here_doc(command) == -1)
 	{
+		clean_up(NULL, command, num_cmds);
 		close_pipes(pipes, num_cmds);
 		return (-1);
 	}
@@ -55,10 +56,7 @@ void	prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 	while (++i < num_cmds)
 	{
 		if (handle_here_doc(&commands[i], pipes, num_cmds) == -1)
-		{
-			clean_up(NULL, commands, num_cmds);
 			return ;
-		}
 		if(commands->error == 1)
 		{
 			ft_putstr_fd(commands->args[0], 2);

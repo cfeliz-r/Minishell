@@ -45,6 +45,7 @@ SRC = src/main.c \
       src/list_files/lists.c \
 	  src/redirection/redirections.c \
 	  src/redirection/redirections1.c \
+	  src/redirection/redirections_utils.c \
 	  src/errors/ft_errors.c
 
 # --------------------------------------

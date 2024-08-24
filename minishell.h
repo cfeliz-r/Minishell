@@ -25,8 +25,8 @@
 #include "libft/libft.h"
 #include <signal.h>
 
-
-
+char	*split_quotes(char *str);
+int		ft_count(char **split_result);
 void	initialize_output_redirection(char **output_redirection,
 	t_command *command);
 void	store_output_redirections(char **split_result,
@@ -41,7 +41,6 @@ char	*remove_quotes(char *str);
 int	is_builtin_command(char *cmd);
 void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
 void	execute_command(t_command *command, char **env_array, t_list_env *envp);
-void	handle_io_redirection(int i, int num_cmds, int **pipes);
 void	set_signal_handlers(void);
 int	is_builtin_command(char *cmd);
 char	*remove_quotes(char *str);

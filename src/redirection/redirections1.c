@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 19:23:16 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/24 15:38:29 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static int  ft_count(char **split_result)
-{
-	int i;
-
-	i = 0;
-	while(split_result[i])
-		i++;
-	return i;
-}
 
 static void handle_input_redirection(char *input_redirection, t_command *command)
 {
@@ -88,46 +78,54 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	free(output_redirection);
 }
 
-
-static void handle_hdoc(char *heredoc_redirection, t_command *command)
+static void initialize_delimiters(char **split_result, t_command *command)
 {
-	char **split_result;
-	int i;
-	int j;
-	int flag;
+    int i;
+    int j;
+    int flag;
 
-	*heredoc_redirection = 0;
-	heredoc_redirection += 2;
-	split_result = split_special(heredoc_redirection);
-	if (!split_result)
-		return; 
-	command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));
-	if (!command->delimiters)
-		return;
 	i = 0;
 	j = 0;
 	flag = 1;
-	command->error = 0;
-	while (split_result[i] != NULL)
-	{
-		if (ft_strncmp(split_result[i], "<<", 2) == 0)
-		{
-			i++;
-			flag = 1;
-			continue;
-		}
-		if(flag == 1)
-		{
-			command->delimiters[j++] = ft_strdup(split_result[i++]);
-			flag = 0;
-			continue;
-		}
-		flag = 0;
-		command->error = 1;
-		i++;
-	}
-	command->delimiters[j] = NULL;
-	clean_up(split_result, NULL, 0);
+    while (split_result[i] != NULL)
+    {
+        if (ft_strncmp(split_result[i], "<<", 2) == 0)
+        {
+            i++;
+            flag = 1;
+            continue;
+        }
+        if (flag == 1)
+        {
+            if (contains_quotes(split_result[i]) == 1)
+                split_result[i] = split_quotes(split_result[i]);
+            command->delimiters[j++] = ft_strdup(split_result[i++]);
+            flag = 0;
+            continue;
+        }
+        flag = 0;
+        command->error = 1;
+        i++;
+    }
+    command->delimiters[j] = NULL;
+}
+
+static void handle_hdoc(char *heredoc_redirection, t_command *command)
+{
+    char **split_result;
+
+    *heredoc_redirection = 0;
+    heredoc_redirection += 2;
+    split_result = split_special(heredoc_redirection);
+    if (!split_result)
+        return;
+
+    command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));
+    if (!command->delimiters)
+        return;
+
+    initialize_delimiters(split_result, command);
+    clean_up(split_result, NULL, 0);
 }
 
 void process_redirections(t_command *command)
@@ -137,11 +135,7 @@ void process_redirections(t_command *command)
 	char *output_redirection = ft_strchr(command->cmd_cpt, '>');
 
 	if (heredoc_redirection != 0)
-		{
-			if(contains_quotes(heredoc_redirection))
-				return;
 			handle_hdoc(heredoc_redirection, command);
-		}
 	if (input_redirection != 0 && !heredoc_redirection)
 		handle_input_redirection(input_redirection, command);
 	if (output_redirection != 0)

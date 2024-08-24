@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 17:50:24 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:29:38 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_signal_handlers(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-void	handle_io_redirection(int i, int num_cmds, int **pipes)
+static void	handle_pipes(int i, int num_cmds, int **pipes)
 {
 	if (i > 0)
 		dup2(pipes[i - 1][0], STDIN_FILENO);
@@ -42,7 +42,7 @@ void	execute_command(t_command *command, char **env_array, t_list_env *envp)
 void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
 {
 	set_signal_handlers();
-	handle_io_redirection(i, num_cmds, pipes);
+	handle_pipes(i, num_cmds, pipes);
 	if (handle_redirections(command) == -1)
 		exit(1);
 	remove_quotes_from_args(command->args);

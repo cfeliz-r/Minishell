@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:42:14 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 17:43:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/24 13:28:09 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*remove_quotes(char *str)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] != '\'' && str[i] != '"')
 			result[j++] = str[i];

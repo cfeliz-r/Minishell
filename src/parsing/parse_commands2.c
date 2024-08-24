@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 19:55:47 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:12:20 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,12 @@ void handle_key_redir(t_command *command)
 {
 	process_redirections(command);
 
-	if (command->is_correct == 0)
+	
+	command->args = ft_split(command->cmd_cpt, ' ');
+	if(!command->args)
 	{
-		command->args = ft_split(command->cmd_cpt, ' ');
-		if (!command->args || !command->args[0])
-		{
-			command->is_correct = 1;
-		}
+		free_command(command);
+		return;
 	}
 }
 
@@ -91,7 +90,6 @@ int validate_command(t_command *command, t_list_env *envp)
 {
 	if (!command->args || !command->args[0])
 	{
-		command->is_correct = 1;
 		free_command(command);
 		return 0;
 	}
@@ -99,7 +97,6 @@ int validate_command(t_command *command, t_list_env *envp)
 	command->path = find_command_path(command->args[0], envp);
 	if (!command->path)
 	{
-		command->is_correct = 1;
 		ft_putstr_fd(command->args[0], 2);
 		ft_putstr_fd(": Command not found\n", 2);
 		free_command(command);
@@ -124,11 +121,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
 	commands = init_commands(command_strings, *num_cmds);
 	i = -1;
 	while (++i < *num_cmds)
-{
-		if(commands->is_correct)
-			continue;
 		handle_key_redir(&commands[i]);
-} 
 	clean_up(command_strings, NULL, 0);
 	return (commands);
 }

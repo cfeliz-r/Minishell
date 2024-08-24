@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 18:41:50 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:27:53 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,22 @@ void	setup_signal_handler(struct sigaction *sa_int)
 	sigaction(SIGINT, sa_int, NULL);
 }
 
-int	handle_here_doc(t_command *command, int **pipes, int num_cmds)
+static int	handle_here_doc(t_command *command, int **pipes, int num_cmds, char **env_array)
 {
 	if (command->delimiters && process_here_doc(command) == -1)
 	{
 		clean_up(NULL, command, num_cmds);
 		close_pipes(pipes, num_cmds);
 		return (-1);
+	}
+	if(command->error == 1)
+	{
+		ft_putstr_fd(command->args[0], 2);
+		ft_putstr_fd(" can not access "" No such a file directory\n", 2);
+		free(pipes);
+		clean_up(env_array, NULL, num_cmds);
+		free_command(command);
+		return -1;
 	}
 	return (0);
 }
@@ -56,16 +65,8 @@ void	prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 	i = -1;
 	while (++i < num_cmds)
 	{
-		if (handle_here_doc(&commands[i], pipes, num_cmds) == -1)
+		if (handle_here_doc(&commands[i], pipes, num_cmds, env_array) == -1)
 			return ;
-		if(commands->error == 1)
-		{
-			ft_putstr_fd(commands->args[0], 2);
-			ft_putstr_fd(" can not access "" No such a file directory\n", 2);
-			free(pipes);
-			clean_up(env_array, NULL, 0);
-			return ;
-		}
 		fork_and_process(commands, i, num_cmds,
 			env_array, envp, pipes, &sa_int);
 	}

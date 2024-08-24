@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 15:38:29 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/24 15:54:40 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,28 +84,25 @@ static void initialize_delimiters(char **split_result, t_command *command)
     int j;
     int flag;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	flag = 1;
-    while (split_result[i] != NULL)
-    {
-        if (ft_strncmp(split_result[i], "<<", 2) == 0)
-        {
-            i++;
-            flag = 1;
-            continue;
-        }
-        if (flag == 1)
-        {
-            if (contains_quotes(split_result[i]) == 1)
-                split_result[i] = split_quotes(split_result[i]);
-            command->delimiters[j++] = ft_strdup(split_result[i++]);
-            flag = 0;
-            continue;
-        }
-        flag = 0;
-        command->error = 1;
-        i++;
+	while (split_result[++i] != NULL)
+	{
+		if (ft_strncmp(split_result[i], "<<", 2) == 0)
+			flag = 1;
+		else if(flag == 1)
+		{
+			if(contains_quotes(split_result[i]) == 1)
+				split_result[i] = split_quotes(split_result[i]);
+			command->delimiters[j++] = ft_strdup(split_result[i]);
+			flag = 0;
+		}
+		else
+		{
+			flag = 0;
+			command->error = 1;
+		}
     }
     command->delimiters[j] = NULL;
 }

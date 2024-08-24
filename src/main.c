@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 14:44:31 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:30:51 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int argc, char **argv, char **envp)
 	t_list_env			*envp_list;
 
 	(void)argv;
+	bzero(&sa_int, sizeof(sa_int));
+	bzero(&sa_quit, sizeof(sa_quit));
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);

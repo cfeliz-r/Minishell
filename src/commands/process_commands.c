@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 15:28:39 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:37:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 	char				**env_array;
 	struct sigaction	sa_int;
 
+	ft_bzero(&sa_int, sizeof(sa_int));
 	pipes = malloc((num_cmds - 1) * sizeof(int *));
 	setup_pipes(pipes, num_cmds);
 	env_array = convert_envp_to_array(envp);

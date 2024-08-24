@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 15:54:40 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:26:56 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,13 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 
 void process_redirections(t_command *command)
 {
-	char *heredoc_redirection = ft_strstr(command->cmd_cpt, "<<");
-	char *input_redirection = ft_strchr(command->cmd_cpt, '<');
-	char *output_redirection = ft_strchr(command->cmd_cpt, '>');
-
+	char *heredoc_redirection;
+	char *input_redirection;
+	char *output_redirection;
+	
+	heredoc_redirection = ft_strstr(command->cmd_cpt, "<<");
+	input_redirection = ft_strchr(command->cmd_cpt, '<');
+	output_redirection = ft_strchr(command->cmd_cpt, '>');
 	if (heredoc_redirection != 0)
 			handle_hdoc(heredoc_redirection, command);
 	if (input_redirection != 0 && !heredoc_redirection)

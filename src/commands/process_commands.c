@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 18:37:11 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:41:50 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 		if(commands->error == 1)
 		{
 			ft_putstr_fd(commands->args[0], 2);
-			ft_putstr_fd(" :can not access "" No such a file directory\n", 2);
+			ft_putstr_fd(" can not access "" No such a file directory\n", 2);
 			free(pipes);
 			clean_up(env_array, NULL, 0);
 			return ;

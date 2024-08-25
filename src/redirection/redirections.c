@@ -80,6 +80,20 @@ char *process_redirection(char **aux, t_list_env *envp)
 	}
 	swap = ft_strdup(aux[1]);
 	result = ft_strdup(aux[2]);
+	if(aux[3])
+	{
+		i = 3;
+		while (aux[i] && aux[i][0] != '<' && aux[i][0] != '>' && aux[i][0] != '|')
+		{
+			temp = ft_strjoin(result, " ");
+			free(result);
+			result = temp;
+			temp = ft_strjoin(result, aux[i]);
+			free(result);
+			result = temp;
+			i++;
+		}
+	}
 	temp = ft_strjoin(result, " < ");
 	free(result);
 	result = temp;

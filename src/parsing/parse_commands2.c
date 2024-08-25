@@ -22,6 +22,12 @@ static char	**split_commands(const char *input)
 
 	if (!commands || !current_command)
 		return NULL;
+	if(!input)
+	{
+		free(commands);
+		free(current_command);
+		return NULL;
+	}
 
 	while (input[i] != '\0')
 	{
@@ -29,8 +35,8 @@ static char	**split_commands(const char *input)
 			ctx.in_single_quotes = !ctx.in_single_quotes;
 		else if (input[i] == '"' && ctx.in_single_quotes == 0)
 			ctx.in_double_quotes = !ctx.in_double_quotes;
-		else if (input[i] == '|' && ctx.in_single_quotes == 0 && ctx.in_double_quotes == 0) {
-			// Encontramos un pipe fuera de comillas, cortar comando
+		else if (input[i] == '|' && ctx.in_single_quotes == 0 && ctx.in_double_quotes == 0)
+		{
 			current_command[j] = '\0';
 			commands[cmd_idx++] = ft_strdup(current_command);
 			free(current_command);
@@ -41,7 +47,6 @@ static char	**split_commands(const char *input)
 		}
 		current_command[j++] = input[i++];
 	}
-
 	if (j > 0) {
 		current_command[j] = '\0';
 		commands[cmd_idx++] = ft_strdup(current_command);
@@ -63,7 +68,6 @@ t_command *init_commands(char **command_strings, int num_cmds)
 		clean_up(command_strings, NULL, 0);
 		return (manage_error(200, 0), NULL);
 	}
-
 	i = 0;
 	while (i < num_cmds)
 	{
@@ -76,8 +80,6 @@ t_command *init_commands(char **command_strings, int num_cmds)
 void handle_key_redir(t_command *command)
 {
 	process_redirections(command);
-
-	
 	command->args = ft_split(command->cmd_cpt, ' ');
 	if(!command->args)
 	{
@@ -93,7 +95,6 @@ int validate_command(t_command *command, t_list_env *envp)
 		free_command(command);
 		return 0;
 	}
-
 	command->path = find_command_path(command->args[0], envp);
 	if (!command->path)
 	{

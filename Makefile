@@ -32,6 +32,7 @@ SRC = src/main.c \
       src/builtin/ft_cd.c \
       src/utils/utils.c \
 	  src/utils/utils2.c \
+	  src/utils/utils3.c \
       src/commands/check_and_path.c \
 	  src/commands/check_and_path_aux.c \
       src/commands/exec_commands.c \

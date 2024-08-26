@@ -29,6 +29,7 @@
 
 
 
+int buscar_cadena_fuera_de_comillas(const char* texto, const char* cadena);
 char *ft_put_spaces(char *str);
 char *safe_strjoin_free(char *s1, const char *s2);
 char	*split_quotes(char *str);

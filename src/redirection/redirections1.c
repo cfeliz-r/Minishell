@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 12:55:23 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:26:47 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 static void handle_input_redirection(char *input_redirection, t_command *command)
 {
 	char **split_result;
-	
 	if(ft_strncmp(command->cmd_cpt, "echo", 4) != 0)
 		*input_redirection = 0;
 	input_redirection++;
 	split_result = split_special(input_redirection);
 	if (split_result && split_result[0])
 		command->inredir = ft_strdup(split_result[0]);
+	if(split_result[1] != NULL)
+	{
+		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[1]);
+	}
 	clean_up(split_result, NULL, 0);
 }
 

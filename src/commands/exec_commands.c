@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 12:05:28 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:32:00 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execute_commands(t_list_env *envp, char *cmd)
 	commands = parse_commands(cmd, envp, &num_cmds);
 	if (!commands)
 	{
-		free_command(commands);
+		clean_up(NULL, commands, 0);
 		return ;
 	}
 	for(i = 0; i < num_cmds; i++)

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 13:26:47 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:50:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 		command->inredir = ft_strdup(split_result[0]);
 	if(split_result[1] != NULL)
 	{
-		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
-		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[1]);
+		int i = 1;
+		while(split_result[i] != NULL)
+		{
+			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+			i++;
+		}
 	}
 	clean_up(split_result, NULL, 0);
 }

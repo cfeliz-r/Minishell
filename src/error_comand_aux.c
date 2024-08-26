@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:07 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:58:37 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_redirections(char *line)
 	{
 		if (*line == '>' || *line == '<')
 		{
-			if (*(line + 1) == *line)
+			if (*(line + 1) == *line || (*line == '<' && *(line + 1) == '>'))
 				line++;
 			while (is_space(*(line + 1)))
 				line++;

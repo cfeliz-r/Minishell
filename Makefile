@@ -14,6 +14,7 @@ OBJDIR = obj
 SRC = src/main.c \
 	  src/minishell.c \
 	  src/minishell_aux.c \
+	  src/minishell_aux2.c \
 	  src/error_comand.c \
 	  src/error_comand_aux2.c \
 	  src/error_comand_aux.c \

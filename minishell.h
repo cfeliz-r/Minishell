@@ -25,6 +25,11 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+
+
+
+
+char *ft_put_spaces(char *str);
 char *safe_strjoin_free(char *s1, const char *s2);
 char	*split_quotes(char *str);
 int		ft_count(char **split_result);

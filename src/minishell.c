@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/24 18:32:50 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:06:22 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	process_input(t_list_env *envp)
 		add_history(line);
 		if (line == NULL)
 			exit(0);
+		line = ft_put_spaces(line);
 		if (ft_parsing(line) == 0)
 		{
 			if (!line || ft_strncmp(line, "exit ", 5) == 0

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 11:51:51 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:55:52 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_command *init_commands(char **command_strings, int num_cmds)
 void handle_key_redir(t_command *command)
 {
 	process_redirections(command);
-	command->args = ft_split(command->cmd_cpt, ' ');
+	command->args = split_special(command->cmd_cpt);
 	if(!command->args)
 	{
 		free_command(command);

@@ -94,13 +94,10 @@ static void initialize_delimiters(char **split_result, t_command *command)
 
     i = -1;
     j = 0;
-	if(ft_strncmp(split_result[0], "<<", 2) == 0)
-    	command->flag = 1;
-	else
-		command->flag = 0;
+	command->flag = 1;
     while (split_result[++i] != NULL)
     {
-        if (ft_strncmp(split_result[i], "<<", 2) == 0 && contains_quotes(split_result[i]) == 0)
+        if (ft_strncmp(split_result[i], "<<", 2) == 0)
             command->flag = 1;
         else if(command->flag == 1)
         {
@@ -122,13 +119,9 @@ static void initialize_delimiters(char **split_result, t_command *command)
 static void handle_hdoc(char *heredoc_redirection, t_command *command)
 {
     char **split_result;
-    if(ft_strncmp(command->cmd_cpt, "echo", 4) != 0)
-		*heredoc_redirection = 0;
-	if(ft_strncmp(command->cmd_cpt, "echo", 4) != 0)
-    	heredoc_redirection += 2;
-	else
-		heredoc_redirection += 3;
-	printf("heredoc_redirection: %s\n", heredoc_redirection);
+
+    *heredoc_redirection = 0;
+    heredoc_redirection += 3;
     split_result = split_special(heredoc_redirection);
     if (!split_result)
         return;

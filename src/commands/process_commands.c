@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 19:27:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:59:37 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,9 @@ static int	handle_here_doc(t_command *command, int **pipes, int num_cmds, char *
 {
 	if (command->delimiters && process_here_doc(command) == -1)
 	{
-		clean_up(NULL, command, num_cmds);
+		clean_up(env_array, command, num_cmds);
 		close_pipes(pipes, num_cmds);
 		return (-1);
-	}
-	if(command->error == 1)
-	{
-		ft_putstr_fd(command->args[0], 2);
-		ft_putstr_fd(" can not access "" No such a file directory\n", 2);
-		free(pipes);
-		clean_up(env_array, NULL, num_cmds);
-		free_command(command);
-		return -1;
 	}
 	return (0);
 }

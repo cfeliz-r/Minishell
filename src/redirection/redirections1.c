@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 18:26:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:55:23 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,27 @@ static void initialize_delimiters(char **split_result, t_command *command)
 {
     int i;
     int j;
-    int flag;
 
-	i = -1;
-	j = 0;
-	flag = 1;
-	while (split_result[++i] != NULL)
-	{
-		if (ft_strncmp(split_result[i], "<<", 2) == 0)
-			flag = 1;
-		else if(flag == 1)
-		{
-			if(contains_quotes(split_result[i]) == 1)
-				split_result[i] = split_quotes(split_result[i]);
-			command->delimiters[j++] = ft_strdup(split_result[i]);
-			flag = 0;
-		}
-		else
-		{
-			flag = 0;
-			command->error = 1;
-		}
+    i = -1;
+    j = 0;
+    command->flag = 1;
+    while (split_result[++i] != NULL)
+    {
+        if (ft_strncmp(split_result[i], "<<", 2) == 0)
+            command->flag = 1;
+        else if(command->flag == 1)
+        {
+            if(contains_quotes(split_result[i]) == 1)
+                split_result[i] = split_quotes(split_result[i]);
+            command->delimiters[j++] = ft_strdup(split_result[i]);
+            command->flag = 0;
+        }
+        else
+        {
+            command->flag = 0;
+            command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+            command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+        }
     }
     command->delimiters[j] = NULL;
 }
@@ -116,11 +116,9 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     split_result = split_special(heredoc_redirection);
     if (!split_result)
         return;
-
     command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));
     if (!command->delimiters)
         return;
-
     initialize_delimiters(split_result, command);
     clean_up(split_result, NULL, 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 15:16:05 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:19:43 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ static int handle_here_doc(t_command *command, int **pipes, int num_cmds, char *
 		clean_up(env_array, command, num_cmds);
 		close_pipes(pipes, num_cmds);
 		return (-1);
-	}
-	if(command->error == 1)
-	{
-		ft_putstr_fd(command->args[0], 2);
-		ft_putstr_fd(" can not access "" No such a file directory\n", 2);
-		free(pipes);
-		clean_up(env_array, NULL, num_cmds);
-		free_command(command);
-		return -1;
 	}
 	return (0);
 }

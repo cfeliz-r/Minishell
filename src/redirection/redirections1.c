@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 18:26:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:50:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,22 @@
 static void handle_input_redirection(char *input_redirection, t_command *command)
 {
 	char **split_result;
-	
 	if(ft_strncmp(command->cmd_cpt, "echo", 4) != 0)
 		*input_redirection = 0;
 	input_redirection++;
 	split_result = split_special(input_redirection);
 	if (split_result && split_result[0])
 		command->inredir = ft_strdup(split_result[0]);
+	if(split_result[1] != NULL)
+	{
+		int i = 1;
+		while(split_result[i] != NULL)
+		{
+			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+			i++;
+		}
+	}
 	clean_up(split_result, NULL, 0);
 }
 
@@ -82,27 +91,27 @@ static void initialize_delimiters(char **split_result, t_command *command)
 {
     int i;
     int j;
-    int flag;
 
-	i = -1;
-	j = 0;
-	flag = 1;
-	while (split_result[++i] != NULL)
-	{
-		if (ft_strncmp(split_result[i], "<<", 2) == 0)
-			flag = 1;
-		else if(flag == 1)
-		{
-			if(contains_quotes(split_result[i]) == 1)
-				split_result[i] = split_quotes(split_result[i]);
-			command->delimiters[j++] = ft_strdup(split_result[i]);
-			flag = 0;
-		}
-		else
-		{
-			flag = 0;
-			command->error = 1;
-		}
+    i = -1;
+    j = 0;
+    command->flag = 1;
+    while (split_result[++i] != NULL)
+    {
+        if (ft_strncmp(split_result[i], "<<", 2) == 0)
+            command->flag = 1;
+        else if(command->flag == 1)
+        {
+            if(contains_quotes(split_result[i]) == 1)
+                split_result[i] = split_quotes(split_result[i]);
+            command->delimiters[j++] = ft_strdup(split_result[i]);
+            command->flag = 0;
+        }
+        else
+        {
+            command->flag = 0;
+            command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+            command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+        }
     }
     command->delimiters[j] = NULL;
 }
@@ -116,11 +125,9 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     split_result = split_special(heredoc_redirection);
     if (!split_result)
         return;
-
     command->delimiters = malloc(sizeof(char *) * (ft_count(split_result) + 1));
     if (!command->delimiters)
         return;
-
     initialize_delimiters(split_result, command);
     clean_up(split_result, NULL, 0);
 }

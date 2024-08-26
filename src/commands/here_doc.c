@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 17:30:14 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:58:36 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ int process_here_doc(t_command *command)
     int fd;
     char *temp_file_name;
     buffer = malloc(capacity);
-    if (!buffer) {
+    if (!buffer)
+    {
         perror("malloc failed");
         return (-1);
     }
     temp_file_name = generate_temp_file_name();
     fd = open(temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-    if (fd == -1) {
+    if (fd == -1)
+    {
         perror("open failed");
         free(buffer);
         free(temp_file_name);

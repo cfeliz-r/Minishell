@@ -25,6 +25,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 
+char *safe_strjoin_free(char *s1, const char *s2);
 char	*split_quotes(char *str);
 int		ft_count(char **split_result);
 void	initialize_output_redirection(char **output_redirection,

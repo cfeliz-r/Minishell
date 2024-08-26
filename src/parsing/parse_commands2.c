@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 18:12:20 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:51:51 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_command *init_commands(char **command_strings, int num_cmds)
 	while (i < num_cmds)
 	{
 		ft_memset(&commands[i], 0, sizeof(t_command));
-		commands[i].cmd_cpt = ft_strdup(remove_front_and_back_spaces(command_strings[i]));
+		commands[i].cmd_cpt = ft_strdup(command_strings[i]);
 		i++;
 	}
 	return (commands);
@@ -105,7 +105,8 @@ int validate_command(t_command *command, t_list_env *envp)
 	}
 	return 1;
 }
-t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds) {
+t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
+{
 	char        **command_strings;
 	t_command   *commands;
 	int        i;

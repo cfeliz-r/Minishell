@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:01:01 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/24 15:13:38 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:34:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,22 @@ char *split_quotes(char *str)
     result[j] = '\0';
     free(str);
     return (result);
+}
+char *safe_strjoin_free(char *s1, const char *s2)
+{
+    char *new_str;
+    char *temp;
+
+    if (!s1 || !s2)
+        return NULL;
+    temp = s1;
+    new_str = ft_strjoin(s1, (char *)s2);
+
+    if (!new_str)
+    {
+        free(temp);
+        return NULL;
+    }
+    free(temp);
+    return new_str;
 }

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 16:27:52 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:44:26 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ char *ft_put_spaces(char *str)
             new_str[j++] = str[i++];
     }
     new_str[j] = '\0';
-    return new_str;
+    return (str[i] = '\0', new_str);
 }

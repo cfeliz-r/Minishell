@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:56:03 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 19:04:17 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:13:21 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int search_string_outside_quotes(const char* text, const char* search) {
 
     while (i <= text_len - search_len) {
         // Toggle the in_quotes flag when encountering quotes
-        if (text[i] == '"' || text[i] == '\'') {
+        if (text[i] == '"' || text[i] == '\'')
+        {
             in_quotes = !in_quotes;
         }
 

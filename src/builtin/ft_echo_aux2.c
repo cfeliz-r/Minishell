@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_aux2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 18:15:56 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/24 13:16:55 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:44:47 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	split_and_add_commands(const char *input, t_split_context *ctx)
 
 char	**split_special(const char *input)
 {
-	t_split_context	ctx;
+	/* t_split_context	ctx;
 
 	init_memory(input, &ctx);
 	if (!ctx.commands || !ctx.current_command)
@@ -60,7 +60,54 @@ char	**split_special(const char *input)
 	split_and_add_commands(input, &ctx);
 	free(ctx.current_command);
 	ctx.commands[ctx.cmd_idx] = NULL;
-	return (ctx.commands);
+	return (ctx.commands); */
+
+	int inSingleQuote = 0, inDoubleQuote = 0;
+    int start = 0, i = 0, tokenCount = 0;
+    char **tokens = malloc(MAX_TOKENS * sizeof(char *));
+    if (tokens == NULL) {
+        perror("Unable to allocate memory");
+        exit(EXIT_FAILURE);
+    }
+
+    while (input[i] != '\0') {
+        if (input[i] == '\'' && !inDoubleQuote) {
+            inSingleQuote = !inSingleQuote;
+        } else if (input[i] == '\"' && !inSingleQuote) {
+            inDoubleQuote = !inDoubleQuote;
+        } else if (input[i] == 32 && !inSingleQuote && !inDoubleQuote) {
+            if (i > start) {
+                tokens[tokenCount] = malloc((i - start + 1) * sizeof(char));
+                if (tokens[tokenCount] == NULL) {
+                    perror("Unable to allocate memory");
+                    exit(EXIT_FAILURE);
+                }
+                strncpy(tokens[tokenCount], input + start, i - start);
+                tokens[tokenCount][i - start] = '\0';
+                tokenCount++;
+            }
+            start = i + 1;
+        }
+        i++;
+    }
+
+    // Add the last token if any
+    if (i > start) {
+        tokens[tokenCount] = malloc((i - start + 1) * sizeof(char));
+        if (tokens[tokenCount] == NULL) {
+            perror("Unable to allocate memory");
+            exit(EXIT_FAILURE);
+        }
+        strncpy(tokens[tokenCount], input + start, i - start);
+        tokens[tokenCount][i - start] = '\0';
+        tokenCount++;
+    }
+
+    // Null-terminate the array of tokens
+    tokens[tokenCount] = NULL;
+
+    return tokens;
+
 }
 
 char	*strip_quotes(char *str)

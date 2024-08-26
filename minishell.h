@@ -11,6 +11,7 @@
 #define BRIGHT_JUNGLE "\033[38;5;46m"
 #define JUNGLE_GREEN "\033[38;5;34m"
 #define RESET "\033[0m"
+#define MAX_TOKENS 100
 
 #include <stdio.h>
 #include <stdlib.h>

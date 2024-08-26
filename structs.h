@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 12:36:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:21:56 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_command
     char **delimiters;
     char **outredirs;
     int appd_out;
-    char *check_option;
     int   flag;
 } t_command;
 

@@ -14,7 +14,7 @@
 
 char	*find_env_value(t_list_env *envp_list, const char *key)
 {
-	while (envp_list)
+	while (envp_list != NULL)
 	{
 		if (ft_strncmp(envp_list->envp_content, key, ft_strlen(key)) == 0
 			&& envp_list->envp_content[ft_strlen(key)] == '=')

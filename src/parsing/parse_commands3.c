@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 16:05:09 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:10:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ static char	*handle_variable_expansion(const char *command,
 	char	*value;
 
 	k = 0;
-	while (command[ctx->i] && (ft_isalnum(command[ctx->i])
+	while (command[ctx->i] != '\0' && (ft_isalnum(command[ctx->i])
 			|| command[ctx->i] == '_') && k < sizeof(key) - 1)
 		key[k++] = command[(ctx->i)++];
 	key[k] = '\0';
 	value = find_env_value(envp, key);
-	while (value && *value)
+	while (value != NULL && *value != '\0')
 	{
 		ctx->result = append_char(ctx->result, *value++,
 				&(ctx->j), &(ctx->buffer_size));
@@ -117,7 +117,7 @@ char	*interpret_command(const char *command, t_list_env *envp)
 	ctx.in_double_quotes = 0;
 	ctx.buffer_size = ft_strlen(command) * 2 + 1;
 	ctx.result = malloc(ctx.buffer_size);
-	if (!ctx.result || command[0] == '\0')
+	if (ctx.result == NULL || command[0] == '\0')
 		return (NULL);
 	while (command[ctx.i] != '\0')
 	{

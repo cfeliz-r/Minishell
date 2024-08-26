@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 15:55:52 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:38:45 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void handle_key_redir(t_command *command)
 
 int validate_command(t_command *command, t_list_env *envp)
 {
-	if (!command->args || !command->args[0])
+	if (command->args == NULL || command->args[0] == NULL)
 	{
 		free_command(command);
 		return 0;
 	}
 	command->path = find_command_path(command->args[0], envp);
-	if (!command->path)
+	if (command->path == NULL)
 	{
 		ft_putstr_fd(command->args[0], 2);
 		ft_putstr_fd(": Command not found\n", 2);
@@ -115,7 +115,7 @@ t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
 	aux = ft_redir_cmd(input, envp);
 	command_strings = split_commands(aux);
 	free(aux);
-	if (!command_strings || command_strings[0] == NULL)
+	if (command_strings == NULL || command_strings[0] == NULL)
 		return (manage_error(200, 0), free(command_strings), NULL);
 	*num_cmds = 0;
 	while (command_strings[*num_cmds] != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 16:06:22 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:18:27 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_exit(char *exits)
 	aux = ft_split(exits, ' ');
 	exit_code = 0;
 	printf("exit\n");
-	if (!aux || aux_count(aux) > 2)
+	if (aux == NULL|| aux_count(aux) > 2)
 	{
 		printf("exit: too many arguments\n");
 		manage_error(1, 0);
@@ -79,6 +79,7 @@ void	process_input_aux(char *line, t_list_env *envp)
 void	process_input(t_list_env *envp)
 {
 	char	*line;
+	char	*aux;
 
 	while (1)
 	{
@@ -87,10 +88,9 @@ void	process_input(t_list_env *envp)
 		add_history(line);
 		if (line == NULL)
 			exit(0);
-		line = ft_put_spaces(line);
 		if (ft_parsing(line) == 0)
 		{
-			if (!line || ft_strncmp(line, "exit ", 5) == 0
+			if (line == NULL || ft_strncmp(line, "exit ", 5) == 0
 				|| ft_strcmp(line, "\"exit\"") == 0
 				|| ft_strcmp(line, "'exit'") == 0
 				|| ft_strcmp(line, "exit") == 0)
@@ -99,9 +99,13 @@ void	process_input(t_list_env *envp)
 				free(line);
 				continue ;
 			}
-			process_input_aux(line, envp);
+			aux = ft_put_spaces(line);
+			process_input_aux(aux, envp);
 			free(line);
+			free(aux);
+			continue ;
 		}
+		free(line);
 	}
 }
 

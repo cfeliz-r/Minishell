@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:04:00 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/22 12:34:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:01:26 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	validate_arguments(char *line)
 	char	*start;
 
 	start = line;
-	while (*start)
+	while (*start != '\0')
 	{
-		while (is_space(*start))
+		while ((is_space(*start)== 1) && *start != '\0')
 			start++;
 		if (*start == '\0')
 			break ;
@@ -52,7 +52,7 @@ int	validate_arguments(char *line)
 		}
 		else
 		{
-			while (*start && !is_space(*start)
+			while (*start != '\0' && !is_space(*start)
 				&& *start != '"' && *start != '\'')
 				start++;
 		}

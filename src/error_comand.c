@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/20 15:22:08 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:53:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	handle_initial_checks(char *line, char **aux)
 {
 	*aux = line;
-	if (!line || !*line)
+	if (line == NULL || *line == '\0')
 	{
 		exit_with_error("empty command line\n");
 		return (1);

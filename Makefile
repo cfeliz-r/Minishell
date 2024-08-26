@@ -58,7 +58,7 @@ OBJ = $(SRC:src/%.c=$(OBJDIR)/%.o)
 # Compilador y opciones
 # --------------------------------------
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address,undefined,leak
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address,undefined
 LIBS = -lreadline
 
 # --------------------------------------

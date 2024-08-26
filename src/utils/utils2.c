@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:45:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 13:32:39 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:12:12 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	clean_up(char **args, t_command *commands, int num_cmds)
 		free(args);
 	}
 	i = 0;
-	if (commands)
+	if (commands != NULL)
 	{
 		while (i < num_cmds)
 		{
@@ -72,10 +72,10 @@ void	free_command_args(t_command *command)
 {
 	int	i;
 
-	if (command->args)
+	if (command->args != NULL)
 	{
 		i = -1;
-		while (command->args[++i])
+		while (command->args[++i] != NULL)
 			free(command->args[i]);
 		free(command->args);
 	}
@@ -86,23 +86,23 @@ void	free_command(t_command *command)
 	int	i;
 
 	free_command_args(command);
-	if (command->path)
+	if (command->path != NULL)
 		free(command->path);
-	if (command->inredir)
+	if (command->inredir != NULL)
 		free(command->inredir);
-	if (command->outredirs)
+	if (command->outredirs != NULL)
 	{
 		i = -1;
-		while (command->outredirs[++i])
+		while (command->outredirs[++i] != NULL)
 			free(command->outredirs[i]);
 		free(command->outredirs);
 	}
-	if (command->cmd_cpt)
+	if (command->cmd_cpt != NULL)
 		free(command->cmd_cpt);
 	i = 0;
-	if (command->delimiters)
+	if (command->delimiters != NULL)
 	{
-		while (command->delimiters[i])
+		while (command->delimiters[i] != NULL)
 			free(command->delimiters[i++]);
 		free(command->delimiters);
 	}

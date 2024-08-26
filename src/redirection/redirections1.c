@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 15:59:29 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:54:51 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,11 @@ void process_redirections(t_command *command)
 	input_redirection = ft_strchr(command->cmd_cpt, '<');
 	output_redirection = ft_strchr(command->cmd_cpt, '>');
 	if (heredoc_redirection != 0)
-			handle_hdoc(heredoc_redirection, command);
+	{
+		if(contains_quotes(heredoc_redirection) == 1)
+			return;
+		handle_hdoc(heredoc_redirection, command);
+	}
 	if (input_redirection != 0 && !heredoc_redirection)
 		handle_input_redirection(input_redirection, command);
 	if (output_redirection != 0)

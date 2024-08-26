@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 18:20:41 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:22:55 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ char *ft_put_spaces(char *str)
         else
             new_str[j++] = str[i++];
     }
-    return ( new_str[j] = '\0', new_str);
+    return (new_str[j] = '\0', new_str);
 }

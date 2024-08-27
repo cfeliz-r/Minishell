@@ -27,9 +27,9 @@
 #include <signal.h>
 
 
+int is_within_quotes(const char *text, int index);
 
-
-
+char *correct_strstr(const char *str, const char *to_find);
 int search_string_outside_quotes(const char* text, const char* search);
 char *ft_put_spaces(char *str);
 char *safe_strjoin_free(char *s1, const char *s2);

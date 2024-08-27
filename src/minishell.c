@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 18:18:27 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:36:45 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	process_input(t_list_env *envp)
 				continue ;
 			}
 			aux = ft_put_spaces(line);
-			process_input_aux(aux, envp);
+			process_input_aux(line, envp);
 			free(line);
 			free(aux);
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:01:01 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 12:34:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:58:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,35 @@ char *split_quotes(char *str)
     free(str);
     return (result);
 }
+int search_string(const char *text, const char *search)
+{
+    int text_len = strlen(text);
+    int search_len = strlen(search);
+    int in_quotes = 0;
+    int i = 0;
+
+    while (i <= text_len - search_len)
+    {
+        if (text[i] == '"' || text[i] == '\'')
+            in_quotes = !in_quotes;
+
+        if (!in_quotes && strncmp(&text[i], search, search_len) == 0)
+        {
+            if ((i == 0 || !is_within_quotes(text, i - 1)) &&
+                (i + search_len == text_len || !is_within_quotes(text, i + search_len - 1)))
+                return i;
+        }
+        i++;
+    }
+    return -1;
+}
+char *correct_strstr(const char *str, const char *to_find)
+{
+    int index = search_string(str, to_find);
+    if (index == -1)
+        return NULL;
+    return (char *)&str[index];
+}
 char *safe_strjoin_free(char *s1, const char *s2)
 {
     char *new_str;
@@ -56,7 +85,6 @@ char *safe_strjoin_free(char *s1, const char *s2)
         return NULL;
     temp = s1;
     new_str = ft_strjoin(s1, (char *)s2);
-
     if (!new_str)
     {
         free(temp);

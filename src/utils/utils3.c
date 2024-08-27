@@ -6,53 +6,52 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:56:03 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 19:13:21 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:39:12 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Function to determine if a position is inside quotes
-int is_within_quotes(const char* text, int index) {
-    int in_quotes = 0;
-    int i = 0;
+int is_within_quotes(const char *text, int index)
+{
+    int in_quotes;
+    int i;
 
-    while (i <= index) {
-        if (text[i] == '"' || text[i] == '\'') {
+    in_quotes = 0;
+    i = 0;
+    while (i <= index)
+    {
+        if (text[i] == '"' || text[i] == '\'')
             in_quotes = !in_quotes;
-        }
         i++;
     }
-
     return in_quotes;
 }
 
-// Function to search for a string outside of quotes
-int search_string_outside_quotes(const char* text, const char* search) {
-    int text_len = strlen(text);
-    int search_len = strlen(search);
-    int in_quotes = 0;
-    int i = 0;
+int search_string_outside_quotes(const char *text, const char *search)
+{
+    int text_len;
+    int search_len;
+    int in_quotes;
+    int i;
 
-    while (i <= text_len - search_len) {
-        // Toggle the in_quotes flag when encountering quotes
+    text_len = ft_strlen(text);
+    search_len = ft_strlen(search);
+    in_quotes = 0;
+    i = 0;
+
+    while (i <= text_len - search_len)
+    {
         if (text[i] == '"' || text[i] == '\'')
-        {
             in_quotes = !in_quotes;
-        }
 
-        // Check if the substring matches the search string
-        if (!in_quotes && strncmp(&text[i], search, search_len) == 0) {
-            // Verify that the match is not within quotes
-            if (i == 0 || !is_within_quotes(text, i - 1)) {
-                if (i + search_len == text_len || !is_within_quotes(text, i + search_len - 1)) {
-                    return 1; // Found outside of quotes
-                }
-            }
+        if (!in_quotes && ft_strncmp(&text[i], search, search_len) == 0)
+        {
+            if ((i == 0 || !is_within_quotes(text, i - 1)) &&
+                (i + search_len == text_len || !is_within_quotes(text, i + search_len - 1)))
+                return 1;
         }
-
         i++;
     }
-
-    return 0; // Not found outside of quotes
+    return 0;
 }

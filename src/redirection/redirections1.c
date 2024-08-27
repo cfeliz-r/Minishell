@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/27 13:58:28 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:13:38 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
     initialize_delimiters(split_result, command);
     clean_up(split_result, NULL, 0);
 }
-
 
 void process_redirections(t_command *command)
 {

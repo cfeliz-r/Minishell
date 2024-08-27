@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/26 15:19:43 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:48:06 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ static int handle_here_doc(t_command *command, int **pipes, int num_cmds, char *
 {
 	if (command->delimiters && process_here_doc(command) == -1)
 	{
-		clean_up(env_array, command, num_cmds);
+		clean_up(env_array, NULL, num_cmds);
 		close_pipes(pipes, num_cmds);
+		free(pipes);
 		return (-1);
 	}
 	return (0);

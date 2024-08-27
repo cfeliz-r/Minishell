@@ -34,11 +34,6 @@ static char *generate_temp_file_name(void)
         counter_len = 1;
     temp_file_name_len = prefix_len + counter_len + 1;
     file_name = malloc(temp_file_name_len);
-    if (!file_name)
-    {
-        perror("malloc failed");
-        exit(EXIT_FAILURE);
-    }
     ft_strcpy(file_name, prefix);
     p = counter_str + sizeof(counter_str) - 1;
     *p = '\0';
@@ -58,75 +53,46 @@ static char *generate_temp_file_name(void)
 int process_here_doc(t_command *command)
 {
     int index = 0;
-    char *buffer = NULL;
     char *input_line;
-    size_t len = 0;
-    size_t capacity = INITIAL_BUFFER_SIZE;
     int fd;
     char *temp_file_name;
-    buffer = malloc(capacity);
-    if (!buffer)
-    {
-        perror("malloc failed");
-        return (-1);
-    }
-	signal(SIGINT, sigint_handler_here);
+    size_t len;
+
+    signal(SIGINT, sigint_handler_here);
     temp_file_name = generate_temp_file_name();
     fd = open(temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-    if (fd == -1)
-    {
-        perror("open failed");
-        free(buffer);
-        free(temp_file_name);
-        return (-1);
-    }
-    stop == 0;
     while (1)
     {
-        input_line = readline("> ");
-		if(stop == 1)
-		{
-            close(fd);
-            unlink(temp_file_name);
-            free(buffer);
-			free (input_line);
-            free(temp_file_name);		
-            return (-1);
-        }
-        if (!input_line)
+        write(STDOUT_FILENO, "> ", 2);
+        input_line = get_next_line(STDIN_FILENO);
+        if (!input_line || stop == 1)
         {
             close(fd);
             unlink(temp_file_name);
-            free(buffer);
+            free(input_line);
             free(temp_file_name);
+            stop = 0;
             return (-1);
         }
+        len = ft_strlen(input_line);
+        if (len > 0 && input_line[len - 1] == '\n')
+            input_line[len - 1] = '\0';
         if (ft_strcmp(input_line, command->delimiters[index]) == 0)
         {
             index++;
             free(input_line);
-            if (command->delimiters[index] == command->delimiters[index - 1]
-            || command->delimiters[index] == NULL
-            || command->delimiters[index][0] == '>' ||command->delimiters[index][0] == '<' ||  command->appd_out == 1)
+            if (command->delimiters[index] == NULL || 
+                command->delimiters[index] == command->delimiters[index - 1] || 
+                command->delimiters[index][0] == '>' || command->delimiters[index][0] == '<' ||  
+                command->appd_out == 1)
                     break;
-            
             continue;
         }
-        size_t input_len = ft_strlen(input_line);
-        if (len + input_len + 1 >= capacity)
-        {
-            capacity *= 2;
-            char *new_buffer = simple_realloc(buffer, capacity, len);
-            buffer = new_buffer;
-        }
-        ft_strcpy(buffer + len, input_line);
-        len += input_len;
-        buffer[len++] = '\n';
-        write(fd, buffer, len);
+        write(fd, input_line, ft_strlen(input_line));
+        write(fd, "\n", 1);
         free(input_line);
     }
     close(fd);
-    free(buffer);
     command->inredir = temp_file_name;
     return (0);
 }

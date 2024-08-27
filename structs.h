@@ -14,7 +14,6 @@
 # define STRUCTS_H
 # include "minishell.h"
 
-# define INITIAL_BUFFER_SIZE 1024
 typedef struct s_list_envp
 {
 	char			*envp_content;

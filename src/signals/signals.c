@@ -34,12 +34,14 @@ void	sigint_handler(int sig)
 }
 void sigint_handler_here(int sig)
 {
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	stop = 1;
+    (void)sig;
+    write(STDOUT_FILENO, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    stop = 1;
+
+	signal(SIGINT, sigint_handler_here);
 }
 
 void	sigint_handler_ha(int sig)

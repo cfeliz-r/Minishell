@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/27 17:25:48 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:17:35 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,14 @@ int process_here_doc(t_command *command)
             index++;
             free(input_line);
             if (command->delimiters[index] == NULL || 
-                command->delimiters[index] == command->delimiters[index - 1] || 
-                command->delimiters[index][0] == '>' || command->delimiters[index][0] == '<' ||  
-                command->appd_out == 1)
+                command->delimiters[index] == command->delimiters[index - 1])
                     break;
-            continue;
+            else
+                {
+                    close(fd);
+                    fd = open(temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+                    continue;
+                }
         }
         write(fd, input_line, ft_strlen(input_line));
         write(fd, "\n", 1);

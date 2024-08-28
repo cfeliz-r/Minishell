@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:45:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 18:12:12 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:14:31 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	close_pipes(int **pipes, int num_cmds)
 		close(pipes[i][1]);
 		free(pipes[i]);
 	}
+	free(pipes);
 }
 
 void	free_command_args(t_command *command)

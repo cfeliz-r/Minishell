@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/28 11:56:18 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:00:32 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ char	*interpret_command(const char *command, t_list_env *envp)
 	ctx.j = 0;
 	ctx.in_single_quotes = 0;
 	ctx.in_double_quotes = 0;
-	ctx.in_heredoc = 0;  // Añadido para trackear si estamos en un heredoc
+	ctx.in_heredoc = 0;
 	ctx.buffer_size = ft_strlen(command) * 2 + 1;
 	ctx.result = malloc(ctx.buffer_size);
 	if (ctx.result == NULL || command[0] == '\0')

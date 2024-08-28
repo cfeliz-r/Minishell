@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/28 12:00:32 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:19:09 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,19 @@ static char	*handle_dollar_sign(const char *command,
 static char	*process_char(const char *command,
 	t_parse_context *ctx, t_list_env *envp)
 {
-	// Detectar el inicio de un heredoc (<<)
-	if (command[ctx->i] == '<' && command[ctx->i + 1] == '<')
-	{
-		ctx->in_heredoc = 1;  // Activar el modo heredoc
-		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
-		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
-	}
-
 	if (command[ctx->i] == '"' && ctx->in_single_quotes == 0)
 	{
 		ctx->in_double_quotes = !ctx->in_double_quotes;
 		ctx->result = append_char(ctx->result,
 				command[ctx->i], &(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
+	}
+    // Detectar el inicio de un heredoc (<<)
+	else if (command[ctx->i] == '<' && command[ctx->i + 1] == '<' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
+	{
+		ctx->in_heredoc = 1;  // Activar el modo heredoc
+		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
+		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
 	}
 	else if (command[ctx->i] == '\'' && ctx->in_double_quotes == 0)
 	{

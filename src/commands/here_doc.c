@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/28 13:17:35 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:23:04 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int process_here_doc(t_command *command)
     char *temp_file_name;
     size_t len;
 
-    signal(SIGINT, sigint_handler_here);
+    signal(SIGINT, sigint_handler_here_doc);
     temp_file_name = generate_temp_file_name();
     fd = open(temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
     while (1)

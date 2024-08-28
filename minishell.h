@@ -25,12 +25,13 @@
 #include <errno.h>
 #include "libft/libft.h"
 #include <signal.h>
+#include <sys/ioctl.h>
 
 extern volatile sig_atomic_t stop;
 
 
 int is_within_quotes(const char *text, int index);
-void	sigint_handler_here(int sig);
+void	sigint_handler_here_doc(int sig);
 char *correct_strstr(const char *str, const char *to_find);
 int search_string_outside_quotes(const char* text, const char* search);
 char *ft_put_spaces(char *str);

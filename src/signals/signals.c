@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:54 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/27 16:37:29 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:23:04 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,12 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-void sigint_handler_here(int sig)
+void sigint_handler_here_doc(int sig)
 {
     (void)sig;
-    write(STDOUT_FILENO, "\n", 1);
     rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+    ioctl(0, TIOCSTI, "\n");
     stop = 1;
-
-	signal(SIGINT, sigint_handler_here);
 }
 
 void	sigint_handler_ha(int sig)

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/29 15:24:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:01:13 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	char **split_result;
 	int i = 0;
 	int count = 0;
-	printf("output redirection: %s\n", output_redirection);
+
 	*output_redirection = 0;
 	output_redirection++;
 	if (*output_redirection == '>')
@@ -142,11 +142,11 @@ void process_redirections(t_command *command)
         char *output_redirection;
 
         heredoc_redirection = correct_strstr(command->cmd_cpt, "<<");
-        input_redirection = correct_strstr(command->cmd_cpt, "<");
+        input_redirection = correct_strstr(command->cmd_cpt, "< ");
         output_redirection = correct_strstr(command->cmd_cpt, ">");
         if (heredoc_redirection != NULL)
         	handle_hdoc(heredoc_redirection, command);
-        if (input_redirection != NULL && !heredoc_redirection)
+        if (input_redirection != NULL)
             handle_input_redirection(input_redirection, command);
         if (output_redirection != NULL)
             handle_output_redirection(output_redirection, command);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/28 13:14:23 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:22:04 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,35 @@ void fork_and_process(t_command *commands, int i, int num_cmds, char **env_array
 
 void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 {
-	int **pipes;
-	int i;
-	char **env_array;
-	struct sigaction sa_int;
+    int **pipes;
+    int i;
+    char **env_array;
+    struct sigaction sa_int;
+    int status;
 
-	pipes = malloc((num_cmds - 1) * sizeof(int *));
-	setup_pipes(pipes, num_cmds);
-	env_array = convert_envp_to_array(envp);
-	setup_signal_handler(&sa_int);
-	i = -1;
-	while (++i < num_cmds)
-	{
-		if (handle_here_doc(&commands[i], pipes, num_cmds, env_array) == -1)
-			return;
-		fork_and_process(commands, i, num_cmds, env_array, envp, pipes, &sa_int);
-	}
-	close_pipes(pipes, num_cmds);
-	i = -1;
-	while (++i < num_cmds)
-		waitpid(-1, NULL, 0);
-	handle_cd(commands);
-	clean_up(env_array, NULL, 0);
+    pipes = malloc((num_cmds - 1) * sizeof(int *));
+    setup_pipes(pipes, num_cmds);
+    env_array = convert_envp_to_array(envp);
+    setup_signal_handler(&sa_int);
+    i = -1;
+    while (++i < num_cmds)
+    {
+        if (handle_here_doc(&commands[i], pipes, num_cmds, env_array) == -1)
+            return;
+        fork_and_process(commands, i, num_cmds, env_array, envp, pipes, &sa_int);
+    }
+    close_pipes(pipes, num_cmds);
+    i = -1;
+    while (++i < num_cmds)
+    {
+        if (waitpid(-1, &status, 0) > 0) 
+        {
+            if (WIFEXITED(status))
+                g_exit_status = WEXITSTATUS(status);
+            else if (WIFSIGNALED(status))
+                g_exit_status = 128 + WTERMSIG(status);
+        }
+    }
+    handle_cd(commands);
+    clean_up(env_array, NULL, 0);
 }

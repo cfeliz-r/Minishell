@@ -28,7 +28,7 @@
 #include <sys/ioctl.h>
 
 extern volatile sig_atomic_t stop;
-
+extern int g_exit_status;
 
 int is_within_quotes(const char *text, int index);
 void	sigint_handler_here_doc(int sig);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:54 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/28 15:23:04 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:35:20 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	sigint_handler(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	g_exit_status = 130;
 	rl_redisplay();
 }
 void sigint_handler_here_doc(int sig)

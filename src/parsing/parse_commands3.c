@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/28 13:19:09 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:17:48 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*handle_dollar_sign(const char *command,
 	if (command[ctx->i] == '?' && !ctx->in_heredoc)
 	{
 		(ctx->i)++;
-		status = manage_error(0, 1);
+		status = g_exit_status;
 		status_str = ft_itoa(status);
 		if (status_str)
 		{

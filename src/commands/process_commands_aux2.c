@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/24 18:02:43 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:27:52 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,19 @@ static void	handle_pipes(int i, int num_cmds, int **pipes)
 		dup2(pipes[i][1], STDOUT_FILENO);
 	close_pipes(pipes, num_cmds);
 }
-void	execute_command(t_command *command, char **env_array, t_list_env *envp)
+void execute_command(t_command *command, char **env_array, t_list_env *envp)
 {
-	if (validate_command(command, envp) == 0)
-		exit(1);
-	if (execve(command->path, command->args, env_array) == -1)
-	{
-		manage_error(200, 0);
-		exit(1);
-	}
+    if (validate_command(command, envp) == 0)
+    {
+        g_exit_status = 127;
+        exit(g_exit_status);
+    }
+    if (execve(command->path, command->args, env_array) == -1)
+    {
+        manage_error(200, 0);
+        g_exit_status = 1;
+        exit(g_exit_status);
+    }
 }
 
 void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)

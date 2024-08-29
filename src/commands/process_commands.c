@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/29 11:24:50 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:09:30 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,21 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 	int **pipes;
 	int i;
 	char **env_array;
-	struct sigaction sa_int;
+	struct sigaction sa_int, sa_ignore;
+	int status;
+	pid_t pid;
 
 	pipes = malloc((num_cmds - 1) * sizeof(int *));
 	setup_pipes(pipes, num_cmds);
 	env_array = convert_envp_to_array(envp);
+
+	// Ignorar SIGINT en el proceso padre mientras los hijos se están ejecutando
+	sa_ignore.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &sa_ignore, NULL);
+
+	// Configurar el manejador de SIGINT para los procesos hijos
 	setup_signal_handler(&sa_int);
+
 	i = -1;
 	while (++i < num_cmds)
 		if (handle_here_doc(&commands[i], pipes, num_cmds, env_array) == -1)
@@ -58,9 +67,30 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
 	while (++i < num_cmds)
 		fork_and_process(commands, i, num_cmds, env_array, envp, pipes, &sa_int);
 	close_pipes(pipes, num_cmds);
+
+	// Esperar a todos los procesos hijos
 	i = -1;
 	while (++i < num_cmds)
-		waitpid(-1, NULL, 0);
+	{
+		do {
+			pid = waitpid(-1, &status, 0);
+		} while (pid == -1 && errno == EINTR); // Si waitpid es interrumpido por SIGINT, reintentar.
+
+		if (pid == -1)
+		{
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+	}
+
+	// Restaurar el manejo normal de SIGINT en el proceso padre
+	sa_int.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &sa_int, NULL);
+
 	handle_cd(commands);
 	clean_up(env_array, NULL, 0);
 }

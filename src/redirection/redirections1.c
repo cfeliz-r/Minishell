@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/27 14:13:38 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:24:52 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	char **split_result;
 	int i = 0;
 	int count = 0;
-
+	printf("output redirection: %s\n", output_redirection);
 	*output_redirection = 0;
 	output_redirection++;
 	if (*output_redirection == '>')
@@ -47,7 +47,6 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 		command->appd_out = 1;
 		output_redirection++;
 	}
-	output_redirection = ft_strtrim(output_redirection, " ");
 	split_result = split_special(output_redirection);
 
 	if (!split_result)
@@ -84,7 +83,6 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 		command->outredirs[count] = NULL;
 
 	clean_up(split_result, NULL, 0);
-	free(output_redirection);
 }
 
 static void initialize_delimiters(char **split_result, t_command *command)
@@ -108,6 +106,11 @@ static void initialize_delimiters(char **split_result, t_command *command)
         }
         else
         {
+			if(split_result[i][0] == '>' || split_result[i][0] == '<')
+			{
+				i++;
+				continue;
+			}
             command->flag = 0;
             command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
             command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
@@ -134,23 +137,18 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 
 void process_redirections(t_command *command)
 {
-    int heredoc_position;
-    char *heredoc_redirection = NULL;
-    char *input_redirection = NULL;
-    char *output_redirection = NULL;
+        char *heredoc_redirection;
+        char *input_redirection;
+        char *output_redirection;
 
-    heredoc_position = search_string_outside_quotes(command->cmd_cpt, "<<");
-    if (heredoc_position == 1)
         heredoc_redirection = correct_strstr(command->cmd_cpt, "<<");
-    if (search_string_outside_quotes(command->cmd_cpt, "<") == 1)
-        input_redirection = ft_strchr(command->cmd_cpt, '<');
-    if (search_string_outside_quotes(command->cmd_cpt, ">") == 1)
-        output_redirection = ft_strchr(command->cmd_cpt, '>');
-    if (heredoc_redirection != NULL)
-        handle_hdoc(heredoc_redirection, command);
-    else if (input_redirection != NULL)
-        handle_input_redirection(input_redirection, command);
-    else if (output_redirection != NULL)
-        handle_output_redirection(output_redirection, command);
+        input_redirection = correct_strstr(command->cmd_cpt, "<");
+        output_redirection = correct_strstr(command->cmd_cpt, ">");
+        if (heredoc_redirection != NULL)
+        	handle_hdoc(heredoc_redirection, command);
+        if (input_redirection != NULL && !heredoc_redirection)
+            handle_input_redirection(input_redirection, command);
+        if (output_redirection != NULL)
+            handle_output_redirection(output_redirection, command);
 }
 

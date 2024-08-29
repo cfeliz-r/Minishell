@@ -71,6 +71,8 @@ int search_string(const char *text, const char *search)
 }
 char *correct_strstr(const char *str, const char *to_find)
 {
+    if(!str || !to_find)
+        return NULL;
     int index = search_string(str, to_find);
     if (index == -1)
         return NULL;

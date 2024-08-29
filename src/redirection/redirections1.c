@@ -23,12 +23,11 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 		command->inredir = ft_strdup(split_result[0]);
 	if(split_result[1] != NULL)
 	{
-		int i = 1;
-		while(split_result[i] != NULL)
+		int i = 0;
+		while(split_result[++i] != NULL)
 		{
 			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
 			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
-			i++;
 		}
 	}
 	clean_up(split_result, NULL, 0);
@@ -40,7 +39,7 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	int i = 0;
 	int count = 0;
 
-	*output_redirection = 0;
+ 	*output_redirection = 0;
 	output_redirection++;
 	if (*output_redirection == '>')
 	{
@@ -81,7 +80,6 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	}
 	if (command->outredirs)
 		command->outredirs[count] = NULL;
-
 	clean_up(split_result, NULL, 0);
 }
 
@@ -106,7 +104,7 @@ static void initialize_delimiters(char **split_result, t_command *command)
         }
         else
         {
-			if(split_result[i][0] == '>' || split_result[i][0] == '<')
+			if(split_result[i][0] == '<')
 			{
 				i++;
 				continue;
@@ -137,18 +135,20 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 
 void process_redirections(t_command *command)
 {
-        char *heredoc_redirection;
-        char *input_redirection;
-        char *output_redirection;
+        char *heredoc_redirection = NULL;
+        char *input_redirection = NULL;
+        char *output_redirection = NULL;
 
         heredoc_redirection = correct_strstr(command->cmd_cpt, "<<");
-        input_redirection = correct_strstr(command->cmd_cpt, "< ");
+		if (heredoc_redirection != NULL)
+			handle_hdoc(heredoc_redirection, command);
         output_redirection = correct_strstr(command->cmd_cpt, ">");
-        if (heredoc_redirection != NULL)
-        	handle_hdoc(heredoc_redirection, command);
+		if (output_redirection != NULL)
+            handle_output_redirection(output_redirection, command);
+		input_redirection = correct_strstr(command->cmd_cpt, "<");
         if (input_redirection != NULL)
             handle_input_redirection(input_redirection, command);
-        if (output_redirection != NULL)
-            handle_output_redirection(output_redirection, command);
+		
+        
 }
 

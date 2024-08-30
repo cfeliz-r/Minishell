@@ -56,15 +56,13 @@ int process_here_doc(t_command *command)
     char *input_line;
     int fd;
     char *temp_file_name;
-    size_t len;
 
     signal(SIGINT, sigint_handler_here_doc);
     temp_file_name = generate_temp_file_name();
     fd = open(temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
     while (1)
     {
-        write(STDOUT_FILENO, "> ", 2);
-        input_line = get_next_line(STDIN_FILENO);
+        input_line = readline("> ");
         if (!input_line || stop == 1)
         {
             close(fd);
@@ -76,9 +74,6 @@ int process_here_doc(t_command *command)
             stop = 0;
             return (-1);
         }
-        len = ft_strlen(input_line);
-        if (len > 0 && input_line[len - 1] == '\n')
-            input_line[len - 1] = '\0';
         if (ft_strcmp(input_line, command->delimiters[index]) == 0)
         {
             index++;
@@ -97,6 +92,6 @@ int process_here_doc(t_command *command)
         free(input_line);
     }
     close(fd);
-    command->inredir = temp_file_name;
+    command->heredoc_file = temp_file_name;
     return (0);
 }

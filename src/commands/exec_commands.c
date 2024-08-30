@@ -61,7 +61,7 @@ void	execute_commands(t_list_env *envp, char *cmd)
 	int			num_cmds;
 	int			i;
 
-	commands = parse_commands(cmd, envp, &num_cmds);
+	commands = parse_commands(cmd, &num_cmds);
 	if (!commands)
 	{
 		clean_up(NULL, commands, 0);

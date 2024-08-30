@@ -12,23 +12,32 @@
 
 #include "../../minishell.h"
 
+
 static void handle_input_redirection(char *input_redirection, t_command *command)
 {
 	char **split_result;
+	int i;
+
+	i = 0;
 	if(ft_strncmp(command->cmd_cpt, "echo", 4) != 0)
 		*input_redirection = 0;
-	input_redirection++;
-	split_result = split_special(input_redirection);
-	if (split_result && split_result[0])
-		command->inredir = ft_strdup(split_result[0]);
-	int i = 0;
-	if(split_result[i] != NULL)
+	split_result = split_special(input_redirection + 1);
+	if(split_result != NULL)
 	{
-		while(split_result[++i] != NULL && (ft_strcmp(split_result[i], ">") != 0 || ft_strcmp(split_result[i], "<") != 0))
+		if (command->heredoc_file == NULL)
+			command->inredir = ft_strdup(split_result[0]);
+		else
+			command->inredir = ft_strdup(command->heredoc_file);
+	}
+	while(split_result[++i] != NULL)
+	{
+		if(split_result[i][0] == '<')
 		{
-			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
-			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+			i++;
+			continue;
 		}
+		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
 	}
 	clean_up(split_result, NULL, 0);
 }
@@ -47,17 +56,12 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 		output_redirection++;
 	}
 	split_result = split_special(output_redirection);
-
-	if (!split_result)
-		return;
-
 	while (split_result[i] != NULL)
 	{
 		if (ft_strcmp(split_result[i], ">") != 0)
 			count++;
 		i++;
 	}
-
 	if (count > 0)
 	{
 		command->outredirs = malloc(sizeof(char *) * (count + 1));
@@ -71,7 +75,7 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	count = 0;
 	while (split_result[i] != NULL)
 	{
-		if (ft_strncmp(split_result[i], ">", 1) != 0 && ft_strcmp(split_result[i], "<") != 0)
+		if (split_result[i] != NULL && split_result[i][0] != '>' && split_result[i][0] != '<')
 		{
 			command->outredirs[count] = strip_quotes(split_result[i]);
 			count++;
@@ -135,20 +139,18 @@ static void handle_hdoc(char *heredoc_redirection, t_command *command)
 
 void process_redirections(t_command *command)
 {
-        char *heredoc_redirection = NULL;
-        char *input_redirection = NULL;
-        char *output_redirection = NULL;
+	char	*heredoc_redirection;
+	char	*input_redirection;
+	char	*output_redirection;
 
-        heredoc_redirection = correct_strstr(command->cmd_cpt, "<<");
-		if (heredoc_redirection != NULL)
-			handle_hdoc(heredoc_redirection, command);
-        output_redirection = correct_strstr(command->cmd_cpt, ">");
-		if (output_redirection != NULL)
-            handle_output_redirection(output_redirection, command);
-		input_redirection = correct_strstr(command->cmd_cpt, "<");
-        if (input_redirection != NULL)
-            handle_input_redirection(input_redirection, command);
-		
-        
+	heredoc_redirection = correct_strstr(command->cmd_cpt, "<<");
+	if (heredoc_redirection != NULL)
+		handle_hdoc(heredoc_redirection, command);
+	output_redirection = correct_strstr(command->cmd_cpt, ">");
+	if (output_redirection != NULL)
+		handle_output_redirection(output_redirection, command);
+	input_redirection = correct_strstr(command->cmd_cpt, "<");
+	if (input_redirection != NULL)
+		handle_input_redirection(input_redirection, command);
 }
 

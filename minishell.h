@@ -133,7 +133,6 @@ void        free_env_list(t_list_env *env_list);
 int         count_char(char *str, char c);
 //parseo
 char        *interpret_command(const char *command, t_list_env *envp);
-t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
 int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);
 char        *find_env_value(t_list_env *envp_list, const char *key);
@@ -153,7 +152,7 @@ void        handle_export_no_args(t_list_env **envp);
 void		ft_export(char *input, t_list_env **envp);
 void        ft_cd(char *route);
 void        close_pipes(int **pipes, int num_cmds);
-t_command   *parse_commands(char *input, t_list_env *envp, int *num_cmds);
+t_command   *parse_commands(char *input, int *num_cmds);
 void        ft_here_doc(char *delimiter, int fd[2]);
 
 

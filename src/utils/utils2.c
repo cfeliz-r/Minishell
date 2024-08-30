@@ -91,6 +91,8 @@ void	free_command(t_command *command)
 		free(command->path);
 	if (command->inredir != NULL)
 		free(command->inredir);
+	if(command->heredoc_file != NULL)
+		free(command->heredoc_file);
 	if (command->outredirs != NULL)
 	{
 		i = -1;

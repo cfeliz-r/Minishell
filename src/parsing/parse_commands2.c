@@ -105,16 +105,13 @@ int validate_command(t_command *command, t_list_env *envp)
 	}
 	return 1;
 }
-t_command *parse_commands(char *input, t_list_env *envp, int *num_cmds)
+t_command *parse_commands(char *input, int *num_cmds)
 {
 	char        **command_strings;
 	t_command   *commands;
 	int        i;
-	char *aux;
 
-	aux = ft_redir_cmd(input, envp);
-	command_strings = split_commands(aux);
-	free(aux);
+	command_strings = split_commands(input);
 	if (command_strings == NULL || command_strings[0] == NULL)
 		return (manage_error(200, 0), free(command_strings), NULL);
 	*num_cmds = 0;

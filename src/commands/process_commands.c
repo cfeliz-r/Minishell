@@ -29,16 +29,6 @@ static int handle_here_doc(t_command *command, int **pipes, int num_cmds, char *
 	return (0);
 }
 
-/* void fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes, struct sigaction *sa_int)
-{
-	if (fork() == 0)
-	{
-		sa_int->sa_handler = sigint_handler_ha;
-		sigaction(SIGINT, sa_int, NULL);
-		child_process(&commands[i], i, num_cmds, env_array, envp, pipes);
-	}
-} */
-
 pid_t fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes, struct sigaction *sa_int)
 {
     pid_t pid = fork();

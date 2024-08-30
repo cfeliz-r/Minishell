@@ -25,6 +25,7 @@ typedef struct s_command
     char *cmd_cpt;
     char *path;
     char *inredir;
+    char *heredoc_file;
     char **delimiters;
     char **outredirs;
     int appd_out;

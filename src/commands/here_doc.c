@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/30 11:35:37 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:37:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int process_here_doc(t_command *command)
         {
             index++;
             free(input_line);
-            if (command->delimiters[index] == NULL || 
-                command->delimiters[index] == command->delimiters[index - 1])
+            if (command->delimiters[index] == NULL)
                     break;
             else
                 {

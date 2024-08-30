@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 20:05:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/30 12:38:10 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,25 @@ char *ft_put_spaces(char *str) {
             new_str[j++] = str[i++];
         } else if (str[i + 1] != '\0' && str[i + 1] == str[i] && !in_single_quote && !in_double_quote) {
             // Add space between duplicated characters outside quotes
+            if (str[i] != ' ')
+                new_str[j++] = ' ';
             new_str[j++] = str[i++];
             new_str[j++] = str[i++];
+            if(str[i] != ' ')
+                new_str[j++] = ' ';
         } else if ((str[i] == '|' || str[i] == '<' || str[i] == '>') && !in_single_quote && !in_double_quote) {
             // Add space around special characters outside quotes
-            new_str[j++] = ' '; // Add space before special character
+            if(str[i] != ' ')
+                new_str[j++] = ' '; // Add space before special character
             new_str[j++] = str[i++];
-            new_str[j++] = ' '; // Add space after special character
+            if(str[i] != ' ')
+                new_str[j++] = ' '; // Add space after special character
         } else {
             new_str[j++] = str[i++];
         }
     }
     
     new_str[j] = '\0'; // Null-terminate the new string
-
     return new_str;
 }
+

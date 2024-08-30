@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/29 10:15:50 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/30 12:44:33 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,28 @@ void	process_input(t_list_env *envp)
 		siginit();
 		line = readline(JUNGLE_GREEN "🦧BABUTERM🦧➤ " RESET);
 		add_history(line);
-		if (line == NULL)
+		aux = ft_strtrim(line, " ");
+		if (aux == NULL)
 			exit(0);
-		if (ft_parsing(line) == 0)
+		if (ft_parsing(aux) == 0)
 		{
-			if (line == NULL || ft_strncmp(line, "exit ", 5) == 0
-				|| ft_strcmp(line, "\"exit\"") == 0
-				|| ft_strcmp(line, "'exit'") == 0
-				|| ft_strcmp(line, "exit") == 0)
+			if (aux == NULL || ft_strncmp(aux, "exit ", 5) == 0
+				|| ft_strcmp(aux, "\"exit\"") == 0
+				|| ft_strcmp(aux, "'exit'") == 0
+				|| ft_strcmp(aux, "exit") == 0)
 			{
-				ft_exit(line);
-				free(line);
+				ft_exit(aux);
+				free(aux);
 				continue ;
 			}
-			aux = ft_put_spaces(line);
+			free(line);
+			line = ft_put_spaces(aux);
 			process_input_aux(line, envp);
 			free(line);
 			free(aux);
 			continue ;
 		}
+		free(aux);
 		free(line);
 	}
 }

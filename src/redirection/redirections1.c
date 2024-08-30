@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/29 16:01:13 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/30 14:10:21 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 	split_result = split_special(input_redirection);
 	if (split_result && split_result[0])
 		command->inredir = ft_strdup(split_result[0]);
-	if(split_result[1] != NULL)
+	int i = 0;
+	if(split_result[i] != NULL)
 	{
-		int i = 0;
-		while(split_result[++i] != NULL)
+		while(split_result[++i] != NULL && (ft_strcmp(split_result[i], ">") != 0 || ft_strcmp(split_result[i], "<") != 0))
 		{
 			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
 			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
@@ -71,9 +71,9 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 	count = 0;
 	while (split_result[i] != NULL)
 	{
-		if (ft_strncmp(split_result[i], ">", 1) != 0)
+		if (ft_strncmp(split_result[i], ">", 1) != 0 && ft_strcmp(split_result[i], "<") != 0)
 		{
-			command->outredirs[count] = ft_strdup(split_result[i]);
+			command->outredirs[count] = strip_quotes(split_result[i]);
 			count++;
 		}
 		i++;

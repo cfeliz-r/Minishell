@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/30 12:38:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/30 13:45:30 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ char *ft_put_spaces(char *str) {
         } else if (str[i] == '"' && !in_single_quote) {
             in_double_quote = !in_double_quote;
             new_str[j++] = str[i++];
-        } else if (str[i + 1] != '\0' && str[i + 1] == str[i] && !in_single_quote && !in_double_quote) {
+        } else if (str[i + 1] != '\0' && (str[i + 1] == str[i] || (str[i] == '<' && str[i + 1] == '>'))&& !in_single_quote && !in_double_quote) {
             // Add space between duplicated characters outside quotes
-            if (str[i] != ' ')
-                new_str[j++] = ' ';
+            /* if (str[i] != ' ')
+                new_str[j++] = ' '; */
             new_str[j++] = str[i++];
             new_str[j++] = str[i++];
             if(str[i] != ' ')

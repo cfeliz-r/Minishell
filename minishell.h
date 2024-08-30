@@ -44,7 +44,7 @@ void	store_output_redirections(char **split_result,
 		t_command *command, int count);
 int	count_output_redirections(char **split_result);
 void	setup_signal_handler(struct sigaction *sa_int);
-void	fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes, struct sigaction *sa_int);
+pid_t	fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes, struct sigaction *sa_int);
 void	setup_pipes(int **pipes, int num_cmds);
 void	remove_quotes_from_args(char **args);
 char	*remove_quotes(char *str);

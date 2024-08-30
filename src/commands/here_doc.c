@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/28 15:23:04 by manufern         ###   ########.fr       */
+/*   Updated: 2024/08/30 10:29:11 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,19 @@ int process_here_doc(t_command *command)
     {
         write(STDOUT_FILENO, "> ", 2);
         input_line = get_next_line(STDIN_FILENO);
-        if (!input_line || stop == 1)
+        if (stop == 1)
         {
             close(fd);
+            unlink(temp_file_name);
+            free(input_line);
+            free(temp_file_name);
+            stop = 0;
+            return (-1);
+        }
+        if (!input_line)
+        {
+            close(fd);
+            write(STDOUT_FILENO, "\n", 1);
             unlink(temp_file_name);
             free(input_line);
             free(temp_file_name);

@@ -27,7 +27,7 @@ int handle_redirections(t_command *command)
 			return (perror(""), -1);
 		close(fd);
 	}
-	else if (command->inredir != NULL && contains_quotes(command->inredir) == 0)
+	if (command->inredir != NULL && contains_quotes(command->inredir) == 0)
 	{
 		fd = open(command->inredir, O_RDONLY);
 		if (fd == -1)
@@ -36,7 +36,6 @@ int handle_redirections(t_command *command)
 			return (perror(""), -1);
 		close(fd);
 	}
-
 	while (command->outredirs && command->outredirs[i] != NULL)
 	{
 		if (command->appd_out)

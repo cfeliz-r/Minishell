@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/31 12:10:01 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:20:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,7 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 			command->inredir = ft_strdup(command->heredoc_file);
 	}
 	while(split_result[++i] != NULL)
-	{
-		if(split_result[i][0] == '<')
-		{
-			i++;
-			continue;
-		}
-		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
-		command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
-	}
+		process_more_info(split_result, command, &i);
 	clean_up(split_result, NULL, 0);
 }
 
@@ -82,14 +74,8 @@ static void initialize_delimiters(char **split_result, t_command *command)
         }
         else
         {
-			if(split_result[i][0] == '<')
-			{
-				i++;
-				continue;
-			}
-            command->flag = 0;
-            command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
-            command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+			command->flag = 0;
+			process_more_info(split_result, command, &i);
         }
     }
     command->delimiters[j] = NULL;

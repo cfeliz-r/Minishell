@@ -9,8 +9,8 @@
 #define FOREST_GREEN "\033[38;5;28m"
 #define LUSH_GREEN "\033[38;5;34m"
 #define BRIGHT_JUNGLE "\033[38;5;46m"
-#define JUNGLE_GREEN "\033[38;5;34m"
-#define RESET "\033[0m"
+#define JUNGLE_GREEN "\001\033[38;5;34m\002"
+#define RESET "\001\033[0m\002"
 #define MAX_TOKENS 100
 
 #include <stdio.h>

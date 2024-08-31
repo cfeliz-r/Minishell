@@ -100,6 +100,9 @@ void process_more_info(char **split_result, t_command *command, int *i)
 	if (split_result[*i][0] == '<')
 	{
 		(*i)++;
+		if(command->inredir)
+			free(command->inredir);
+		command->inredir = strip_quotes(split_result[*i]);
 		return;
 	}
 	command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");

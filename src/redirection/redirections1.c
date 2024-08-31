@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/31 12:00:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:10:01 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,48 +41,23 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 	clean_up(split_result, NULL, 0);
 }
 
+
 static void handle_output_redirection(char *output_redirection, t_command *command)
 {
 	char **split_result;
-	int i = 0;
-	int count = 0;
+	int count;
 
- 	*output_redirection = 0;
+	*output_redirection = 0;
 	output_redirection++;
 	if (*output_redirection == '>')
 	{
 		command->appd_out = 1;
 		output_redirection++;
 	}
+
 	split_result = split_special(output_redirection);
-	while (split_result[i] != NULL)
-	{
-		if (ft_strcmp(split_result[i], ">") != 0)
-			count++;
-		i++;
-	}
-	if (count > 0)
-	{
-		command->outredirs = malloc(sizeof(char *) * (count + 1));
-		if (!command->outredirs)
-		{
-			clean_up(split_result, NULL, 0);
-			return;
-		}
-	}
-	i = 0;
-	count = 0;
-	while (split_result[i] != NULL)
-	{
-		if (split_result[i] != NULL && split_result[i][0] != '>' && split_result[i][0] != '<')
-		{
-			command->outredirs[count] = strip_quotes(split_result[i]);
-			count++;
-		}
-		i++;
-	}
-	if (command->outredirs)
-		command->outredirs[count] = NULL;
+	count = count_valid_redirections(split_result);
+	allocate_and_fill_outredirs(split_result, command, count);
 	clean_up(split_result, NULL, 0);
 }
 

@@ -30,6 +30,8 @@
 extern volatile sig_atomic_t stop;
 extern int g_exit_status;
 
+void allocate_and_fill_outredirs(char **split_result, t_command *command, int count);
+int count_valid_redirections(char **split_result);
 int is_within_quotes(const char *text, int index);
 void	sigint_handler_here_doc(int sig);
 char *correct_strstr(const char *str, const char *to_find);

@@ -46,7 +46,6 @@ static void handle_output_redirection(char *output_redirection, t_command *comma
 		command->appd_out = 1;
 		output_redirection++;
 	}
-
 	split_result = split_special(output_redirection);
 	count = count_valid_redirections(split_result);
 	allocate_and_fill_outredirs(split_result, command, count);

@@ -55,9 +55,11 @@ int handle_redirections(t_command *command)
 }
 int count_valid_redirections(char **split_result)
 {
-	int count = 0;
-	int i = 0;
+	int count;
+	int i;
 
+	count = 0;
+	i = 0;
 	while (split_result[i] != NULL)
 	{
 		if (ft_strcmp(split_result[i], ">") != 0)
@@ -69,40 +71,28 @@ int count_valid_redirections(char **split_result)
 
 void allocate_and_fill_outredirs(char **split_result, t_command *command, int count)
 {
-	int i = -1;
-	int out_index = 0;
-	int flag = 1;
-
+	int i;
+	int out_index;
+	int flag;
+	
+	i = -1;
+	out_index = 0;
+	flag = 1;
 	if (count > 0)
-	{
 		command->outredirs = malloc(sizeof(char *) * (count + 1));
-		if (!command->outredirs)
-		{
-			clean_up(split_result, NULL, 0);
-			return;
-		}
-	}
-
 	while (split_result[++i] != NULL)
 	{
-		if (ft_strncmp(split_result[i], ">", 1) == 0)
-		{
+		if (search_string_outside_quotes(split_result[i], ">") == 1)
 			flag = 1;
-			continue;
-		}
 		else if (flag == 1)
 		{
 			command->outredirs[out_index++] = strip_quotes(split_result[i]);
 			flag = 0;
 		}
 		else
-		{
-			flag = 0;
 			process_more_info(split_result, command, &i);
-		}
 	}
-	if (command->outredirs)
-		command->outredirs[out_index] = NULL;
+	command->outredirs[out_index] = NULL;
 }
 void process_more_info(char **split_result, t_command *command, int *i)
 {

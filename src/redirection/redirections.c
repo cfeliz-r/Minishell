@@ -69,8 +69,9 @@ int count_valid_redirections(char **split_result)
 
 void allocate_and_fill_outredirs(char **split_result, t_command *command, int count)
 {
-	int i = 0;
+	int i = -1;
 	int out_index = 0;
+	int flag = 1;
 
 	if (count > 0)
 	{
@@ -82,16 +83,24 @@ void allocate_and_fill_outredirs(char **split_result, t_command *command, int co
 		}
 	}
 
-	while (split_result[i] != NULL)
+	while (split_result[++i] != NULL)
 	{
-		if (split_result[i] != NULL && split_result[i][0] != '>' && split_result[i][0] != '<')
+		if (ft_strncmp(split_result[i], ">", 1) == 0)
 		{
-			command->outredirs[out_index] = strip_quotes(split_result[i]);
-			out_index++;
+			flag = 1;
+			continue;
 		}
-		i++;
+		else if (flag == 1)
+		{
+			command->outredirs[out_index++] = strip_quotes(split_result[i]);
+			flag = 0;
+		}
+		else
+		{
+			flag = 0;
+			process_more_info(split_result, command, &i);
+		}
 	}
-
 	if (command->outredirs)
 		command->outredirs[out_index] = NULL;
 }

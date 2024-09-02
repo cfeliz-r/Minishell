@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/21 12:17:58 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:18:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	handle_pwd(t_command *comand)
 	return (0);
 }
 
-/* Función para manejar el comando env */
 int	handle_env(t_command *comand, t_list_env *environ)
 {
 	if (ft_strncmp(comand->args[0], "env ", 4) == 0
@@ -35,7 +34,6 @@ int	handle_env(t_command *comand, t_list_env *environ)
 	return (0);
 }
 
-/* Función para manejar el comando echo */
 int	handle_echo(t_command *comand)
 {
 	if (ft_strncmp(comand->args[0], "echo ", 5) == 0

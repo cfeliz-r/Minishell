@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/30 14:02:41 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:32:37 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int g_exit_status = 0;
 int	build_up(t_command *comand, t_list_env *environ)
 {
 	if (handle_pwd(comand) || handle_env(comand, environ)
-		|| handle_echo(comand) || handle_export(comand, environ))
+		|| handle_echo(comand))
 	{
 		return (1);
 	}
@@ -56,26 +56,15 @@ void	process_input_aux(char *line, t_list_env *envp)
 
 	if (line[0] == '\0')
 		return ;
-	if (ft_strncmp(line, "export ", 7) == 0
-		|| ft_strcmp(line, "'export'") == 0
-		|| ft_strcmp(line, "\"export\"") == 0
-		|| ft_strcmp(line, "export") == 0)
-		ft_export(line, &envp);
-	if (ft_strncmp(line, "unset ", 6) == 0
-		|| ft_strcmp(line, "'unset'") == 0
-		|| ft_strcmp(line, "\"unset\"") == 0 || ft_strcmp(line, "unset") == 0)
-		ft_unset(line, &envp);
-	else
+	ft_unset(line, &envp);
+	interpreted_line = interpret_command(line, envp);
+	if (interpreted_line == NULL)
 	{
-		interpreted_line = interpret_command(line, envp);
-		if (interpreted_line == NULL)
-		{
-			free(interpreted_line);
-			return ;
-		}
-		execute_commands(envp, interpreted_line);
 		free(interpreted_line);
+		return ;
 	}
+	execute_commands(envp, interpreted_line);
+	free(interpreted_line);
 }
 
 void	process_input(t_list_env *envp)

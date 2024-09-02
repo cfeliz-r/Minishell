@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/31 12:33:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:40:07 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ void allocate_and_fill_outredirs(char **split_result, t_command *command, int co
 			flag = 1;
 		else if (flag == 1)
 		{
-			command->outredirs[out_index++] = strip_quotes(split_result[i]);
+			if (contains_quotes(split_result[i]))
+				split_result[i] = split_quotes(split_result[i]);
+			command->outredirs[out_index++] = ft_strdup(split_result[i]);
 			flag = 0;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 16:12:15 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:57:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	process_input_aux(char *line, t_list_env *envp)
 
 	if (line[0] == '\0')
 		return ;
-	ft_unset(line, &envp);
 	interpreted_line = interpret_command(line, envp);
 	if (interpreted_line == NULL)
 	{

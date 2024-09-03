@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/03 16:47:54 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:57:26 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
     if(num_cmds == 1)
     {
         handle_export(&commands[0], envp);
-        handle_cd(&commands[0]);        
+        handle_cd(&commands[0]);
+        ft_unset(commands->args[0], &envp);   
     }
         
     clean_up(env_array, NULL, 0);

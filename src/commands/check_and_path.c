@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 17:16:42 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:29:00 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ char	*clean_command(char *cmd)
 	char	*clean_cmd;
 
 	clean_cmd = ft_strdup(cmd);
-	if (clean_cmd[0] == '"' && clean_cmd[strlen(clean_cmd) - 1] == '"')
+	if (clean_cmd[0] == '"' && clean_cmd[ft_strlen(clean_cmd) - 1] == '"')
 	{
-		clean_cmd[strlen(clean_cmd) - 1] = '\0';
-		memmove(clean_cmd, clean_cmd + 1, strlen(clean_cmd));
+		clean_cmd[ft_strlen(clean_cmd) - 1] = '\0';
+		ft_memmove(clean_cmd, clean_cmd + 1, ft_strlen(clean_cmd));
 	}
-	else if (clean_cmd[0] == '\'' && clean_cmd[strlen(clean_cmd) - 1] == '\'')
+	else if (clean_cmd[0] == '\'' && clean_cmd[ft_strlen(clean_cmd) - 1] == '\'')
 	{
-		clean_cmd[strlen(clean_cmd) - 1] = '\0';
+		clean_cmd[ft_strlen(clean_cmd) - 1] = '\0';
 		ft_memmove(clean_cmd, clean_cmd + 1, ft_strlen(clean_cmd));
 	}
 	return (clean_cmd);

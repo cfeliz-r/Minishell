@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/03 15:50:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:26:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,14 @@ int validate_command(t_command *command, t_list_env *envp)
 	if (command->path == NULL)
 	{
 		ft_putstr_fd(command->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if(ft_strncmp(command->args[0], "./" ,2) == 0)
+			ft_putstr(": No such file or directory\n");
+		else
+			ft_putstr(": command not found\n");
 		free_command(command);
 		return 0;
 	}
-	return 1;
+	return (1);
 }
 t_command *parse_commands(char *input, int *num_cmds)
 {

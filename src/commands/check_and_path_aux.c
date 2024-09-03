@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_path_aux.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 16:49:01 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 16:50:23 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:22:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	is_command_path_valid(char *clean_cmd)
 		if (access(clean_cmd, F_OK | X_OK) == 0)
 			return (1);
 		else
-		{
-			free(clean_cmd);
 			return (0);
-		}
 	}
 	return (0);
 }

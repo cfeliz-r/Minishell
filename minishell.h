@@ -44,11 +44,10 @@ pid_t	fork_and_process(t_command *commands, int i, int num_cmds, char **env_arra
 void	setup_pipes(int **pipes, int num_cmds);
 void	remove_quotes_from_args(char **args);
 char	*remove_quotes(char *str);
-int	is_builtin_command(char *cmd);
 void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
 void	execute_command(t_command *command, char **env_array, t_list_env *envp);
 void	set_signal_handlers(void);
-int	is_builtin_command(char *cmd);
+
 char	*remove_quotes(char *str);
 void	remove_quotes_from_args(char **args);
 void	setup_pipes(int **pipes, int num_cmds);

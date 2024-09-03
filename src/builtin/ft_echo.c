@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 16:00:02 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:49:16 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ char *remove_quotes_echo(const char *command)
         if (command[i] == '\'' && !in_double_quote)
         {
             in_single_quote = !in_single_quote;
-            i++; // Skip the single quote
+            i++;
         }
         else if (command[i] == '\"' && !in_single_quote)
         {
             in_double_quote = !in_double_quote;
-            i++; // Skip the double quote
+            i++;
         }
         else
         {
@@ -99,7 +99,6 @@ void	ft_echo(char *command)
 
 	n_option = 0;
 	aux = remove_quotes_echo(command);
-	printf("aux: %s\n", aux);
 	if (ft_strlen(aux) >= 5)
 	{
 		str = split_special(aux + 5);

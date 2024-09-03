@@ -100,7 +100,7 @@ static char	*process_char(const char *command,
 				command[ctx->i], &(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
-	else if (command[ctx->i] == '<' && command[ctx->i + 1] == '<' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
+	else if (command[ctx->i] == '<' && command[ctx->i + 1] == '<' && command[ctx-> i + 3] == '$' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
 	{
 		ctx->in_heredoc = 1;
 		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));

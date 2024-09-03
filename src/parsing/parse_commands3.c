@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 16:00:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:17:38 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,9 @@ static char	*handle_variable_expansion(const char *command,
 			|| command[ctx->i] == '_') && k < sizeof(key) - 1)
 		key[k++] = command[(ctx->i)++];
 	key[k] = '\0';
-
 	value = find_env_value(envp, key);
-	if (value == NULL)  // Si la variable no existe, agregar "$key" al resultado.
-	{
-		ctx->result = append_char(ctx->result, '$', &(ctx->j), &(ctx->buffer_size));
-		for (size_t i = 0; i < k; i++)
-		{
-			ctx->result = append_char(ctx->result, key[i], &(ctx->j), &(ctx->buffer_size));
-		}
-		return ctx->result;
-	}
-
+	if (value == NULL)
+		return (append_char(ctx->result, ' ', &(ctx->j), &(ctx->buffer_size)));
 	while (*value != '\0')
 	{
 		ctx->result = append_char(ctx->result, *value++, &(ctx->j), &(ctx->buffer_size));
@@ -89,14 +80,11 @@ static char	*handle_dollar_sign(const char *command,
 		ctx->result = handle_variable_expansion(command, ctx, envp);
 	else
     {
-        // Si estamos en un heredoc, no expandir y agregar el símbolo '$'
         ctx->result = append_char(ctx->result, '$', &(ctx->j), &(ctx->buffer_size));
-        // Agregar los caracteres siguientes hasta encontrar un carácter no alfanumérico o '_'
         while (ft_isalnum(command[ctx->i]) || command[ctx->i] == '_')
         {
             ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
         }
-        // Desactivamos el flag heredoc después de procesar
         ctx->in_heredoc = 0;
     }
 	return (ctx->result);
@@ -112,10 +100,9 @@ static char	*process_char(const char *command,
 				command[ctx->i], &(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
-    // Detectar el inicio de un heredoc (<<)
 	else if (command[ctx->i] == '<' && command[ctx->i + 1] == '<' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
 	{
-		ctx->in_heredoc = 1;  // Activar el modo heredoc
+		ctx->in_heredoc = 1;
 		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
 		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
 	}
@@ -126,6 +113,11 @@ static char	*process_char(const char *command,
 				&(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
+	else if(command[ctx->i] == '$' && (command[ctx->i + 1] == ' ' || command[ctx->i + 1] == '\0' || command[ctx->i + 1] == '\n'))
+	{
+		ctx->result = append_char(ctx->result, '$', &(ctx->j), &(ctx->buffer_size));
+		ctx->i++;
+	}
 	else if (command[ctx->i] == '$' && ctx->in_single_quotes == 0)
 		ctx->result = handle_dollar_sign(command, ctx, envp);
 	else
@@ -133,8 +125,6 @@ static char	*process_char(const char *command,
 		ctx->result = append_char(ctx->result,
 				command[(ctx->i)++], &(ctx->j), &(ctx->buffer_size));
 	}
-
-	// Salir del modo heredoc después de encontrar un delimitador de línea (e.g., '\n')
 	if (command[ctx->i] == '\n')
 		ctx->in_heredoc = 0;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/24 12:38:56 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:00:02 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,61 @@ void	handle_n_option(char **str, int *n_option)
 	}
 }
 
+char *remove_quotes_echo(const char *command)
+{
+    size_t i;
+    size_t j;
+    size_t len;
+    char *result;
+    int in_single_quote = 0;
+    int in_double_quote = 0;
+
+    if (!command)
+        return NULL;
+
+    len = strlen(command);
+    result = malloc(len + 1);
+    if (!result)
+        return NULL;
+
+    i = 0;
+    j = 0;
+    while (i < len)
+    {
+        if (command[i] == '\'' && !in_double_quote)
+        {
+            in_single_quote = !in_single_quote;
+            i++; // Skip the single quote
+        }
+        else if (command[i] == '\"' && !in_single_quote)
+        {
+            in_double_quote = !in_double_quote;
+            i++; // Skip the double quote
+        }
+        else
+        {
+            result[j++] = command[i++];
+        }
+    }
+
+    result[j] = '\0';
+    return result;
+}
+
 void	ft_echo(char *command)
 {
 	char	**str;
+	char	*aux;
 	int		n_option;
 	int		start_index;
 	int		first_part;
 
 	n_option = 0;
-	if (ft_strlen(command) >= 5)
+	aux = remove_quotes_echo(command);
+	printf("aux: %s\n", aux);
+	if (ft_strlen(aux) >= 5)
 	{
-		str = split_special(command + 5);
+		str = split_special(aux + 5);
 		if (!str)
 			return ;
 		handle_n_option(str, &n_option);
@@ -71,4 +115,5 @@ void	ft_echo(char *command)
 	}
 	else
 		write(STDOUT_FILENO, "\n", 1);
+	free(aux);
 }

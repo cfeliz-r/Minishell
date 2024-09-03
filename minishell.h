@@ -20,6 +20,9 @@
 
 extern volatile sig_atomic_t stop;
 extern int g_exit_status;
+
+
+char *remove_quotes_echo(const char *command);
 void process_more_info(char **split_result, t_command *command, int *i);
 void allocate_and_fill_outredirs(char **split_result, t_command *command, int count);
 int count_valid_redirections(char **split_result);
@@ -37,7 +40,7 @@ void	store_output_redirections(char **split_result,
 		t_command *command, int count);
 int	count_output_redirections(char **split_result);
 void	setup_signal_handler(struct sigaction *sa_int);
-pid_t	fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes, struct sigaction *sa_int);
+pid_t	fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
 void	setup_pipes(int **pipes, int num_cmds);
 void	remove_quotes_from_args(char **args);
 char	*remove_quotes(char *str);

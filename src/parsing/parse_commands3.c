@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/29 10:17:48 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:00:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,21 @@ static char	*handle_variable_expansion(const char *command,
 			|| command[ctx->i] == '_') && k < sizeof(key) - 1)
 		key[k++] = command[(ctx->i)++];
 	key[k] = '\0';
+
 	value = find_env_value(envp, key);
-	if (value == NULL)
-		return (ctx->result);
+	if (value == NULL)  // Si la variable no existe, agregar "$key" al resultado.
+	{
+		ctx->result = append_char(ctx->result, '$', &(ctx->j), &(ctx->buffer_size));
+		for (size_t i = 0; i < k; i++)
+		{
+			ctx->result = append_char(ctx->result, key[i], &(ctx->j), &(ctx->buffer_size));
+		}
+		return ctx->result;
+	}
+
 	while (*value != '\0')
 	{
-		ctx->result = append_char(ctx->result, *value++,
-				&(ctx->j), &(ctx->buffer_size));
+		ctx->result = append_char(ctx->result, *value++, &(ctx->j), &(ctx->buffer_size));
 		if (!ctx->result)
 			return (NULL);
 	}

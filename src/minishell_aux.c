@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/02 17:18:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:01:25 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,18 @@ int	handle_cd(t_command *comand)
 
 int	handle_export(t_command *comand, t_list_env *environ)
 {
-	if (ft_strncmp(comand->cmd_cpt, "export ", 7) == 0
-		||ft_strncmp(comand->cmd_cpt, "'export' ", 9) == 0
-		|| ft_strncmp(comand->cmd_cpt, "\"export\" ", 9) == 0
-		|| ft_strcmp(comand->cmd_cpt, "export") == 0)
+	char	*aux;
+	
+	aux = remove_quotes_echo(comand->cmd_cpt);
+	if (ft_strncmp(aux, "export ", 7) == 0
+		||ft_strncmp(aux, "'export' ", 9) == 0
+		|| ft_strncmp(aux, "\"export\" ", 9) == 0
+		|| ft_strcmp(aux, "export") == 0)
 	{
-		ft_export(comand->cmd_cpt, &environ);
+		ft_export(aux, &environ);
+		free(aux);
 		return (1);
 	}
+	free(aux);
 	return (0);
 }

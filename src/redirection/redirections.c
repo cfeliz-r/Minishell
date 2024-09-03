@@ -19,6 +19,15 @@ int handle_redirections(t_command *command)
 	int i;
 
 	i = -1;
+	if(command->heredoc_file != NULL)
+	{
+		fd = open(command->heredoc_file, O_RDONLY);
+		if (fd == -1)
+			return(perror("BABUTERM"), -1);
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (perror("BABUTERM"), -1);
+		close(fd);
+	}
 	if (command->inredir != NULL && contains_quotes(command->inredir) == 0)
 	{
 		fd = open(command->inredir, O_RDONLY);

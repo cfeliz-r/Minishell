@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/27 16:37:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:19:15 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	struct sigaction	sa_quit;
 	t_list_env			*envp_list;
 
+	printf("argc: %d\n", argc);
 	(void)argv;
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = 0;

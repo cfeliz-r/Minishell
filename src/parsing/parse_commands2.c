@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/03 16:26:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:30:52 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void handle_key_redir(t_command *command)
 	if(!command->args)
 	{
 		free_command(command);
-		return;
+		return ;
 	}
 }
 
@@ -93,7 +93,7 @@ int validate_command(t_command *command, t_list_env *envp)
 	if (command->args == NULL || command->args[0] == NULL)
 	{
 		free_command(command);
-		return 0;
+		return (0);
 	}
 	command->path = find_command_path(command->args[0], envp);
 	if (command->path == NULL)
@@ -104,7 +104,7 @@ int validate_command(t_command *command, t_list_env *envp)
 		else
 			ft_putstr(": command not found\n");
 		free_command(command);
-		return 0;
+		return (0);
 	}
 	return (1);
 }

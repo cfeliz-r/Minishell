@@ -30,6 +30,7 @@ typedef struct s_command
     char **outredirs;
     int appd_out;
     int   flag;
+    int   expand_heredoc;
 } t_command;
 
 typedef struct s_parse_context

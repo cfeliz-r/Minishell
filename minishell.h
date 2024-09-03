@@ -94,7 +94,7 @@ int         ft_parsing(char *line);
 void        process_redirections(t_command *command);
 int         handle_export(t_command *comand, t_list_env *environ);
 void        siginit(void);
-int         process_here_doc(t_command *command);
+int         process_here_doc(t_command *command, t_list_env *envp);
 void        sigint_handler_ha(int sig);
 int	        handle_cd(t_command *comand);
 int	        handle_echo(t_command *comand);

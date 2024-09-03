@@ -50,12 +50,13 @@ static char *generate_temp_file_name(void)
     return (file_name);
 }
 
-int process_here_doc(t_command *command)
+int process_here_doc(t_command *command, t_list_env *envp)
 {
     int index = 0;
     char *input_line;
     int fd;
     char *temp_file_name;
+    char *expanded_line;
 
     signal(SIGINT, sigint_handler_here_doc);
     temp_file_name = generate_temp_file_name();
@@ -87,7 +88,14 @@ int process_here_doc(t_command *command)
                     continue;
                 }
         }
-        write(fd, input_line, ft_strlen(input_line));
+        if (command->expand_heredoc == 1)
+        {
+            expanded_line = interpret_command(input_line, envp);
+            write(fd, expanded_line, ft_strlen(expanded_line));
+            free(expanded_line);
+        }
+        else
+            write(fd, input_line, ft_strlen(input_line));
         write(fd, "\n", 1);
         free(input_line);
     }

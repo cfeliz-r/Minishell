@@ -60,22 +60,23 @@ static void initialize_delimiters(char **split_result, t_command *command)
     i = -1;
     j = 0;
     command->flag = 1;
+	command->expand_heredoc = 1;
     while (split_result[++i] != NULL)
     {
         if (search_string_outside_quotes(split_result[i], "<<") == 1)
             command->flag = 1;
         else if (command->flag == 1)
         {
-            if (contains_quotes(split_result[i]))
+            if (contains_quotes(split_result[i]) == 1)
+			{
                 split_result[i] = split_quotes(split_result[i]);
+				command->expand_heredoc = 0;
+			}
             command->delimiters[j++] = ft_strdup(split_result[i]);
             command->flag = 0;
         }
         else
-        {
-			command->flag = 0;
 			process_more_info(split_result, command, &i);
-        }
     }
     command->delimiters[j] = NULL;
 }

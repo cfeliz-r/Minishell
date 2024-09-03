@@ -1,14 +1,5 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#define DARK_GRAY   "\x1b[90m"
-#define BLUE        "\x1b[34m"
-#define LIGHT_GRAY   "\x1b[37m"
-#define CYAN        "\x1b[36m"
-#define ORANGE "\033[38;5;208m"
-#define DARK_FOREST "\033[38;5;22m"
-#define FOREST_GREEN "\033[38;5;28m"
-#define LUSH_GREEN "\033[38;5;34m"
-#define BRIGHT_JUNGLE "\033[38;5;46m"
 #define JUNGLE_GREEN "\001\033[38;5;34m\002"
 #define RESET "\001\033[0m\002"
 #define MAX_TOKENS 100

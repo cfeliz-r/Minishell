@@ -1,0 +1,13 @@
+total 832
+drwxr-xr-x  7 cfeliz-r 2019    148 Sep  3 15:57 .
+drwxr-xr-x 10 cfeliz-r 2019    128 Sep  3 12:42 ..
+drwxr-xr-x  8 cfeliz-r 2019    198 Sep  3 15:56 .git
+drwxr-xr-x  3 cfeliz-r 2019   4096 Sep  3 15:56 libft
+-rwxr-xr-x  1 cfeliz-r 2019   4223 Sep  3 12:42 Makefile
+-rwxr-xr-x  1 cfeliz-r 2019 826808 Sep  3 15:56 minishell
+-rwxr-xr-x  1 cfeliz-r 2019   6527 Sep  3 15:55 minishell.h
+drwxr-xr-x 10 cfeliz-r 2019    313 Sep  3 15:56 obj
+-rw-r--r--  1 cfeliz-r 2019      0 Sep  3 15:57 out
+drwxr-xr-x 10 cfeliz-r 2019    313 Sep  3 13:42 src
+-rwxr-xr-x  1 cfeliz-r 2019   2091 Sep  3 12:42 structs.h
+drwxr-xr-x  2 cfeliz-r 2019     27 Sep  3 12:42 .vscode

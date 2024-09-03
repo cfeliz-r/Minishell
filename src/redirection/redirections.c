@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:08:39 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/02 19:40:07 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:56:49 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void allocate_and_fill_outredirs(char **split_result, t_command *command, int co
 	i = -1;
 	out_index = 0;
 	flag = 1;
-	if (count > 0)
-		command->outredirs = malloc(sizeof(char *) * (count + 1));
+	command->outredirs = malloc(sizeof(char *) * (count + 1));
 	while (split_result[++i] != NULL)
 	{
 		if (search_string_outside_quotes(split_result[i], ">") == 1)
@@ -92,7 +91,11 @@ void allocate_and_fill_outredirs(char **split_result, t_command *command, int co
 			flag = 0;
 		}
 		else
-			process_more_info(split_result, command, &i);
+		{
+			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
+			command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[i]);
+		}
+			
 	}
 	command->outredirs[out_index] = NULL;
 }
@@ -103,7 +106,7 @@ void process_more_info(char **split_result, t_command *command, int *i)
 		(*i)++;
 		if(command->inredir)
 			free(command->inredir);
-		command->inredir = strip_quotes(split_result[*i]);
+		command->inredir = ft_strdup(split_result[*i]);
 		return;
 	}
 	command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");

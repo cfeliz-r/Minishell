@@ -16,27 +16,19 @@ int handle_redirections(t_command *command)
 {
 	int fd;
 	int fd2;
-	int i = 0;
+	int i;
 
-	if (command->heredoc_file != NULL)
-	{
-		fd = open(command->heredoc_file, O_RDONLY);
-		if (fd == -1)
-			return(perror(""), -1);
-		if (dup2(fd, STDIN_FILENO) == -1)
-			return (perror(""), -1);
-		close(fd);
-	}
+	i = -1;
 	if (command->inredir != NULL && contains_quotes(command->inredir) == 0)
 	{
 		fd = open(command->inredir, O_RDONLY);
 		if (fd == -1)
-			return(perror(""), -1);
+			return(perror("BABUTERM"), -1);
 		if (dup2(fd, STDIN_FILENO) == -1)
-			return (perror(""), -1);
+			return (perror("BABUTERM"), -1);
 		close(fd);
 	}
-	while (command->outredirs && command->outredirs[i] != NULL)
+	while (command->outredirs && command->outredirs[++i] != NULL)
 	{
 		if (command->appd_out)
 			fd2 = open(command->outredirs[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -44,12 +36,11 @@ int handle_redirections(t_command *command)
 			fd2 = open(command->outredirs[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		
 		if (fd2 == -1)
-			return(perror(""), -1);
+			return(perror("BABUTERM"), -1);
 		
 		if (dup2(fd2, STDOUT_FILENO) == -1)
-			return(perror(""), -1);
+			return(perror("BABUTERM"), -1);
 		close(fd2);
-		i++;
 	}
 	return (0);
 }

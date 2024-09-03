@@ -70,9 +70,14 @@ static void initialize_delimiters(char **split_result, t_command *command)
             if (contains_quotes(split_result[i]) == 1)
 			{
                 split_result[i] = split_quotes(split_result[i]);
+				command->delimiters[j++] = ft_strdup(split_result[i]);
 				command->expand_heredoc = 0;
 			}
-            command->delimiters[j++] = ft_strdup(split_result[i]);
+			else
+				{
+					command->delimiters[j++] = ft_strdup(split_result[i]);
+					command->expand_heredoc = 1;
+				}
             command->flag = 0;
         }
         else

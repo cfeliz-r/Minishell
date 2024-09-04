@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/30 11:41:40 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**convert_envp_to_array(t_list_env *envp)
 
 void	execute_commands(t_list_env *envp, char *cmd)
 {
-	t_command	*commands;
+	t_cmd	*commands;
 	int			num_cmds;
 	int			i;
 

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/03 16:30:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ static char	**split_commands(const char *input)
 	return commands;
 }
 
-t_command *init_commands(char **command_strings, int num_cmds)
+t_cmd *init_commands(char **command_strings, int num_cmds)
 {
 	int i;
-	t_command *commands;
+	t_cmd *commands;
 
-	commands = malloc(sizeof(t_command) * num_cmds);
+	commands = malloc(sizeof(t_cmd) * num_cmds);
 	if (!commands || num_cmds == 0)
 	{
 		clean_up(command_strings, NULL, 0);
@@ -71,13 +71,13 @@ t_command *init_commands(char **command_strings, int num_cmds)
 	i = 0;
 	while (i < num_cmds)
 	{
-		ft_memset(&commands[i], 0, sizeof(t_command));
+		ft_memset(&commands[i], 0, sizeof(t_cmd));
 		commands[i].cmd_cpt = ft_strdup(command_strings[i]);
 		i++;
 	}
 	return (commands);
 }
-void handle_key_redir(t_command *command)
+void handle_key_redir(t_cmd *command)
 {
 	process_redirections(command);
 	command->args = split_special(command->cmd_cpt);
@@ -88,7 +88,7 @@ void handle_key_redir(t_command *command)
 	}
 }
 
-int validate_command(t_command *command, t_list_env *envp)
+int validate_command(t_cmd *command, t_list_env *envp)
 {
 	if (command->args == NULL || command->args[0] == NULL)
 	{
@@ -108,10 +108,10 @@ int validate_command(t_command *command, t_list_env *envp)
 	}
 	return (1);
 }
-t_command *parse_commands(char *input, int *num_cmds)
+t_cmd *parse_commands(char *input, int *num_cmds)
 {
 	char        **command_strings;
-	t_command   *commands;
+	t_cmd   *commands;
 	int        i;
 
 	command_strings = split_commands(input);

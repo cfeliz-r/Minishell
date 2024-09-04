@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/02 16:38:07 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	handle_pipes(int i, int num_cmds, int **pipes)
 		dup2(pipes[i][1], STDOUT_FILENO);
 	close_pipes(pipes, num_cmds);
 }
-void execute_command(t_command *command, char **env_array, t_list_env *envp)
+void execute_command(t_cmd *command, char **env_array, t_list_env *envp)
 {
     if (validate_command(command, envp) == 0)
     {
@@ -43,7 +43,7 @@ void execute_command(t_command *command, char **env_array, t_list_env *envp)
     }
 }
 
-void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
+void	child_process(t_cmd *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
 {
 	set_signal_handlers();
 	handle_pipes(i, num_cmds, pipes);

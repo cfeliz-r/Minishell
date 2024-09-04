@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/03 16:57:26 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void setup_signal_handler(struct sigaction *sa_int)
 	sigaction(SIGINT, sa_int, NULL);
 }
 
-static int handle_here_doc(t_command *command, int **pipes, int num_cmds, char **env_array, t_list_env *envp)
+static int handle_here_doc(t_cmd *command, int **pipes, int num_cmds, char **env_array, t_list_env *envp)
 {
 	if (command->delimiters && process_here_doc(command, envp) == -1)
 	{
@@ -29,7 +29,7 @@ static int handle_here_doc(t_command *command, int **pipes, int num_cmds, char *
 	return (0);
 }
 
-pid_t fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
+pid_t fork_and_process(t_cmd *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
 {
     pid_t pid = fork();
     struct sigaction sa_int;
@@ -49,7 +49,7 @@ pid_t fork_and_process(t_command *commands, int i, int num_cmds, char **env_arra
     return pid;
 }
 
-void prepare_commands(t_command *commands, int num_cmds, t_list_env *envp)
+void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
 {
     int **pipes;
     int i;

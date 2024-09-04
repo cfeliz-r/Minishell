@@ -20,11 +20,12 @@
 
 extern volatile sig_atomic_t stop;
 extern int g_exit_status;
-
-
+int handle_output_files(t_cmd *command);
+int handle_input_files(t_cmd *command);
+void	process_delimiter(char **split_result, t_cmd *command, int *i, int *j);
 char *remove_quotes_echo(const char *command);
-void process_more_info(char **split_result, t_command *command, int *i);
-void allocate_and_fill_outredirs(char **split_result, t_command *command, int count);
+void process_more_info(char **split_result, t_cmd *command, int *i);
+void allocate_and_fill_outredirs(char **split_result, t_cmd *command, int count);
 int count_valid_redirections(char **split_result);
 int is_within_quotes(const char *text, int index);
 void	sigint_handler_here_doc(int sig);
@@ -35,17 +36,17 @@ char *safe_strjoin_free(char *s1, const char *s2);
 char	*split_quotes(char *str);
 int		ft_count(char **split_result);
 void	initialize_output_redirection(char **output_redirection,
-	t_command *command);
+	t_cmd *command);
 void	store_output_redirections(char **split_result,
-		t_command *command, int count);
+		t_cmd *command, int count);
 int	count_output_redirections(char **split_result);
 void	setup_signal_handler(struct sigaction *sa_int);
-pid_t	fork_and_process(t_command *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
+pid_t	fork_and_process(t_cmd *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
 void	setup_pipes(int **pipes, int num_cmds);
 void	remove_quotes_from_args(char **args);
 char	*remove_quotes(char *str);
-void	child_process(t_command *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
-void	execute_command(t_command *command, char **env_array, t_list_env *envp);
+void	child_process(t_cmd *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes);
+void	execute_command(t_cmd *command, char **env_array, t_list_env *envp);
 void	set_signal_handlers(void);
 
 char	*remove_quotes(char *str);
@@ -89,41 +90,41 @@ int	handle_syntax_checks(char *line);
 int contains_quotes(const char *str);
 int is_builtin_command(char *cmd);
 void        remove_quotes_from_args(char **args);
-void        prepare_commands(t_command *commands, int num_cmds, t_list_env *envp);
+void        prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp);
 int         ft_parsing(char *line);
-void        process_redirections(t_command *command);
-int         handle_export(t_command *comand, t_list_env *environ);
+void        process_redirections(t_cmd *command);
+int         handle_export(t_cmd *comand, t_list_env *environ);
 void        siginit(void);
-int         process_here_doc(t_command *command, t_list_env *envp);
+int         process_here_doc(t_cmd *command, t_list_env *envp);
 void        sigint_handler_ha(int sig);
-int	        handle_cd(t_command *comand);
-int	        handle_echo(t_command *comand);
-int	        handle_env(t_command *comand, t_list_env *environ);
-int         handle_pwd(t_command *comand);
+int	        handle_cd(t_cmd *comand);
+int	        handle_echo(t_cmd *comand);
+int	        handle_env(t_cmd *comand, t_list_env *environ);
+int         handle_pwd(t_cmd *comand);
 size_t      aux_count(char **array);
 int         all_digits(const char *str);
 void        setup_signals(void);
 int         count_envp(t_list_env *envp);
 char        **convert_envp_to_array(t_list_env *envp);
-t_command   *init_commands(char **command_strings, int num_cmds);
+t_cmd   *init_commands(char **command_strings, int num_cmds);
 char        *ft_redir_cmd(char *input, t_list_env *envp);
-int         validate_command(t_command *command, t_list_env *envp);
+int         validate_command(t_cmd *command, t_list_env *envp);
 int         manage_error(int error_code, int return_value);
-void handle_key_redir(t_command *command);
+void handle_key_redir(t_cmd *command);
 void        execute_commands(t_list_env *list, char *cmd);
 //lists
 t_list_env  *create_list_envp(char **envp);
-void        clean_up_aux(t_command **commands);
-void        free_command(t_command *command);
-int         handle_redirections(t_command *command);
+void        clean_up_aux(t_cmd **commands);
+void        free_command(t_cmd *command);
+int         handle_redirections(t_cmd *command);
 //signals
 void        sigint_handler_2(int sig);
 void        sigint_handler(int sig);
 void        sigquit_handler(int sig);
 //ultils
-void        clean_up(char **args, t_command *commands, int num_cmds);
+void        clean_up(char **args, t_cmd *commands, int num_cmds);
 char        *find_command_path(char *cmd, t_list_env *envp);
-int         build_up(t_command *comand, t_list_env *environ);
+int         build_up(t_cmd *comand, t_list_env *environ);
 void        free_env_list(t_list_env *env_list);
 int         count_char(char *str, char c);
 //parseo
@@ -147,7 +148,7 @@ void        handle_export_no_args(t_list_env **envp);
 void		ft_export(char *input, t_list_env **envp);
 void        ft_cd(char *route);
 void        close_pipes(int **pipes, int num_cmds);
-t_command   *parse_commands(char *input, int *num_cmds);
+t_cmd   *parse_commands(char *input, int *num_cmds);
 void        ft_here_doc(char *delimiter, int fd[2]);
 
 

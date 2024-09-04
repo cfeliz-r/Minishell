@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/30 11:37:48 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char *generate_temp_file_name(void)
     return (file_name);
 }
 
-int process_here_doc(t_command *command, t_list_env *envp)
+int process_here_doc(t_cmd *command, t_list_env *envp)
 {
     int index = 0;
     char *input_line;

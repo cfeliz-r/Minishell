@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 16:01:25 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_pwd(t_command *comand)
+int	handle_pwd(t_cmd *comand)
 {
 	if (ft_strncmp(comand->args[0], "pwd ", 4) == 0
 		|| ft_strcmp(comand->args[0], "pwd") == 0)
@@ -23,7 +23,7 @@ int	handle_pwd(t_command *comand)
 	return (0);
 }
 
-int	handle_env(t_command *comand, t_list_env *environ)
+int	handle_env(t_cmd *comand, t_list_env *environ)
 {
 	if (ft_strncmp(comand->args[0], "env ", 4) == 0
 		|| ft_strcmp(comand->args[0], "env") == 0)
@@ -34,7 +34,7 @@ int	handle_env(t_command *comand, t_list_env *environ)
 	return (0);
 }
 
-int	handle_echo(t_command *comand)
+int	handle_echo(t_cmd *comand)
 {
 	if (ft_strncmp(comand->args[0], "echo ", 5) == 0
 		|| ft_strcmp(comand->args[0], "echo") == 0)
@@ -45,7 +45,7 @@ int	handle_echo(t_command *comand)
 	return (0);
 }
 
-int	handle_cd(t_command *comand)
+int	handle_cd(t_cmd *comand)
 {
 	if (ft_strncmp(comand->cmd_cpt, "cd ", 3) == 0
 		||ft_strncmp(comand->cmd_cpt, "'cd' ", 5) == 0
@@ -58,7 +58,7 @@ int	handle_cd(t_command *comand)
 	return (0);
 }
 
-int	handle_export(t_command *comand, t_list_env *environ)
+int	handle_export(t_cmd *comand, t_list_env *environ)
 {
 	char	*aux;
 	

@@ -6,13 +6,13 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:45:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/28 13:14:31 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	clean_up(char **args, t_command *commands, int num_cmds)
+void	clean_up(char **args, t_cmd *commands, int num_cmds)
 {
 	int	i;
 
@@ -69,7 +69,7 @@ void	close_pipes(int **pipes, int num_cmds)
 	free(pipes);
 }
 
-void	free_command_args(t_command *command)
+void	free_command_args(t_cmd *command)
 {
 	int	i;
 
@@ -82,7 +82,7 @@ void	free_command_args(t_command *command)
 	}
 }
 
-void	free_command(t_command *command)
+void	free_command(t_cmd *command)
 {
 	int	i;
 
@@ -109,5 +109,5 @@ void	free_command(t_command *command)
 			free(command->delimiters[i++]);
 		free(command->delimiters);
 	}
-	ft_memset(command, 0, sizeof(t_command));
+	ft_memset(command, 0, sizeof(t_cmd));
 }

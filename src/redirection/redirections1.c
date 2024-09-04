@@ -6,12 +6,11 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/03 15:47:29 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:32:32 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 static void handle_input_redirection(char *input_redirection, t_command *command)
 {
@@ -21,15 +20,18 @@ static void handle_input_redirection(char *input_redirection, t_command *command
 	i = 0;
 	*input_redirection = 0;
 	split_result = split_special(input_redirection + 1);
-	if(split_result != NULL)
+	if(split_result[0] != NULL)
 	{
 		if (command->heredoc_file == NULL)
 			command->inredir = ft_strdup(split_result[0]);
 		else
 			command->inredir = ft_strdup(command->heredoc_file);
 	}
-	while(split_result[++i] != NULL)
-		process_more_info(split_result, command, &i);
+	if(split_result[0] != NULL)
+	{	
+		while(split_result[++i] != NULL)
+			process_more_info(split_result, command, &i);
+	}
 	clean_up(split_result, NULL, 0);
 }
 

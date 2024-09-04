@@ -6,64 +6,74 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 18:44:38 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 19:06:37 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void append_counter_to_file_name(char *file_name, int counter)
+static void	append_counter_to_file_name(char *file_name, int counter)
 {
-    char counter_str[11];
-    char *p;
-    int temp_counter;
+	char	counter_str[11];
+	char	*p;
+	int		temp_counter;
 
-    p = counter_str + sizeof(counter_str) - 1;
-    *p = '\0';
-    temp_counter = counter;
-    while (temp_counter > 0)
-    {
-        *(--p) = '0' + (temp_counter % 10);
-        temp_counter /= 10;
-    }
-    if (counter == 0)
-        *(--p) = '0';
-    ft_strcat(file_name, p);
+	p = counter_str + sizeof(counter_str) - 1;
+	*p = '\0';
+	temp_counter = counter;
+	while (temp_counter > 0)
+	{
+		*(--p) = '0' + (temp_counter % 10);
+		temp_counter /= 10;
+	}
+	if (counter == 0)
+		*(--p) = '0';
+	ft_strcat(file_name, p);
 }
 
-static int calculate_counter_length(int counter)
+static int	calculate_counter_length(int counter)
 {
-    int counter_len = 0;
-    int temp_counter = counter;
+	int		counter_len;
+	int		temp_counter;
 
-    while (temp_counter > 0)
-    {
-        counter_len++;
-        temp_counter /= 10;
-    }
-    return (counter == 0) ? 1 : counter_len;
+	counter_len = 0;
+	temp_counter = counter;
+	while (temp_counter > 0)
+	{
+		counter_len++;
+		temp_counter /= 10;
+	}
+	if (counter == 0)
+		return (1);
+	else
+		return (counter_len);
 }
 
-char *generate_temp_file_name(void)
+char	*generate_temp_file_name(void)
 {
-    static int file_counter = 0;
-    const char *prefix = "/tmp/heredoc_";
-    int counter_len = calculate_counter_length(file_counter);
-    int temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
-    char *file_name = malloc(temp_file_name_len);
+	static int	file_counter;
+	const char	*prefix;
+	int			counter_len;
+	int			temp_file_name_len;
+	char		*file_name;
 
-    ft_strcpy(file_name, prefix);
-    append_counter_to_file_name(file_name, file_counter++);
-    return (file_name);
+	file_counter = 0;
+	prefix = "/tmp/heredoc_";
+	counter_len = calculate_counter_length(file_counter);
+	temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
+	file_name = malloc(temp_file_name_len);
+	ft_strcpy(file_name, prefix);
+	append_counter_to_file_name(file_name, file_counter++);
+	return (file_name);
 }
 
-static int	handle_input_line(char *input_line, t_cmd *cmd, int fd, t_list_env *envp)
+static int	handle_line(char *input_line, t_cmd *cmd, int fd, t_list_env *envp)
 {
 	char	*expanded_line;
 
 	if (ft_strcmp(input_line, cmd->delimiters[cmd->hdc_index]) == 0)
 	{
-        free(input_line);
+		free(input_line);
 		cmd->hdc_index++;
 		return (1);
 	}
@@ -74,9 +84,7 @@ static int	handle_input_line(char *input_line, t_cmd *cmd, int fd, t_list_env *e
 		free(expanded_line);
 	}
 	else
-	{
 		write(fd, input_line, ft_strlen(input_line));
-	}
 	write(fd, "\n", 1);
 	return (0);
 }
@@ -92,17 +100,17 @@ int	process_here_doc(t_cmd *cmd, t_list_env *envp)
 	while (1)
 	{
 		input_line = readline("> ");
-		if(handle_stop_condition(input_line, cmd, fd) == -1)
+		if (handle_stop_condition(input_line, cmd, fd) == -1)
 			return (-1);
-		if (handle_input_line(input_line, cmd, fd, envp) == 1)
+		if (handle_line(input_line, cmd, fd, envp) == 1)
 		{
 			if (cmd->delimiters[cmd->hdc_index] == NULL)
 				break ;
 			close(fd);
 			fd = open_temp_file(&cmd->heredoc_file);
-            continue;
+			continue ;
 		}
-        free(input_line);
+		free(input_line);
 	}
 	close(fd);
 	return (0);

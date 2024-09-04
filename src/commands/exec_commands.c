@@ -6,11 +6,38 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:52:13 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	open_temp_file(char **temp_file_name)
+{
+	if (*temp_file_name)
+	{
+		unlink(*temp_file_name);
+		free(*temp_file_name);
+	}
+	*temp_file_name = generate_temp_file_name();
+	return (open(*temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600));
+}
+
+int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
+{
+	if (!input_line || stop == 1)
+	{
+		if (!input_line)
+			write(STDOUT_FILENO, "\n", 1);
+		else
+			free(input_line);
+		unlink(cmd->heredoc_file);
+		stop = 0;
+		close(fd);
+		return (-1);
+	}
+	return (0);
+}
 
 int	count_envp(t_list_env *envp)
 {
@@ -58,8 +85,8 @@ char	**convert_envp_to_array(t_list_env *envp)
 void	execute_commands(t_list_env *envp, char *cmd)
 {
 	t_cmd	*commands;
-	int			num_cmds;
-	int			i;
+	int		num_cmds;
+	int		i;
 
 	commands = parse_commands(cmd, &num_cmds);
 	if (!commands)

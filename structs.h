@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/04 15:31:37 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:00:25 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_cmd
 	char **delimiters;
 	char **outredirs;
 	int out_index;
+	int hdc_index;
 	int appd_out;
 	int flag;
 	int expand_heredoc;

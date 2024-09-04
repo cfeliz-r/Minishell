@@ -20,6 +20,11 @@
 
 extern volatile sig_atomic_t stop;
 extern int g_exit_status;
+
+
+int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd);
+char *generate_temp_file_name(void);
+int open_temp_file(char **temp_file_name);
 int handle_output_files(t_cmd *command);
 int handle_input_files(t_cmd *command);
 void	process_delimiter(char **split_result, t_cmd *command, int *i, int *j);

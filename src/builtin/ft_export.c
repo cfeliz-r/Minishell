@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 10:54:21 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 18:52:39 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,11 @@ void	ft_export(char *input, t_list_env **envp)
 		return ;
 	if (ft_strcmp(input, "export") == 0 && (input[6] == '\0'
 			|| is_space((unsigned char)input[6])))
-		handle_export_no_args(envp);
+		return ;
 	else if (ft_strncmp(input, "export ", 7) == 0)
 	{
 		ptr = input + 7;
 		add_export(ptr, envp);
 	}
+	/* handle_export_no_args(envp); */
 }

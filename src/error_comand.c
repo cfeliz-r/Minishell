@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 11:54:37 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:55:32 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_redirections_and_syntax(char *line)
 			in_double_quote = !in_double_quote;
 		if (!in_single_quote && !in_double_quote)
 		{
-			if (check_redirection_syntax(line, &i) == 0)
+			if (check_redirections(line) == 0)
 			{
 				exit_with_error("redirection syntax error\n");
 				return (1);
@@ -99,10 +99,8 @@ int	ft_parsing(char *line)
 {
 	char	*aux;
 
-	// Verificamos los chequeos iniciales
 	if (handle_initial_checks(line, &aux) == 1)
 		return (1);
-	// Verificamos la sintaxis y los redireccionamientos
 	if (handle_syntax_checks(line) == 1)
 		return (1);
 	return (0);

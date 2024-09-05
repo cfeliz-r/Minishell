@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 17:56:06 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:58:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,30 @@ int	check_special_chars(char *line)
 	return (1);
 }
 
-int	check_redirections(char *line)
-{
-	while (*line)
-	{
-		if (*line == '>' || *line == '<')
-		{
+int is_inside_quotes(char *line) {
+	int single_quotes = 0;
+	int double_quotes = 0;
+	
+	while (*line) {
+		if (*line == '\'') {
+			single_quotes = !single_quotes;
+		} else if (*line == '\"') {
+			double_quotes = !double_quotes;
+		}
+		line++;
+	}
+	return single_quotes || double_quotes;
+}
+
+int check_redirections(char *line) {
+	int inside_quotes = 0;
+
+	while (*line) {
+		if (*line == '\'' || *line == '\"') {
+			inside_quotes = !inside_quotes;
+		}
+
+		if (!inside_quotes && (*line == '>' || *line == '<')) {
 			if (*(line + 1) == *line || (*line == '<' && *(line + 1) == '>'))
 				line++;
 			while (is_space(*(line + 1)))

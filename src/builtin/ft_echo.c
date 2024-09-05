@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/04 16:57:19 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:57:48 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,14 @@ char *remove_quotes_echo(const char *command)
 void	ft_echo(char *command)
 {
 	char	**str;
-	char	*aux;
 	int		n_option;
 	int		start_index;
 	int		first_part;
 
 	n_option = 0;
-	aux = remove_quotes_echo(command);
-	if (ft_strlen(aux) >= 5)
+	if (ft_strlen(command) >= 5)
 	{
-		str = split_special(aux + 5);
+		str = split_special(command + 5);
 		if (!str)
 			return ;
 		handle_n_option(str, &n_option);
@@ -115,5 +113,4 @@ void	ft_echo(char *command)
 	}
 	else
 		write(STDOUT_FILENO, "\n", 1);
-	free(aux);
 }

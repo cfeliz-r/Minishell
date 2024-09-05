@@ -6,31 +6,31 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/28 12:26:38 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:54:37 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	check_redirection_syntax(const char *line, int *i)
+{
+	if ((line[*i] == '>' && line[*i + 1] == '>') || (line[*i] == '<' && line[*i + 1] == '<'))
+		*i += 1;
+	else if (line[*i] == '>' || line[*i] == '<')
+		return (1);
+	if ((line[*i] == '>' && line[*i + 1] == '<') || (line[*i] == '<' && line[*i + 1] == '>'))
+		return (0);
+	return (1);
+}
+
 int	handle_initial_checks(char *line, char **aux)
 {
 	*aux = line;
 	if (line == NULL || *line == '\0')
-	{
 		return (1);
-	}
 	if (line != NULL)
 	{
 		*aux = remove_spaces(*aux);
-		if (ft_strncmp(*aux, "\"<\"", 3) == 0
-			|| ft_strncmp(*aux, "\">\"", 3) == 0
-			|| ft_strncmp(*aux, "\">>\"", 4) == 0
-			|| ft_strncmp(*aux, "\"<<\"", 4) == 0)
-		{
-			exit_with_error("command not found\n");
-			free(*aux);
-			return (1);
-		}
 		free(*aux);
 	}
 	return (0);
@@ -53,10 +53,25 @@ int	check_quotes_and_special_chars(char *line)
 
 int	check_redirections_and_syntax(char *line)
 {
-	if (check_redirections(line) == 0)
+	int in_single_quote = 0;
+	int in_double_quote = 0;
+	int i = 0;
+
+	while (line[i])
 	{
-		exit_with_error("redirection syntax error\n");
-		return (1);
+		if (line[i] == '\'' && in_double_quote == 0)
+			in_single_quote = !in_single_quote;
+		else if (line[i] == '"' && in_single_quote == 0)
+			in_double_quote = !in_double_quote;
+		if (!in_single_quote && !in_double_quote)
+		{
+			if (check_redirection_syntax(line, &i) == 0)
+			{
+				exit_with_error("redirection syntax error\n");
+				return (1);
+			}
+		}
+		i++;
 	}
 	if (check_syntax(line) == 0)
 	{
@@ -84,8 +99,10 @@ int	ft_parsing(char *line)
 {
 	char	*aux;
 
+	// Verificamos los chequeos iniciales
 	if (handle_initial_checks(line, &aux) == 1)
 		return (1);
+	// Verificamos la sintaxis y los redireccionamientos
 	if (handle_syntax_checks(line) == 1)
 		return (1);
 	return (0);

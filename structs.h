@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 19:01:37 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 19:02:13 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,5 @@ typedef struct s_temp_file_data
 	int counter_len;
 	char counter_str[11];
 } t_temp_file_data;
-
 
 #endif

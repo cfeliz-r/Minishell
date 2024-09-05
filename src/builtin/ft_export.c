@@ -6,123 +6,131 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 16:38:30 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 10:54:21 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/* static void	skip_whitespace(const char **ptr)
+/* // Función para contar cuántos argumentos hay
+int	count_args(const char *input)
 {
-	while (is_space((unsigned char)**ptr))
-		(*ptr)++;
-}
+	int	count = 0;
+	int	in_quotes = 0;
 
-static char	*handle_quotes(const char **ptr, int *inside_quotes)
-{
-	char	quote;
-	char	*var_end;
-
-	if (**ptr == '"' || **ptr == '\'')
+	while (*input)
 	{
-		quote = *(*ptr)++;
-		*inside_quotes = 1;
-		var_end = strchr(*ptr, quote);
-		if (var_end)
-			var_end++;
-		else
-			var_end = (char *)(*ptr) + strlen(*ptr);
-	}
-	else
-		var_end = (char *)*ptr;
-	return (var_end);
-}
+		// Ignorar espacios fuera de las comillas
+		while (is_space((unsigned char)*input))
+			input++;
+		if (*input == '\0')
+			break;
 
-static void	process_variable_end(char *var_start,
-	char *var_end, t_list_env **envp)
-{
-	char	*variable;
-
-	if (var_start < var_end)
-	{
-		variable = strndup(var_start, var_end - var_start);
-		if (variable)
+		// Encontrar inicio de argumento
+		count++;
+		while (*input && (in_quotes || !is_space((unsigned char)*input)))
 		{
-			add_or_update_export(envp, variable);
-			free(variable);
+			if (*input == '"')
+				in_quotes = !in_quotes; // Cambiar el estado de estar dentro/fuera de comillas
+			input++;
 		}
 	}
+	return count;
 }
 
-static void	process_variable(const char **ptr, t_list_env **envp)
+// Función para separar los argumentos considerando comillas
+char	**split_special_export(const char *input)
 {
-	char	*var_start;
-	char	*var_end;
-	int		inside_quotes;
+	char	**result;
+	int		args_count;
+	int		in_quotes = 0;
+	int		start, end, arg_len;
+	int		i = 0, j = 0;
 
-	while (**ptr)
+	args_count = count_args(input); // Contamos los argumentos
+	result = (char **)malloc((args_count + 1) * sizeof(char *)); // +1 para el NULL al final
+
+	while (input[i])
 	{
-		skip_whitespace(ptr);
-		var_start = (char *)*ptr;
-		inside_quotes = 0;
-		var_end = handle_quotes(ptr, &inside_quotes);
-		if (!inside_quotes)
+		// Ignorar espacios fuera de las comillas
+		while (is_space((unsigned char)input[i]))
+			i++;
+		if (input[i] == '\0')
+			break;
+
+		// Guardar el inicio del argumento
+		start = i;
+		while (input[i] && (in_quotes || !is_space((unsigned char)input[i])))
 		{
-			while (**ptr && (!is_space((unsigned char)**ptr)
-					|| inside_quotes))
-			{
-				if (**ptr == '"' || **ptr == '\'')
-					inside_quotes = !inside_quotes;
-				(*ptr)++;
-			}
-			var_end = (char *)*ptr;
+			if (input[i] == '"')
+				in_quotes = !in_quotes; // Cambiar el estado de comillas
+			i++;
 		}
-		process_variable_end(var_start, var_end, envp);
+		end = i;
+
+		// Extraer el argumento sin espacios
+		arg_len = end - start;
+		result[j] = (char *)malloc((arg_len + 1) * sizeof(char));
+		strncpy(result[j], &input[start], arg_len);
+		result[j][arg_len] = '\0'; // Null-terminar la cadena
+		j++;
 	}
+	result[j] = NULL; // Añadimos NULL al final
+
+	return result;
 } */
 
-int compare_until_equal_sign(const char *str, const char *target)
+int	compare_until_equal_sign(const char *str, const char *target)
 {
-    size_t i = 0;
+	size_t	i;
 
-    while (str[i] != '=' && str[i] != '\0')
-    {
-        if (str[i] == ' ')
-        {
-            i++;
-            continue ;
-        }
-        if (str[i] != target[i])
-            return (0);
-        i++;
-    }
-    if (str[i] == '=')
-        return (1);
-    return (0);
+	i = 0;
+	while (str[i] != '=' && str[i] != '\0')
+	{
+		if (str[i] == ' ')
+		{
+			i++;
+			continue ;
+		}
+		if (str[i] != target[i])
+			return (0);
+		i++;
+	}
+	if (str[i] == '=')
+		return (1);
+	return (0);
 }
 
-void add_export(const char *input, t_list_env **envp)
+void	add_export(const char *input, t_list_env **envp)
 {
-    char *aux;
-    int i;
+	char		**split;
+	t_list_env	*temp;
+	int			i;
+	int			found;
 
-    i = 0;
-    while (is_space((unsigned char)input[i]))
-        i++;
-    aux = ft_strdup(&input[i]);
-
-    while (*envp != NULL)
-    {
-        if (compare_until_equal_sign((const char *)(*envp)->envp_content, (const char *)aux) == 1)
-        {
-            free((*envp)->envp_content);
-            (*envp)->envp_content = ft_strdup(aux);
-            free(aux);
-            return ;
-        }
-        envp = &(*envp)->next;
-    }
-    ft_lstadd_back(envp, ft_lstnew(aux));
+	i = 0;
+	split = split_special(&input[i]);
+	i = 0;
+	while (split[i] != NULL)
+	{
+		temp = *envp;
+		found = 0;
+		while (temp != NULL)
+		{
+			if (compare_until_equal_sign((const char *)temp->envp_content,
+				(const char *)split[i]) == 1)
+			{
+				temp->envp_content = ft_strdup(split[i]);
+				found = 1;
+				break ;
+			}
+			temp = temp->next;
+		}
+		if (!found)
+			ft_lstadd_back(envp, ft_lstnew(ft_strdup(split[i])));
+		i++;
+	}
+	clean_up(split, NULL, 0);
 }
 
 void	ft_export(char *input, t_list_env **envp)
@@ -137,7 +145,6 @@ void	ft_export(char *input, t_list_env **envp)
 	else if (ft_strncmp(input, "export ", 7) == 0)
 	{
 		ptr = input + 7;
- 		add_export(ptr, envp);
-		/* process_variable(&ptr, envp); */
+		add_export(ptr, envp);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 16:40:53 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:24:22 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,22 @@ static void	process_command_unset(t_list_env **envp, char **command)
 void	ft_unset(char *input, t_list_env **envp)
 {
 	char	**command;
+	char	*temp;
+	int		i;
 
+	i = 0;
 	if (!input || !envp || !*envp)
 		return ;
 	command = ft_split(input, ' ');
 	if (!command)
-		return ;
+		return;
+	while (command[i])
+	{
+		temp = command[i];
+		command[i] = remove_quotes(command[i]);
+		free(temp);
+		i++;
+	}
 	process_command_unset(envp, command);
 	clean_up(command, NULL, 0);
 }

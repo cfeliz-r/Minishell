@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 18:30:27 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:10:38 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,31 @@ void	process_route(char *route)
 {
 	char	**str_route;
 	char	*cleaned_route;
+	int		i;
 
 	str_route = ft_split(route, ' ');
-	if (str_route[1] != NULL)
+	i = 0;
+	while (str_route[i])
+		i++;
+	if (i == 2)
 	{
-		cleaned_route = remove_quotes_cd(str_route[1]);
-		if (cleaned_route != NULL)
+		if (str_route[1] != NULL)
 		{
-			handle_directory_change(cleaned_route, str_route[1]);
+			cleaned_route = remove_quotes_cd(str_route[1]);
+			if (cleaned_route != NULL)
+			{
+				handle_directory_change(cleaned_route, str_route[1]);
+			}
+			else
+			{
+				handle_memory_error();
+			}
 		}
-		else
-		{
-			handle_memory_error();
-		}
+	}
+	else
+	{
+		printf("cd: too many arguments\n");
+		manage_error(1, 0);
 	}
 	clean_up(str_route, NULL, 0);
 }

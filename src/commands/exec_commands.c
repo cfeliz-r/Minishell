@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/04 18:52:13 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:46:23 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	open_temp_file(char **temp_file_name)
 {
-	if (*temp_file_name)
-	{
-		unlink(*temp_file_name);
-		free(*temp_file_name);
-	}
 	*temp_file_name = generate_temp_file_name();
+	while(access(*temp_file_name, F_OK) == 0)
+	{
+		free(*temp_file_name);
+		*temp_file_name = generate_temp_file_name();
+	}
 	return (open(*temp_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600));
 }
 

@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include "structs.h"
 #include <errno.h>
+#include <limits.h>
 #include "libft/libft.h"
 #include <signal.h>
 #include <sys/ioctl.h>

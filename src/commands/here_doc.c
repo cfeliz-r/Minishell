@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/06 12:49:54 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:37:33 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ static int	calculate_counter_length(int counter)
 
 char	*generate_temp_file_name(void)
 {
-	static int	file_counter;
+	static int	file_counter = 0;
 	const char	*prefix;
 	int			counter_len;
 	int			temp_file_name_len;
 	char		*file_name;
 
-	file_counter = 0;
 	prefix = "/tmp/heredoc_";
 	counter_len = calculate_counter_length(file_counter);
 	temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
+	if(access("/tmp", F_OK) == 0)
+		file_counter++;
 	file_name = malloc(temp_file_name_len);
 	ft_strcpy(file_name, prefix);
 	append_counter_to_file_name(file_name, file_counter++);

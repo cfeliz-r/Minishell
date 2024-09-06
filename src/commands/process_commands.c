@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/06 19:05:40 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 20:17:31 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
     i = -1;
     while (++i < num_cmds)
     {
-        do {
-            pid = waitpid(-1, &status, 0);
-        } while (pid == -1 && errno == EINTR);
+        pid = waitpid(-1, &status, 0);
 
         if (pid == -1)
         {

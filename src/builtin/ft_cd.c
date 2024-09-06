@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 11:10:38 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:02:15 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,9 @@ void	process_route(char *route)
 		{
 			cleaned_route = remove_quotes_cd(str_route[1]);
 			if (cleaned_route != NULL)
-			{
 				handle_directory_change(cleaned_route, str_route[1]);
-			}
 			else
-			{
 				handle_memory_error();
-			}
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 16:12:21 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:57:26 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	update_or_create(char *str, t_list_env **envp, int found)
 	t_list_env	*temp;
 
 	temp = *envp;
-	if(ft_isalpha(str[0]) == 0)
+	if (ft_isalpha(str[0]) == 0)
 	{
-		printf("BABUTERM: export: `%s': not a valid identifier\n", str);
+		printf("BABUTERM: export: `%s´: not a valid identifier\n", str);
 		return ;
 	}
 	while (temp)
@@ -84,6 +84,13 @@ void	add_export(const char *input, t_list_env **envp)
 	i = 0;
 	while (split[i] != NULL)
 	{
+		if (split[i][0] == '=')
+		{
+			printf("BABUTERM: export: `%s´: not a valid identifier\n",
+				split[i]);
+			i++;
+			continue ;
+		}
 		if (!has_equal_sign(split[i]))
 		{
 			i++;

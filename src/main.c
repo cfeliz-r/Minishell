@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 15:55:26 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:58:53 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	sa_quit.sa_flags = 0;
 	sigaction(SIGQUIT, &sa_quit, NULL);
 	envp_list = create_list_envp(envp);
+	ft_lstadd_back(&envp_list, ft_lstnew(ft_strdup("BABUTERM=CFELIZ-R MANUFERN")));
 	if (argc == 1)
 		process_input(envp_list);
 	return (0);

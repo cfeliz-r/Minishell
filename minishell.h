@@ -22,6 +22,10 @@ extern volatile sig_atomic_t stop;
 extern int g_exit_status;
 
 
+
+
+int	compare_until_equal_sign(const char *str, const char *target);
+int	handle_unset(t_cmd *comand, t_list_env *environ);
 int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd);
 char *generate_temp_file_name(void);
 int open_temp_file(char **temp_file_name);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 18:15:56 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 10:40:51 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:05:55 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,34 +72,22 @@ char	*strip_quotes(char *str)
 	char	current_quote;
 
 	len = ft_strlen(str);
-	result = malloc(len + 1);  // +1 para el carácter nulo
+	result = malloc(len + 1);
 	if (!result)
 		return (NULL);
-
 	i = 0;
 	j = 0;
 	current_quote = '\0';
 	while (i < len)
 	{
-		// Si encontramos una comilla y no estamos ya dentro de un par
 		if ((str[i] == '\'' || str[i] == '"') && current_quote == '\0')
-		{
-			// Establecer el tipo de comilla encontrada
 			current_quote = str[i];
-		}
-		// Si encontramos una comilla que cierra el par
 		else if (str[i] == current_quote)
-		{
-			// Cerramos el par de comillas
 			current_quote = '\0';
-		}
-		// Copiar los caracteres que no están dentro de un par de comillas
 		else
-		{
 			result[j++] = str[i];
-		}
 		i++;
 	}
-	result[j] = '\0';  // Terminar la cadena resultante
+	result[j] = '\0';
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 12:31:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:14:20 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,15 @@ typedef struct s_temp_file_data
 	int counter_len;
 	char counter_str[11];
 } t_temp_file_data;
+
+typedef struct s_quote_remover
+{
+    size_t	i;
+    size_t	j;
+    size_t	len;
+    char	*result;
+    int		in_single_quote;
+    int		in_double_quote;
+} t_quote_remover;
 
 #endif

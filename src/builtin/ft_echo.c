@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 11:57:48 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:15:31 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,45 +49,32 @@ void	handle_n_option(char **str, int *n_option)
 	}
 }
 
-char *remove_quotes_echo(const char *command)
+char	*remove_quotes_echo(const char *command)
 {
-    size_t i;
-    size_t j;
-    size_t len;
-    char *result;
-    int in_single_quote = 0;
-    int in_double_quote = 0;
+	t_quote_remover	qr;
 
-    if (!command)
-        return NULL;
-
-    len = strlen(command);
-    result = malloc(len + 1);
-    if (!result)
-        return NULL;
-
-    i = 0;
-    j = 0;
-    while (i < len)
-    {
-        if (command[i] == '\'' && !in_double_quote)
-        {
-            in_single_quote = !in_single_quote;
-            i++;
-        }
-        else if (command[i] == '\"' && !in_single_quote)
-        {
-            in_double_quote = !in_double_quote;
-            i++;
-        }
-        else
-        {
-            result[j++] = command[i++];
-        }
-    }
-
-    result[j] = '\0';
-    return result;
+	if (!command)
+		return (NULL);
+	qr.len = strlen(command);
+	qr.result = malloc(qr.len + 1);
+	if (!qr.result)
+		return (NULL);
+	qr.i = 0;
+	qr.j = 0;
+	qr.in_single_quote = 0;
+	qr.in_double_quote = 0;
+	while (qr.i < qr.len)
+	{
+		if (command[qr.i] == '\'' && !qr.in_double_quote)
+			qr.in_single_quote = !qr.in_single_quote;
+		else if (command[qr.i] == '\"' && !qr.in_single_quote)
+			qr.in_double_quote = !qr.in_double_quote;
+		else
+			qr.result[qr.j++] = command[qr.i];
+		qr.i++;
+	}
+	qr.result[qr.j] = '\0';
+	return (qr.result);
 }
 
 void	ft_echo(char *command)

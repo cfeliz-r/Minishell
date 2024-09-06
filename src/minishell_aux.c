@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 11:06:31 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:44:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,20 @@ int	handle_cd(t_cmd *comand)
 	}
 	return (0);
 }
+
+int	handle_unset(t_cmd *comand, t_list_env *environ)
+{
+	if (ft_strncmp(comand->cmd_cpt, "unset ", 6) == 0
+		||ft_strncmp(comand->cmd_cpt, "'unset' ", 8) == 0
+		|| ft_strncmp(comand->cmd_cpt, "\"unset\" ", 8) == 0
+		|| ft_strncmp(comand->cmd_cpt, "unset\0", 6) == 0)
+	{
+		ft_unset(comand->cmd_cpt, &environ);
+		return (1);
+	}
+	return (0);
+}
+
 
 int	handle_export(t_cmd *comand, t_list_env *environ)
 {

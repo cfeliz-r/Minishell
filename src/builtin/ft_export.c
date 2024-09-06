@@ -6,79 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 12:30:23 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:12:21 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/* // Función para contar cuántos argumentos hay
-int	count_args(const char *input)
-{
-	int	count = 0;
-	int	in_quotes = 0;
-
-	while (*input)
-	{
-		// Ignorar espacios fuera de las comillas
-		while (is_space((unsigned char)*input))
-			input++;
-		if (*input == '\0')
-			break;
-
-		// Encontrar inicio de argumento
-		count++;
-		while (*input && (in_quotes || !is_space((unsigned char)*input)))
-		{
-			if (*input == '"')
-				in_quotes = !in_quotes; // Cambiar el estado de estar dentro/fuera de comillas
-			input++;
-		}
-	}
-	return count;
-}
-
-// Función para separar los argumentos considerando comillas
-char	**split_special_export(const char *input)
-{
-	char	**result;
-	int		args_count;
-	int		in_quotes = 0;
-	int		start, end, arg_len;
-	int		i = 0, j = 0;
-
-	args_count = count_args(input); // Contamos los argumentos
-	result = (char **)malloc((args_count + 1) * sizeof(char *)); // +1 para el NULL al final
-
-	while (input[i])
-	{
-		// Ignorar espacios fuera de las comillas
-		while (is_space((unsigned char)input[i]))
-			i++;
-		if (input[i] == '\0')
-			break;
-
-		// Guardar el inicio del argumento
-		start = i;
-		while (input[i] && (in_quotes || !is_space((unsigned char)input[i])))
-		{
-			if (input[i] == '"')
-				in_quotes = !in_quotes; // Cambiar el estado de comillas
-			i++;
-		}
-		end = i;
-
-		// Extraer el argumento sin espacios
-		arg_len = end - start;
-		result[j] = (char *)malloc((arg_len + 1) * sizeof(char));
-		strncpy(result[j], &input[start], arg_len);
-		result[j][arg_len] = '\0'; // Null-terminar la cadena
-		j++;
-	}
-	result[j] = NULL; // Añadimos NULL al final
-
-	return result;
-} */
 
 int	compare_until_equal_sign(const char *str, const char *target)
 {
@@ -96,38 +28,57 @@ int	compare_until_equal_sign(const char *str, const char *target)
 			return (0);
 		i++;
 	}
-	// Permitir coincidencias cuando ambos alcanzan el '=' o el final de cadena
-	if ((str[i] == '=' || str[i] == '\0') && (target[i] == '=' || target[i] == '\0'))
+	if ((str[i] == '=' || str[i] == '\0') && (target[i] == '='
+			|| target[i] == '\0'))
 		return (1);
 	return (0);
 }
 
-// Función para verificar si una cadena tiene algo antes y después de un '='
 int	has_equal_sign(const char *str)
 {
-	int before = 0;
+	int	before;
 
+	before = 0;
 	while (*str)
 	{
 		if (*str == '=')
-		{
-			// Permitir '=' al final (valor vacío)
 			return (before);
-		}
 		if (!before && *str != ' ' && *str != '\t')
-			before = 1; // Hay algo antes del '='
+			before = 1;
 		str++;
 	}
-	return (0); // No se encontró un '=' válido
+	return (0);
 }
 
-// Función que agrega o modifica una variable de entorno
+void	update_or_create(char *str, t_list_env **envp, int found)
+{
+	t_list_env	*temp;
+
+	temp = *envp;
+	if(ft_isalpha(str[0]) == 0)
+	{
+		printf("BABUTERM: export: `%s': not a valid identifier\n", str);
+		return ;
+	}
+	while (temp)
+	{
+		if (compare_until_equal_sign(temp->envp_content, str) == 1)
+		{
+			free(temp->envp_content);
+			temp->envp_content = ft_strdup(str);
+			found = 1;
+			break ;
+		}
+		temp = temp->next;
+	}
+	if (!found)
+		ft_lstadd_back(envp, ft_lstnew(ft_strdup(str)));
+}
+
 void	add_export(const char *input, t_list_env **envp)
 {
 	char		**split;
-	t_list_env	*temp;
 	int			i;
-	int			found;
 
 	split = split_special(input);
 	i = 0;
@@ -138,28 +89,12 @@ void	add_export(const char *input, t_list_env **envp)
 			i++;
 			continue ;
 		}
-		temp = *envp;
-		found = 0;
-		while (temp != NULL)
-		{
-			if (compare_until_equal_sign((const char *)temp->envp_content,
-				(const char *)split[i]))
-			{
-				free(temp->envp_content); // Liberar la memoria previa
-				temp->envp_content = ft_strdup(split[i]); // Modificar el valor
-				found = 1;
-				break ;
-			}
-			temp = temp->next;
-		}
-		if (!found)
-			ft_lstadd_back(envp, ft_lstnew(ft_strdup(split[i])));
+		update_or_create(split[i], envp, 0);
 		i++;
 	}
 	clean_up(split, NULL, 0);
 }
 
-// Función principal para gestionar el comando export
 void	ft_export(char *input, t_list_env **envp)
 {
 	const char	*ptr;

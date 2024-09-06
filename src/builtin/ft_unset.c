@@ -6,72 +6,63 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 11:24:22 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:45:25 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	remove_env_var_unset(t_list_env **envp, char *var)
+void	remoove(char *str, t_list_env **envp)
 {
-	t_list_env	*current;
-	t_list_env	*previous;
 	t_list_env	*temp;
+	t_list_env	*prev;
 
-	current = *envp;
-	previous = NULL;
-	while (current)
+	temp = *envp;
+	prev = NULL;
+	while (temp)
 	{
-		if ((ft_strncmp(current->envp_content, var, ft_strlen(var)) == 0
-				&& (current->envp_content[ft_strlen(var)] == '='
-					|| current->envp_content[ft_strlen(var)] == '\0')))
+		if (compare_until_equal_sign(temp->envp_content, str) == 1)
 		{
-			if (previous == NULL)
-				*envp = current->next;
+			if (prev == NULL)
+				*envp = temp->next;
 			else
-				previous->next = current->next;
-			temp = current;
-			current = current->next;
+				prev->next = temp->next;
 			free(temp->envp_content);
 			free(temp);
-			return ;
+			break ;
 		}
-		previous = current;
-		current = current->next;
+		prev = temp;
+		temp = temp->next;
 	}
 }
 
-static void	process_command_unset(t_list_env **envp, char **command)
+void	remoove_unset(const char *input, t_list_env **envp)
 {
-	int	i;
+	char	**split;
+	int		i;
 
-	i = 1;
-	while (command[i])
+	split = split_special(input);
+	i = 0;
+	while (split[i] != NULL)
 	{
-		remove_env_var_unset(envp, command[i]);
+		remoove(split[i], envp);
 		i++;
 	}
+	clean_up(split, NULL, 0);
 }
 
 void	ft_unset(char *input, t_list_env **envp)
 {
-	char	**command;
-	char	*temp;
-	int		i;
+	const char	*ptr;
 
-	i = 0;
-	if (!input || !envp || !*envp)
+	if (!input || !envp)
 		return ;
-	command = ft_split(input, ' ');
-	if (!command)
-		return;
-	while (command[i])
+	if (ft_strcmp(input, "unset") == 0 && (input[5] == '\0'
+			|| is_space((unsigned char)input[5])))
+		return ;
+	else if (ft_strncmp(input, "unset ", 6) == 0)
 	{
-		temp = command[i];
-		command[i] = remove_quotes(command[i]);
-		free(temp);
-		i++;
+		ptr = input + 6;
+		remoove_unset(ptr, envp);
 	}
-	process_command_unset(envp, command);
-	clean_up(command, NULL, 0);
 }

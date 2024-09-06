@@ -1,12 +1,12 @@
- // Manejo de error en caso de fallo de malloc/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 17:02:15 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 20:14:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,22 @@ void	process_route(char *route)
 
 void	ft_cd(char *route, t_list_env **envp)
 {
-    t_list_env *current;
-	char home[PATH_MAX];
+	t_list_env	*current;
+	char		home[PATH_MAX];
 
-    current = *envp;
-    process_route(route);
+	current = *envp;
+	process_route(route);
 	while (current)
-    {
-        if (compare_until_equal_sign(current->envp_content, "_ROUTE_BABUTERM_") == 1)
-        {
-            free(current->envp_content);
+	{
+		if (compare_until_equal_sign(current->envp_content,
+				"_ROUTE_BABUTERM_") == 1)
+		{
+			free(current->envp_content);
 			ft_strcpy(home, "_ROUTE_BABUTERM_=");
 			getcwd(home + 17, PATH_MAX - 17);
-            current->envp_content = ft_strdup(home);
-            break ;
-        }
-        current = current->next;
-    }
+			current->envp_content = ft_strdup(home);
+			break ;
+		}
+		current = current->next;
+	}
 }

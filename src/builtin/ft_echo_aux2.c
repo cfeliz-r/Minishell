@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 18:15:56 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/29 09:58:06 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 10:40:51 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,39 @@ char	*strip_quotes(char *str)
 {
 	size_t	len;
 	char	*result;
+	size_t	i;
+	size_t	j;
+	char	current_quote;
 
 	len = ft_strlen(str);
-	if ((str[0] == '\'' && str[len - 1] == '\'')
-		|| (str[0] == '"' && str[len - 1] == '"'))
+	result = malloc(len + 1);  // +1 para el carácter nulo
+	if (!result)
+		return (NULL);
+
+	i = 0;
+	j = 0;
+	current_quote = '\0';
+	while (i < len)
 	{
-		result = malloc(len - 1);
-		if (!result)
-			return (NULL);
-		ft_strncpy(result, str + 1, len - 2);
-		result[len - 2] = '\0';
-		return (result);
+		// Si encontramos una comilla y no estamos ya dentro de un par
+		if ((str[i] == '\'' || str[i] == '"') && current_quote == '\0')
+		{
+			// Establecer el tipo de comilla encontrada
+			current_quote = str[i];
+		}
+		// Si encontramos una comilla que cierra el par
+		else if (str[i] == current_quote)
+		{
+			// Cerramos el par de comillas
+			current_quote = '\0';
+		}
+		// Copiar los caracteres que no están dentro de un par de comillas
+		else
+		{
+			result[j++] = str[i];
+		}
+		i++;
 	}
-	return (ft_strdup(str));
+	result[j] = '\0';  // Terminar la cadena resultante
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 18:52:39 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:48:00 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,39 @@ int	compare_until_equal_sign(const char *str, const char *target)
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '=' && str[i] != '\0')
+	while (str[i] != '=' && str[i] != '\0' && target[i] != '\0')
 	{
 		if (str[i] == ' ')
 		{
 			i++;
 			continue ;
 		}
-		if (str[i] != target[i])
+		if (str[i] != target[i] )
 			return (0);
 		i++;
 	}
-	if (str[i] == '=')
+	if (str[i] == '=' && str[i] == '\0')
 		return (1);
 	return (0);
+}
+
+int	has_equal_sign(const char *str)
+{
+	int before = 0;
+
+	// Recorremos la cadena de izquierda a derecha
+	while (*str)
+	{
+		if (*str == '=')
+		{
+			// Encontramos el signo igual, verificamos si hay algo antes y después de él
+			return (before && *(str + 1) != '\0');
+		}
+		if (!before && *str != ' ' && *str != '\t')
+			before = 1; // Hay algo antes del '='
+		str++;
+	}
+	return (0); // No se encontró un '=' con algo antes y después
 }
 
 void	add_export(const char *input, t_list_env **envp)
@@ -113,6 +132,11 @@ void	add_export(const char *input, t_list_env **envp)
 	i = 0;
 	while (split[i] != NULL)
 	{
+		if (has_equal_sign(split[i]) == 0)
+		{
+			i++;
+			continue ;
+		}
 		temp = *envp;
 		found = 0;
 		while (temp != NULL)

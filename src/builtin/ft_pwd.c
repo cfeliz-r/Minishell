@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:55 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 18:39:52 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:40:07 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_pwd(void)
 
 	if (getcwd(buf, 1024 + 1) == NULL)
 		return ;
-	
 	printf("%s\n", buf);
 	manage_error(0, 0);
 }

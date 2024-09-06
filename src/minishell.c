@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 12:49:45 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:16:27 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int g_exit_status = 0;
 
 int	build_up(t_cmd *comand, t_list_env *environ)
 {
-	if (handle_pwd(comand) || handle_env(comand, environ)
+	if (handle_pwd(comand, environ) || handle_env(comand, environ)
 		|| handle_echo(comand))
 	{
 		return (1);

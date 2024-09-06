@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 09:54:58 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 16:44:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:21:19 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_pwd(t_cmd *comand)
+int	handle_pwd(t_cmd *comand, t_list_env *environ)
 {
 	if (ft_strncmp(comand->args[0], "pwd ", 4) == 0
 		|| ft_strcmp(comand->args[0], "pwd") == 0)
 	{
-		ft_pwd();
+		ft_pwd(&environ);
 		return (1);
 	}
 	return (0);
@@ -45,14 +45,14 @@ int	handle_echo(t_cmd *comand)
 	return (0);
 }
 
-int	handle_cd(t_cmd *comand)
+int	handle_cd(t_cmd *comand, t_list_env *environ)
 {
 	if (ft_strncmp(comand->cmd_cpt, "cd ", 3) == 0
 		||ft_strncmp(comand->cmd_cpt, "'cd' ", 5) == 0
 		|| ft_strncmp(comand->cmd_cpt, "\"cd\" ", 5) == 0
 		|| ft_strncmp(comand->cmd_cpt, "cd\0", 3) == 0)
 	{
-		ft_cd(comand->cmd_cpt);
+		ft_cd(comand->cmd_cpt, &environ);
 		return (1);
 	}
 	return (0);

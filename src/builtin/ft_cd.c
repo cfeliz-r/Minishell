@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ // Manejo de error en caso de fallo de malloc/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
@@ -81,7 +81,25 @@ void	process_route(char *route)
 	clean_up(str_route, NULL, 0);
 }
 
-void	ft_cd(char *route)
+void	ft_cd(char *route, t_list_env **envp)
 {
-	process_route(route);
+    t_list_env *current;
+	char home[PATH_MAX];
+
+    current = *envp;
+	printf ("route: %s\n", route);	
+    process_route(route);
+	while (current)
+    {
+        if (compare_until_equal_sign(current->envp_content, "ROUTE") == 1)
+        {
+            free(current->envp_content);
+			ft_strcpy(home, "ROUTE=");
+			getcwd(home + 6, PATH_MAX - 6);
+
+            current->envp_content = ft_strdup(home);
+            break ;
+        }
+        current = current->next;
+    }
 }

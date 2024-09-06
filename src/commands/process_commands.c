@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/06 16:05:40 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:05:40 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,8 @@ pid_t fork_and_process(t_cmd *commands, int i, int num_cmds, char **env_array, t
     {
         sa_int.sa_handler = sigint_handler_ha;
         sa_int.sa_flags = 0;
-        sigemptyset(&sa_int.sa_mask);
-        if (sigaction(SIGINT, &sa_int, NULL) == -1) {
-            perror("sigaction");
+        if (sigaction(SIGINT, &sa_int, NULL) == -1)
             exit(EXIT_FAILURE);
-        }
         setup_signal_handler(&sa_int);
         child_process(&commands[i], i, num_cmds, env_array, envp, pipes);
     }
@@ -98,7 +95,7 @@ void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
     if(num_cmds == 1)
     {
         handle_export(&commands[0], envp);
-        handle_cd(&commands[0]);
+        handle_cd(&commands[0], envp);
         handle_unset(&commands[0], envp);  
     }
         

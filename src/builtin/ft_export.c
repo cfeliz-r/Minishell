@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 11:48:00 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:30:23 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,36 @@ int	compare_until_equal_sign(const char *str, const char *target)
 			i++;
 			continue ;
 		}
-		if (str[i] != target[i] )
+		if (str[i] != target[i])
 			return (0);
 		i++;
 	}
-	if (str[i] == '=' && str[i] == '\0')
+	// Permitir coincidencias cuando ambos alcanzan el '=' o el final de cadena
+	if ((str[i] == '=' || str[i] == '\0') && (target[i] == '=' || target[i] == '\0'))
 		return (1);
 	return (0);
 }
 
+// Función para verificar si una cadena tiene algo antes y después de un '='
 int	has_equal_sign(const char *str)
 {
 	int before = 0;
 
-	// Recorremos la cadena de izquierda a derecha
 	while (*str)
 	{
 		if (*str == '=')
 		{
-			// Encontramos el signo igual, verificamos si hay algo antes y después de él
-			return (before && *(str + 1) != '\0');
+			// Permitir '=' al final (valor vacío)
+			return (before);
 		}
 		if (!before && *str != ' ' && *str != '\t')
 			before = 1; // Hay algo antes del '='
 		str++;
 	}
-	return (0); // No se encontró un '=' con algo antes y después
+	return (0); // No se encontró un '=' válido
 }
 
+// Función que agrega o modifica una variable de entorno
 void	add_export(const char *input, t_list_env **envp)
 {
 	char		**split;
@@ -127,12 +129,11 @@ void	add_export(const char *input, t_list_env **envp)
 	int			i;
 	int			found;
 
-	i = 0;
-	split = split_special(&input[i]);
+	split = split_special(input);
 	i = 0;
 	while (split[i] != NULL)
 	{
-		if (has_equal_sign(split[i]) == 0)
+		if (!has_equal_sign(split[i]))
 		{
 			i++;
 			continue ;
@@ -142,9 +143,10 @@ void	add_export(const char *input, t_list_env **envp)
 		while (temp != NULL)
 		{
 			if (compare_until_equal_sign((const char *)temp->envp_content,
-				(const char *)split[i]) == 1)
+				(const char *)split[i]))
 			{
-				temp->envp_content = ft_strdup(split[i]);
+				free(temp->envp_content); // Liberar la memoria previa
+				temp->envp_content = ft_strdup(split[i]); // Modificar el valor
 				found = 1;
 				break ;
 			}
@@ -157,6 +159,7 @@ void	add_export(const char *input, t_list_env **envp)
 	clean_up(split, NULL, 0);
 }
 
+// Función principal para gestionar el comando export
 void	ft_export(char *input, t_list_env **envp)
 {
 	const char	*ptr;
@@ -171,5 +174,4 @@ void	ft_export(char *input, t_list_env **envp)
 		ptr = input + 7;
 		add_export(ptr, envp);
 	}
-	/* handle_export_no_args(envp); */
 }

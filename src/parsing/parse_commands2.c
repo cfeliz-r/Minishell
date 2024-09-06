@@ -99,10 +99,10 @@ int validate_command(t_cmd *command, t_list_env *envp)
 	if (command->path == NULL)
 	{
 		ft_putstr_fd(command->args[0], 2);
-		if(ft_strncmp(command->args[0], "./" ,2) == 0)
-			ft_putstr(": No such file or directory\n");
+		if (ft_strncmp(command->args[0], "./", 2) == 0)
+			ft_putstr_fd(": No such file or directory\n", 2);
 		else
-			ft_putstr(": command not found\n");
+			ft_putstr_fd(": command not found\n", 2);
 		free_command(command);
 		return (0);
 	}

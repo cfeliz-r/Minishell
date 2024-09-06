@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 18:17:38 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:49:17 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static char	*process_char(const char *command,
 				command[ctx->i], &(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
-	else if (command[ctx->i] == '<' && command[ctx->i + 1] == '<' && command[ctx-> i + 3] == '$' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
+	else if (ctx->can_expand == 0 && command[ctx->i] == '<' && command[ctx->i + 1] == '<' && command[ctx-> i + 3] == '$' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
 	{
 		ctx->in_heredoc = 1;
 		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
@@ -131,7 +131,7 @@ static char	*process_char(const char *command,
 	return (ctx->result);
 }
 
-char	*interpret_command(const char *command, t_list_env *envp)
+char	*interpret_command(const char *command, t_list_env *envp, int can_expand)
 {
 	t_parse_context	ctx;
 
@@ -142,6 +142,10 @@ char	*interpret_command(const char *command, t_list_env *envp)
 	ctx.in_heredoc = 0;
 	ctx.buffer_size = ft_strlen(command) * 2 + 1;
 	ctx.result = malloc(ctx.buffer_size);
+	if(can_expand == 1)
+		ctx.can_expand = 1;
+	else
+		ctx.can_expand = 0;
 	if (ctx.result == NULL || command[0] == '\0')
 		return (NULL);
 	while (command[ctx.i] != '\0')

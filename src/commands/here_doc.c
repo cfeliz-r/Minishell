@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 19:06:37 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:49:54 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	handle_line(char *input_line, t_cmd *cmd, int fd, t_list_env *envp)
 	}
 	if (cmd->expand_heredoc == 1)
 	{
-		expanded_line = interpret_command(input_line, envp);
+		expanded_line = interpret_command(input_line, envp, 1);
 		write(fd, expanded_line, ft_strlen(expanded_line));
 		free(expanded_line);
 	}

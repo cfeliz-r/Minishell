@@ -133,7 +133,7 @@ int         build_up(t_cmd *comand, t_list_env *environ);
 void        free_env_list(t_list_env *env_list);
 int         count_char(char *str, char c);
 //parseo
-char        *interpret_command(const char *command, t_list_env *envp);
+char        *interpret_command(const char *command, t_list_env *envp, int can_expand);
 int         check_quotes(char *command);
 char		*remove_front_and_back_spaces(char *str);
 char        *find_env_value(t_list_env *envp_list, const char *key);

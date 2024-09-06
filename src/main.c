@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 19:57:42 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 20:02:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!route)
 		return (1); // Manejo de error en caso de fallo de malloc
 
-	home = malloc(strlen("ROUTE=") + PATH_MAX + 1);
+	home = malloc(strlen("_ROUTE_BABUTERM_=") + PATH_MAX + 1);
 	if (!home)
 	{
 		free(route);
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	envp_list = create_list_envp(envp);
 	getcwd(route, PATH_MAX);
 
-	ft_strcpy(home, "ROUTE=");
+	ft_strcpy(home, "_ROUTE_BABUTERM_=");
 	ft_strcat(home, route);
 
 	ft_lstadd_back(&envp_list, ft_lstnew(ft_strdup("BABUTERM=CFELIZ-R MANUFERN")));

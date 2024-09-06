@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:55 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 19:57:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/06 20:04:38 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	ft_pwd(t_list_env **envp)
     {
         while (*envp)
         {
-            if (compare_until_equal_sign((*envp)->envp_content, "ROUTE") == 1) // Usar 'envp_content' en lugar de 'content'
+            if (compare_until_equal_sign((*envp)->envp_content, "_ROUTE_BABUTERM_") == 1)
             {
-                printf("%s\n", (*envp)->envp_content + 6);  // Usar 'envp_content' en lugar de 'content'
+                printf("%s\n", (*envp)->envp_content + 17);
                 break ;
             }
             *envp = (*envp)->next;

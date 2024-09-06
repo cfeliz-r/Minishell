@@ -87,16 +87,14 @@ void	ft_cd(char *route, t_list_env **envp)
 	char home[PATH_MAX];
 
     current = *envp;
-	printf ("route: %s\n", route);	
     process_route(route);
 	while (current)
     {
-        if (compare_until_equal_sign(current->envp_content, "ROUTE") == 1)
+        if (compare_until_equal_sign(current->envp_content, "_ROUTE_BABUTERM_") == 1)
         {
             free(current->envp_content);
-			ft_strcpy(home, "ROUTE=");
-			getcwd(home + 6, PATH_MAX - 6);
-
+			ft_strcpy(home, "_ROUTE_BABUTERM_=");
+			getcwd(home + 17, PATH_MAX - 17);
             current->envp_content = ft_strdup(home);
             break ;
         }

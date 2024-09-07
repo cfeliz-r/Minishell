@@ -55,7 +55,7 @@ t_list_env	*ft_lstmap(t_list_env *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list_env	*new_list;
 	t_list_env	*new_node;
-	void	*set;
+	void		*set;
 
 	if (!lst || !f || !del)
 		return (NULL);

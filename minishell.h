@@ -158,8 +158,6 @@ void        handle_export_no_args(t_list_env **envp);
 void		ft_export(char *input, t_list_env **envp);
 void        ft_cd(char *route, t_list_env **envp);
 void        close_pipes(int **pipes, int num_cmds);
-t_cmd   *parse_commands(char *input, int *num_cmds);
-void        ft_here_doc(char *delimiter, int fd[2]);
-
+t_cmd		*parse_commands(char *input, int *num_cmds);
 
 #endif // MINISHELL_H

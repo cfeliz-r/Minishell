@@ -22,7 +22,7 @@ void	ft_putstr(char *str)
 	int	i;
 
 	i = 0;
-	if(!str)
+	if (!str)
 		return ;
 	while (str[i])
 	{

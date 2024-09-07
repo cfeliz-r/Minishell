@@ -34,6 +34,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 		i++;
 	return (i);
 }
+
 char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	i;
@@ -51,9 +52,10 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 	}
 	return (dest);
 }
-char    *ft_strcpy(char *s1, char const *s2)
+
+char	*ft_strcpy(char *s1, char const *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s2[i])
@@ -64,7 +66,7 @@ char    *ft_strcpy(char *s1, char const *s2)
 	s1[i] = s2[i];
 	return (s1);
 }
-  
+
 char	*ft_strcat(char *dest, char *src)
 {
 	int	i;

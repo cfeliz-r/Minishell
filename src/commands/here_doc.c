@@ -60,9 +60,9 @@ char	*generate_temp_file_name(void)
 	prefix = "/tmp/heredoc_";
 	counter_len = calculate_counter_length(file_counter);
 	temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
-	if(access("/tmp", F_OK) == 0)
-		file_counter++;
 	file_name = malloc(temp_file_name_len);
+	if (access(file_name, F_OK) == 0)
+		file_counter++;
 	ft_strcpy(file_name, prefix);
 	append_counter_to_file_name(file_name, file_counter++);
 	return (file_name);

@@ -15,7 +15,7 @@
 int	open_temp_file(char **temp_file_name)
 {
 	*temp_file_name = generate_temp_file_name();
-	while(access(*temp_file_name, F_OK) == 0)
+	while (access(*temp_file_name, F_OK) == 0)
 	{
 		free(*temp_file_name);
 		*temp_file_name = generate_temp_file_name();

@@ -25,8 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	route = malloc(PATH_MAX);
 	if (!route)
-		return (1); // Manejo de error en caso de fallo de malloc
-
+		return (1);
 	home = malloc(strlen("_ROUTE_BABUTERM_=") + PATH_MAX + 1);
 	if (!home)
 	{
@@ -39,16 +38,12 @@ int	main(int argc, char **argv, char **envp)
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = 0;
 	sigaction(SIGQUIT, &sa_quit, NULL);
-	
 	envp_list = create_list_envp(envp);
 	getcwd(route, PATH_MAX);
-
 	ft_strcpy(home, "_ROUTE_BABUTERM_=");
 	ft_strcat(home, route);
-
 	ft_lstadd_back(&envp_list, ft_lstnew(ft_strdup("BABUTERM=CFELIZ-R MANUFERN")));
 	ft_lstadd_back(&envp_list, ft_lstnew(home));
-
 	free(route);
 	if (argc == 1)
 		process_input(envp_list);

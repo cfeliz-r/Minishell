@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 static void unlink_temp_files(t_cmd *cmd, int num_cmds)
 {
     int i;

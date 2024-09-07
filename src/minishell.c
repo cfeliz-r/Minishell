@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 19:16:27 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/07 12:05:51 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	siginit(void)
 {
 	struct sigaction	sa_int;
 
-	bzero(&sa_int, sizeof(sa_int));
+	ft_bzero(&sa_int, sizeof(sa_int));
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);

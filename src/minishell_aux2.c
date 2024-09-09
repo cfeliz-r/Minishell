@@ -63,7 +63,7 @@ char	*ft_put_spaces(char *str)
 		else if ((str[i] == '|' || str[i] == '<' || str[i] == '>')
 			&& !in_single_quote && !in_double_quote)
 		{
-			if (str[i - 1] != ' ' && !last_char_was_space)
+			if (i > 0 && str[i - 1] != ' ' && !last_char_was_space)
 				new_str[j++] = ' ';
 			new_str[j++] = str[i++];
 			if (str[i] != ' ' && str[i] != '\0')
@@ -82,5 +82,6 @@ char	*ft_put_spaces(char *str)
 		}
 	}
 	new_str[j] = '\0';
+	printf("new_str: %s\n", new_str);
 	return (new_str);
 }

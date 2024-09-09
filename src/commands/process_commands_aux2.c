@@ -60,13 +60,9 @@ void	child_process(t_cmd *command, int i, int num_cmds, char **env_array, t_list
 			j = ft_exit_command(0);
 		else if (j == 2)
 			j = ft_exit_command(command->args[1]);
-		else
-		{
-			printf("exit: too many arguments\n");
-		}
 		exit (j);
 		
-	}	
+	}
 	else if (build_up(command, envp) == 1)
 		exit (0);
 	exit (1);

@@ -64,8 +64,8 @@ char	*generate_temp_file_name(void)
 	ft_strcpy(file_name, prefix);
 	while (access(file_name, F_OK) == 0)
 	{
-		free(file_name);
 		unlink(file_name);
+		free(file_name);
 		file_counter++;
 		counter_len = calculate_counter_length(file_counter);
 		temp_file_name_len = ft_strlen(prefix) + counter_len + 1;

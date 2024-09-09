@@ -98,11 +98,11 @@ int validate_command(t_cmd *command, t_list_env *envp)
 	command->path = find_command_path(command->args[0], envp);
 	if (command->path == NULL)
 	{
-		if (ft_strncmp(command->args[0], "./", 2) == 0)
-			printf("%s: No such file or directory\n", command->args[0]);
+		ft_putstr_fd(command->args[0], 2);
+		if(ft_strncmp(command->args[0], "./", 2) == 0)
+			ft_putstr_fd(": No such file or directory\n", 2);
 		else
-			printf("%s: command not found\n", command->args[0]);
-		free_command(command);
+			ft_putstr_fd(": command not found\n", 2);
 		return (0);
 	}
 	return (1);

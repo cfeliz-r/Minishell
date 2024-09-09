@@ -2,7 +2,6 @@
 # define MINISHELL_H
 #define JUNGLE_GREEN "\001\033[38;5;34m\002"
 #define RESET "\001\033[0m\002"
-#define MAX_TOKENS 100
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +18,7 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 
-extern volatile sig_atomic_t stop;
+extern volatile sig_atomic_t g_stop_status;
 
 void	process_input_aux(char *line, t_list_env *envp);
 void	ft_exit(char *exits);

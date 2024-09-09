@@ -38,7 +38,7 @@ void sigint_handler_here_doc(int sig)
     (void)sig;
     rl_on_new_line();
     ioctl(0, TIOCSTI, "\n");
-    stop = 1;
+    g_stop_status = 1;
 }
 
 void	sigint_handler_ha(int sig)

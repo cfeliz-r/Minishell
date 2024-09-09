@@ -24,14 +24,14 @@ int	open_temp_file(char **temp_file_name)
 
 int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 {
-	if (!input_line || stop == 1)
+	if (!input_line || g_stop_status == 1)
 	{
 		if (!input_line)
 			write(STDOUT_FILENO, "\n", 1);
 		else
 			free(input_line);
 		unlink(cmd->heredoc_file);
-		stop = 0;
+		g_stop_status = 0;
 		close(fd);
 		return (-1);
 	}

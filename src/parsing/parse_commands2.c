@@ -109,9 +109,9 @@ int validate_command(t_cmd *command, t_list_env *envp)
 }
 t_cmd *parse_commands(char *input, int *num_cmds)
 {
-	char        **command_strings;
-	t_cmd   *commands;
-	int        i;
+	char		**command_strings;
+	t_cmd		*commands;
+	int			i;
 
 	command_strings = split_commands(input);
 	if (command_strings == NULL || command_strings[0] == NULL)

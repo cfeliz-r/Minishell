@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:04:00 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/26 18:01:26 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 09:53:32 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	validate_arguments(char *line)
 	start = line;
 	while (*start != '\0')
 	{
-		while ((is_space(*start)== 1) && *start != '\0')
+		while ((is_space(*start) == 1) && *start != '\0')
 			start++;
 		if (*start == '\0')
 			break ;

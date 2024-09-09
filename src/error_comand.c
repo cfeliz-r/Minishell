@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 17:55:32 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 10:03:10 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	check_redirection_syntax(const char *line, int *i)
 {
-	if ((line[*i] == '>' && line[*i + 1] == '>') || (line[*i] == '<' && line[*i + 1] == '<'))
+	if ((line[*i] == '>' && line[*i + 1] == '>')
+		|| (line[*i] == '<' && line[*i + 1] == '<'))
 		*i += 1;
 	else if (line[*i] == '>' || line[*i] == '<')
 		return (1);
-	if ((line[*i] == '>' && line[*i + 1] == '<') || (line[*i] == '<' && line[*i + 1] == '>'))
+	if ((line[*i] == '>' && line[*i + 1] == '<')
+		|| (line[*i] == '<' && line[*i + 1] == '>'))
 		return (0);
 	return (1);
 }
@@ -53,10 +55,13 @@ int	check_quotes_and_special_chars(char *line)
 
 int	check_redirections_and_syntax(char *line)
 {
-	int in_single_quote = 0;
-	int in_double_quote = 0;
-	int i = 0;
+	int	in_single_quote;
+	int	in_double_quote;
+	int	i;
 
+	in_single_quote = 0;
+	in_double_quote = 0;
+	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '\'' && in_double_quote == 0)
@@ -66,31 +71,11 @@ int	check_redirections_and_syntax(char *line)
 		if (!in_single_quote && !in_double_quote)
 		{
 			if (check_redirections(line) == 0)
-			{
-				exit_with_error("redirection syntax error\n");
-				return (1);
-			}
+				return (exit_with_error("redirection syntax error\n"), 1);
 		}
 		i++;
 	}
-	if (check_syntax(line) == 0)
-	{
-		exit_with_error("general syntax error\n");
-		return (1);
-	}
-	if (validate_arguments(line) == 0)
-	{
-		exit_with_error("invalid argument error\n");
-		return (1);
-	}
-	return (0);
-}
-
-int	handle_syntax_checks(char *line)
-{
-	if (check_quotes_and_special_chars(line) == 1)
-		return (1);
-	if (check_redirections_and_syntax(line) == 1)
+	if (check_sintax_and_errors(line) == 1)
 		return (1);
 	return (0);
 }

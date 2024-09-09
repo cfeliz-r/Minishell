@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:45:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 09:49:56 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	free_command(t_cmd *command)
 		free(command->path);
 	if (command->inredir != NULL)
 		free(command->inredir);
-	if(command->heredoc_file != NULL)
+	if (command->heredoc_file != NULL)
 		free(command->heredoc_file);
 	if (command->outredirs != NULL)
 	{
@@ -103,11 +103,6 @@ void	free_command(t_cmd *command)
 	if (command->cmd_cpt != NULL)
 		free(command->cmd_cpt);
 	i = 0;
-	if (command->delimiters != NULL)
-	{
-		while (command->delimiters[i] != NULL)
-			free(command->delimiters[i++]);
-		free(command->delimiters);
-	}
+	clean_up(command->delimiters, NULL, 0);
 	ft_memset(command, 0, sizeof(t_cmd));
 }

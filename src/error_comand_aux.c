@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 17:58:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 09:56:53 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,56 +69,46 @@ int	check_special_chars(char *line)
 	return (1);
 }
 
-int is_inside_quotes(char *line) {
-	int single_quotes = 0;
-	int double_quotes = 0;
-	
-	while (*line) {
-		if (*line == '\'') {
+int	is_inside_quotes(char *line)
+{
+	int	single_quotes;
+	int	double_quotes;
+
+	single_quotes = 0;
+	double_quotes = 0;
+	while (*line)
+	{
+		if (*line == '\'')
 			single_quotes = !single_quotes;
-		} else if (*line == '\"') {
+		else if (*line == '\"')
 			double_quotes = !double_quotes;
-		}
 		line++;
 	}
-	return single_quotes || double_quotes;
+	return (single_quotes || double_quotes);
 }
 
-int check_redirections(char *line) {
-	int inside_quotes = 0;
+int	check_redirections(char *line)
+{
+	int	inside_quotes;
 
-	while (*line) {
-		if (*line == '\'' || *line == '\"') {
+	inside_quotes = 0;
+	while (*line)
+	{
+		if (*line == '\'' || *line == '\"')
 			inside_quotes = !inside_quotes;
-		}
-
-		if (!inside_quotes && (*line == '>' || *line == '<')) {
+		if (!inside_quotes && (*line == '>' || *line == '<'))
+		{
 			if (*(line + 1) == *line || (*line == '<' && *(line + 1) == '>'))
 				line++;
 			while (is_space(*(line + 1)))
 				line++;
 			if (*(line + 1) == '\0')
 				return (0);
-			else if (*(line + 1) == '|' || *(line + 1) == '<' || *(line + 1) == '>')
+			else if (*(line + 1) == '|' || *(line + 1) == '<'
+				|| *(line + 1) == '>')
 				return (0);
 		}
 		line++;
 	}
-	return (1);
-}
-
-int	check_syntax(char *line)
-{
-	char	*end;
-
-	while (is_space(*line))
-		line++;
-	if (*line == '|')
-		return (0);
-	end = line + strlen(line) - 1;
-	while (end > line && is_space(*end))
-		end--;
-	if (*end == '|')
-		return (0);
 	return (1);
 }

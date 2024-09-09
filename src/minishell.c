@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/07 12:05:51 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:07:05 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int g_exit_status = 0;
+int	g_exit_status = 0;
 
 int	build_up(t_cmd *comand, t_list_env *environ)
 {
@@ -32,7 +32,7 @@ void	ft_exit(char *exits)
 	aux = ft_split(exits, ' ');
 	exit_code = 0;
 	printf("exit\n");
-	if (aux == NULL|| aux_count(aux) > 2)
+	if (aux == NULL || aux_count(aux) > 2)
 	{
 		printf("exit: too many arguments\n");
 		manage_error(1, 0);
@@ -81,20 +81,7 @@ void	process_input(t_list_env *envp)
 			exit(0);
 		if (ft_parsing(aux) == 0)
 		{
-			if (aux == NULL || ft_strncmp(aux, "exit ", 5) == 0
-				|| ft_strcmp(aux, "\"exit\"") == 0
-				|| ft_strcmp(aux, "'exit'") == 0
-				|| ft_strcmp(aux, "exit") == 0)
-			{
-				ft_exit(aux);
-				free(aux);
-				continue ;
-			}
-			free(line);
-			line = ft_put_spaces(aux);
-			process_input_aux(line, envp);
-			free(line);
-			free(aux);
+			process_input_aux2(aux, line, envp);
 			continue ;
 		}
 		free(aux);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 12:26:49 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:06:08 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_put_spaces(char *str)
 		else if ((str[i] == '|' || str[i] == '<' || str[i] == '>')
 			&& !in_single_quote && !in_double_quote)
 		{
-			if (str[i] != ' ' && !last_char_was_space)
+			if (str[i - 1] != ' ' && !last_char_was_space)
 				new_str[j++] = ' ';
 			new_str[j++] = str[i++];
 			if (str[i] != ' ' && str[i] != '\0')
@@ -72,12 +72,8 @@ char	*ft_put_spaces(char *str)
 		}
 		else if (str[i] == ' ' && !in_single_quote && !in_double_quote)
 		{
-			if (!last_char_was_space)
-			{
-				new_str[j++] = ' ';
-				last_char_was_space = 1;
-			}
-			i++;
+			new_str[j++] = str[i++];
+			last_char_was_space = 1;
 		}
 		else
 		{

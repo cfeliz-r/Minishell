@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:26:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_cmd *init_commands(char **command_strings, int num_cmds)
 	if (!commands || num_cmds == 0)
 	{
 		clean_up(command_strings, NULL, 0);
-		return (manage_error(200, 0), NULL);
+		return (NULL);
 	}
 	i = 0;
 	while (i < num_cmds)
@@ -98,11 +98,10 @@ int validate_command(t_cmd *command, t_list_env *envp)
 	command->path = find_command_path(command->args[0], envp);
 	if (command->path == NULL)
 	{
-		ft_putstr_fd(command->args[0], 2);
 		if (ft_strncmp(command->args[0], "./", 2) == 0)
-			ft_putstr_fd(": No such file or directory\n", 2);
+			printf("%s: No such file or directory\n", command->args[0]);
 		else
-			ft_putstr_fd(": command not found\n", 2);
+			printf("%s: command not found\n", command->args[0]);
 		free_command(command);
 		return (0);
 	}

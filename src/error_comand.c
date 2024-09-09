@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 10:03:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:07:31 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,7 @@ int	check_quotes_and_special_chars(char *line)
 {
 	if (check_quotes(line) == 0)
 	{
-		exit_with_error("quotes error\n");
-		return (1);
-	}
-	if (check_special_chars(line) == 0)
-	{
-		exit_with_error("special chars error\n");
+		exit_with_error("quotes error\n", 2);
 		return (1);
 	}
 	return (0);
@@ -71,7 +66,7 @@ int	check_redirections_and_syntax(char *line)
 		if (!in_single_quote && !in_double_quote)
 		{
 			if (check_redirections(line) == 0)
-				return (exit_with_error("redirection syntax error\n"), 1);
+				return (exit_with_error("syntax error near unexpected token\n", 2), 1);
 		}
 		i++;
 	}

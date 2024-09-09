@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:04:00 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 09:53:32 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:59:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	has_space(char *start, char *end)
 	return (0);
 }
 
-int	validate_arguments(char *line)
+/* int	validate_arguments(char *line)
 {
 	char	*start;
 
@@ -58,11 +58,12 @@ int	validate_arguments(char *line)
 		}
 	}
 	return (1);
-}
+} */
 
-void	exit_with_error(const char *message)
+void	exit_with_error(const char *message, int error_code)
 {
-	write(2, message, strlen(message));
+	manage_error(error_code, 0);
+	write(2, message, ft_strlen(message));
 }
 
 char	*remove_spaces(const char *str)

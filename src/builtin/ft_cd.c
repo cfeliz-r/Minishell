@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 20:14:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:45:09 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_directory_change(char *cleaned_route, char *original_route)
 	else
 	{
 		perror("cd");
-		manage_error(1, 0);
+		manage_error(201, 0);
 	}
 	if (cleaned_route != original_route)
 		free(cleaned_route);

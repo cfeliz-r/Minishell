@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:40:53 by manufern          #+#    #+#             */
-/*   Updated: 2024/08/23 19:48:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:50:38 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	manage_error(int error_code, int return_value)
+int manage_error(int error_code, int return_value)
 {
-	static int	error_var;
+    static int error_var = 0;
 
-	error_var = 0;
-	if (return_value == 0)
-	{
-		error_var = error_code;
-		return (-1);
-	}
-	else if (return_value == 1)
-	{
-		return (error_var);
-	}
-	return (-1);
+    if (return_value == 0)
+    {
+        error_var = error_code;
+        return (-1);
+    }
+    else if (return_value == 1)
+    {
+        return (error_var);
+    }
+    return (-1);
 }

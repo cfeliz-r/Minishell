@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 09:56:53 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:05:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,7 @@ int	check_quotes(char *command)
 	if (!in_double_quotes && !in_single_quotes)
 		return (1);
 	else
-		return (manage_error(200, 0), 0);
-}
-
-int	check_special_chars(char *line)
-{
-	int	prev_char_was_special;
-
-	prev_char_was_special = 0;
-	while (*line)
-	{
-		if (*line == '|')
-		{
-			if (prev_char_was_special)
-				return (0);
-			prev_char_was_special = 1;
-		}
-		else
-			prev_char_was_special = 0;
-		line++;
-	}
-	return (1);
+		return (0);
 }
 
 int	is_inside_quotes(char *line)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:24:25 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 10:02:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:59:55 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ int	check_sintax_and_errors(char *line)
 {
 	if (check_syntax(line) == 0)
 	{
-		exit_with_error("general syntax error\n");
+		exit_with_error("syntax error near unexpected token\n", 2);
 		return (1);
 	}
-	if (validate_arguments(line) == 0)
+	/* if (validate_arguments(line) == 0)
 	{
-		exit_with_error("invalid argument error\n");
+		exit_with_error("invalid argument error\n", 2);
 		return (1);
-	}
+	} */
 	return (0);
 }
 

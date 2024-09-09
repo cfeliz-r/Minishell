@@ -20,11 +20,6 @@
 #include <sys/ioctl.h>
 
 extern volatile sig_atomic_t stop;
-extern int g_exit_status;
-
-
-
-
 
 void	process_input_aux(char *line, t_list_env *envp);
 void	ft_exit(char *exits);
@@ -91,7 +86,7 @@ void	process_input(t_list_env *envp);
 int	all_is_space(char *start, char *end);
 int	has_space(char *start, char *end);
 int	validate_arguments(char *line);
-void	exit_with_error(const char *message);
+void	exit_with_error(const char *message, int exit_code);
 char	*remove_spaces(const char *str);
 int	check_syntax(char *line);
 int	check_redirections(char *line);

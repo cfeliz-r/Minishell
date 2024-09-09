@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 13:06:08 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:14:55 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ char	*ft_put_spaces(char *str)
 			last_char_was_space = 0;
 		}
 	}
-
 	new_str[j] = '\0';
-	printf("new_str: %s\n", new_str);
 	return (new_str);
 }

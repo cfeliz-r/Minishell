@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 13:23:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:27:13 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,9 @@ static void	handle_pipes(int i, int num_cmds, int **pipes)
 void execute_command(t_cmd *command, char **env_array, t_list_env *envp)
 {
     if (validate_command(command, envp) == 0)
-    {
-        g_exit_status = 127;
-        exit(g_exit_status);
-    }
+		exit(127);
     else if (execve(command->path, command->args, env_array) == -1)
-    {
-        manage_error(200, 0);
-        g_exit_status = 1;
-        exit(g_exit_status);
-    }
+        exit(0);
 }
 
 int	ft_exit_command(char *exits)

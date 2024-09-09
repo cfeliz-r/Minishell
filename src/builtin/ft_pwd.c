@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:44:55 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 20:15:14 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:03:17 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void	ft_pwd(t_list_env **envp)
 		return ;
 	}
 	printf("%s\n", buf);
-	manage_error(0, 0);
 }

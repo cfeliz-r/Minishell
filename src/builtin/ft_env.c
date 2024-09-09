@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:46:24 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/05 11:07:13 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:03:05 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ void	ft_env(t_list_env *env, char *command)
 	aux = env;
 	i = 0;
 	str_route = ft_split(command, ' ');
-	manage_error(0, 0);
 	while (str_route[i])
 		i ++;
 	if (i > 1)
 	{
 		printf("env: %s: No such file or directory\n", str_route[1]);
-		manage_error(127, 0);
+		manage_error(2, 0);
 	}
 	else
 	{

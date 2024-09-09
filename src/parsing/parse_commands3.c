@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 12:49:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:51:55 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*handle_dollar_sign(const char *command,
 	if (command[ctx->i] == '?' && !ctx->in_heredoc)
 	{
 		(ctx->i)++;
-		status = g_exit_status;
+		status = manage_error(0, 1);
 		status_str = ft_itoa(status);
 		if (status_str)
 		{

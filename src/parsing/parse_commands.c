@@ -21,7 +21,7 @@ char	*find_env_value(t_list_env *envp_list, const char *key)
 			return (envp_list->envp_content + ft_strlen(key) + 1);
 		envp_list = envp_list->next;
 	}
-	return (manage_error(200, 0), NULL);
+	return (NULL);
 }
 
 char	*remove_front_and_back_spaces(char *str)
@@ -49,5 +49,5 @@ char	*remove_front_and_back_spaces(char *str)
 		str[length] = '\0';
 		return (str);
 	}
-	return (manage_error(200, 0), NULL);
+	return (NULL);
 }

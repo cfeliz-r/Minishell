@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/09 13:59:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:15:10 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
     struct sigaction sa_ignore;
     int status;
     pid_t pid, pid_last;
+    int exit_status;
 
     pipes = malloc((num_cmds - 1) * sizeof(int *));
     setup_pipes(pipes, num_cmds);
@@ -76,18 +77,13 @@ void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
     while (++i < num_cmds)
     {
         pid = waitpid(-1, &status, 0);
-
-        if (pid == -1)
-        {
-            perror("waitpid");
-            exit(EXIT_FAILURE);
-        }
         if (pid == pid_last)
         {
             if (WIFEXITED(status))
-                g_exit_status = WEXITSTATUS(status);
+                exit_status = WEXITSTATUS(status);
             else if (WIFSIGNALED(status))
-                g_exit_status = 128 + WTERMSIG(status);
+              exit_status = 128 + WTERMSIG(status);
+        manage_error(exit_status, 0);
         }
     }
     if(num_cmds == 1)
@@ -97,4 +93,4 @@ void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
         handle_unset(&commands[0], envp);  
     }
     clean_up(env_array, NULL, 0);
-}   
+}

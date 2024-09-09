@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/06 17:37:33 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:08:59 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,17 @@ char	*generate_temp_file_name(void)
 	counter_len = calculate_counter_length(file_counter);
 	temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
 	file_name = malloc(temp_file_name_len);
-	if (access(file_name, F_OK) == 0)
-		file_counter++;
 	ft_strcpy(file_name, prefix);
+	while (access(file_name, F_OK) == 0)
+	{
+		free(file_name);
+		unlink(file_name);
+		file_counter++;
+		counter_len = calculate_counter_length(file_counter);
+		temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
+		file_name = malloc(temp_file_name_len);
+		ft_strcpy(file_name, prefix);
+	}
 	append_counter_to_file_name(file_name, file_counter++);
 	return (file_name);
 }

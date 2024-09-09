@@ -6,26 +6,12 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/06 20:17:31 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:59:10 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void unlink_temp_files(t_cmd *cmd, int num_cmds)
-{
-    int i;
-
-    i = 0;
-    while (i < num_cmds)
-    {
-        if (cmd[i].heredoc_file != NULL)
-        {
-            unlink(cmd[i].heredoc_file);
-        }
-        i++;
-    }
-}
 void setup_signal_handler(struct sigaction *sa_int)
 {
 	sa_int->sa_handler = sigint_handler_ha;
@@ -110,6 +96,5 @@ void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
         handle_cd(&commands[0], envp);
         handle_unset(&commands[0], envp);  
     }
-    unlink_temp_files(commands, num_cmds);
     clean_up(env_array, NULL, 0);
 }   

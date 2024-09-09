@@ -89,7 +89,6 @@ void	exit_with_error(const char *message, int exit_code);
 char	*remove_spaces(const char *str);
 int	check_syntax(char *line);
 int	check_redirections(char *line);
-int	check_special_chars(char *line);
 int	check_quotes(char *command);
 int	contains_quotes(const char *str);
 int	handle_initial_checks(char *line, char **aux);

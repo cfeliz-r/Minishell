@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:42:14 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/03 16:48:52 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:45:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	is_builtin_command(char *cmd)
 		|| ft_strncmp(cmd, "pwd", 4) == 0
 		|| ft_strncmp(cmd, "cd", 3) == 0
 		|| ft_strncmp(cmd, "export", 7) == 0
-		|| ft_strncmp(cmd, "unset", 6) == 0)
+		|| ft_strncmp(cmd, "unset", 6) == 0
+		|| ft_strncmp(cmd, "exit", 5) == 0)
 	{
 		return (1);
 	}

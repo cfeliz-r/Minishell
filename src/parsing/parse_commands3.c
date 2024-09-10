@@ -96,8 +96,9 @@ static char	*process_char(const char *command,
 	}
 	else if (ctx->can_expand == 0 && command[ctx->i] == '<'
 		&& command[ctx->i + 1] == '<'
-		&& command[ctx-> i + 3] == '$'
-		&& ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
+		&& ctx->in_single_quotes == 0
+		&& ctx->in_double_quotes == 0
+		&& command[ctx->i + 2] != '\"' && command[ctx->i + 2] != '\'')
 	{
 		ctx->in_heredoc = 1;
 		ctx->result = append_char(ctx->result,

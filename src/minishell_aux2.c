@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 11:02:00 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:52:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ char	*ft_put_spaces(char *str)
 	vars.new_str[vars.j] = '\0';
 	new_str = reduce_spaces(vars.new_str);
 	free (vars.new_str);
-	printf("new_str: %s\n", new_str);
 	return (new_str);
 }

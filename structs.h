@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 10:50:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:49:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,6 @@ typedef struct s_split_context
 	int		in_single_quotes;
 	int		in_double_quotes;
 }	t_split_context;
-
-typedef struct s_temp_file_data
-{
-	int			file_counter;
-	char		*file_name;
-	const char	*prefix;
-	int			counter;
-	int			prefix_len;
-	int			counter_len;
-	char		counter_str[11];
-}	t_temp_file_data;
 
 typedef struct s_quote_remover
 {

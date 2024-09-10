@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 10:46:09 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:13:36 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@
 
 extern volatile sig_atomic_t	g_stop_status;
 
+char		*append_char(char *result, char c, size_t *j, size_t *buffer_size);
+char		*handle_dollar_sign(const char *command,
+				t_parse_context *ctx, t_list_env *envp);
+void		aux_hadle_dollar(const char *command, t_parse_context *ctx);
+void		aux_process_char (const char * command, t_parse_context *ctx, t_list_env *envp);
 void		process_input_aux(char *line, t_list_env *envp);
 void		ft_exit(char *exits);
 void		process_input_aux2(char *aux, char *line, t_list_env *envp);

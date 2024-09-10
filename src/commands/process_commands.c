@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/10 10:11:52 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:09:48 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,49 @@ static int	handle_here_doc(t_cmd *command,
 	return (0);
 }
 
-pid_t	fork_and_process(t_cmd *commands, int i,
-	int num_cmds, char **env_array, t_list_env *envp, int **pipes)
+static pid_t fork_and_process(t_process *ctx)
 {
-	pid_t				pid;
-	struct sigaction	sa_int;
+    pid_t               pid;
+    struct sigaction    sa_int;
 
-	pid = fork();
-	if (pid == 0)
-	{
-		sa_int.sa_handler = sigint_handler_ha;
-		sa_int.sa_flags = 0;
-		if (sigaction(SIGINT, &sa_int, NULL) == -1)
-			exit(EXIT_FAILURE);
-		setup_signal_handler(&sa_int);
-		child_process(&commands[i], i, num_cmds, env_array, envp, pipes);
-	}
-	return (pid);
+    pid = fork();
+    if (pid == 0)
+    {
+        sa_int.sa_handler = sigint_handler_ha;
+        sa_int.sa_flags = 0;
+        if (sigaction(SIGINT, &sa_int, NULL) == -1)
+            exit(EXIT_FAILURE);
+        setup_signal_handler(&sa_int);
+        child_process(ctx);
+    }
+    return (pid);
+}
+
+void init_process(t_process *ctx, int i, int num_cmds, t_list_env *envp)
+{
+    ctx->i = i;
+    ctx->num_cmds = num_cmds;
+   
+    ctx->envp = envp;
+}
+void init_process1(t_process *ctx, t_cmd *commands, int i, int **pipes)
+{
+    ctx->command = &commands[i];
+    ctx->i = i;
+    ctx->pipes = pipes;
+}
+
+void init_process2(t_process *ctx, int i, int num_cmds,  char **env_array)
+{
+    ctx->i = i;
+    ctx->num_cmds = num_cmds;
+	ctx->env_array = env_array;
 }
 
 void	prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
 {
 	t_cmd_vars	vars;
+	t_process   ctx;
 
 	vars.pipes = malloc((num_cmds - 1) * sizeof(int *));
 	setup_pipes(vars.pipes, num_cmds);
@@ -66,8 +87,10 @@ void	prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
 	vars.i = -1;
 	while (++vars.i < num_cmds)
 	{
-		vars.pid = fork_and_process(commands, vars.i,
-				num_cmds, vars.env_array, envp, vars.pipes);
+		init_process(&ctx, vars.i, num_cmds, envp);
+		init_process1(&ctx, commands, vars.i, vars.pipes);
+		init_process2(&ctx, vars.i, num_cmds, vars.env_array);
+		vars.pid = fork_and_process(&ctx);
 		if (vars.i == num_cmds - 1)
 			vars.pid_last = vars.pid;
 	}

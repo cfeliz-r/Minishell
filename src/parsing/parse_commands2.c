@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/10 10:21:18 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:31:57 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,12 @@ static char	**split_commands(const char *input)
 	ctx.j = 0;
 	ctx.cmd_idx = 0;
 	if (!ctx.commands || !ctx.current_command)
-		return (NULL);
-	if (!input)
 	{
 		free(ctx.commands);
 		free(ctx.current_command);
 		return (NULL);
 	}
-	while (input[ctx.i] != '\0')
-	{
-		if (input[ctx.i] == '\'' && ctx.ctx.in_double_quotes == 0)
-			ctx.ctx.in_single_quotes = !ctx.ctx.in_single_quotes;
-		else if (input[ctx.i] == '"' && ctx.ctx.in_single_quotes == 0)
-			ctx.ctx.in_double_quotes = !ctx.ctx.in_double_quotes;
-		else if (input[ctx.i] == '|' && ctx.ctx.in_single_quotes == 0
-			&& ctx.ctx.in_double_quotes == 0)
-		{
-			ctx.current_command[ctx.j] = '\0';
-			ctx.commands[ctx.cmd_idx++] = ft_strdup(ctx.current_command);
-			free(ctx.current_command);
-			ctx.current_command = ft_calloc(ctx.len + 1, sizeof(char));
-			ctx.j = 0;
-			ctx.i++;
-			continue ;
-		}
-		ctx.current_command[ctx.j++] = input[ctx.i++];
-	}
+	aux_split(input, &ctx);
 	if (ctx.j > 0)
 	{
 		ctx.current_command[ctx.j] = '\0';

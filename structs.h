@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 11:49:42 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:56:11 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,16 @@ typedef struct s_vars
 	size_t	str_len;
 	char	*new_str;
 }	t_vars;
+
+
+typedef struct s_process
+{
+    t_cmd       *command;
+    int         i;
+    int         num_cmds;
+    char        **env_array;
+    t_list_env  *envp;
+    int         **pipes;
+} t_process;
 
 #endif

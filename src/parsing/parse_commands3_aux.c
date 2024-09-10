@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:05:01 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/10 12:16:35 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:32:13 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,29 @@ void	aux_process_char(const char *command,
 	else
 		ctx->result = append_char(ctx->result,
 				command[(ctx->i)++], &(ctx->j), &(ctx->buffer_size));
+}
+
+void	aux_split(const char *input, t_split_commands *ctx)
+{
+	while (input[ctx->i] != '\0')
+	{
+		if (input[ctx->i] == '\'' && ctx->ctx.in_double_quotes == 0)
+			ctx->ctx.in_single_quotes = !ctx->ctx.in_single_quotes;
+		else if (input[ctx->i] == '"' && ctx->ctx.in_single_quotes == 0)
+			ctx->ctx.in_double_quotes = !ctx->ctx.in_double_quotes;
+		else if (input[ctx->i] == '|' && ctx->ctx.in_single_quotes == 0
+			&& ctx->ctx.in_double_quotes == 0)
+		{
+			ctx->current_command[ctx->j] = '\0';
+			ctx->commands[ctx->cmd_idx++] = ft_strdup(ctx->current_command);
+			free(ctx->current_command);
+			ctx->current_command = ft_calloc(ctx->len + 1, sizeof(char));
+			if (!ctx->current_command)
+				return ;
+			ctx->j = 0;
+			ctx->i++;
+			continue ;
+		}
+		ctx->current_command[ctx->j++] = input[ctx->i++];
+	}
 }

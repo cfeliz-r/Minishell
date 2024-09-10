@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 17:27:13 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:09:24 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ static void	handle_pipes(int i, int num_cmds, int **pipes)
 		dup2(pipes[i][1], STDOUT_FILENO);
 	close_pipes(pipes, num_cmds);
 }
-void execute_command(t_cmd *command, char **env_array, t_list_env *envp)
+
+void	execute_command(t_cmd *command, char **env_array, t_list_env *envp)
 {
-    if (validate_command(command, envp) == 1)
-    	execve(command->path, command->args, env_array);
-        	exit(127);
+	if (validate_command(command, envp) == 1)
+		execve(command->path, command->args, env_array);
+	exit(127);
 }
 
 int	ft_exit_command(char *exits)
@@ -40,10 +41,11 @@ int	ft_exit_command(char *exits)
 	exit (ft_atoi(exits));
 }
 
-void	child_process(t_cmd *command, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
+void	child_process(t_cmd *command, int i,
+		int num_cmds, char **env_array, t_list_env *envp, int **pipes)
 {
 	int	j;
-	
+
 	set_signal_handlers();
 	handle_pipes(i, num_cmds, pipes);
 	if (handle_redirections(command) == -1)
@@ -54,14 +56,13 @@ void	child_process(t_cmd *command, int i, int num_cmds, char **env_array, t_list
 	if (ft_strcmp(command->args[0], "exit") == 0)
 	{
 		j = 0;
-		while(command->args[j] != NULL)
+		while (command->args[j] != NULL)
 			j ++;
 		if (j == 1)
 			j = ft_exit_command(0);
 		else if (j == 2)
 			j = ft_exit_command(command->args[1]);
 		exit (j);
-		
 	}
 	else if (build_up(command, envp) == 1)
 		exit (0);

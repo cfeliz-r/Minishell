@@ -6,13 +6,13 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 10:58:22 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:29:46 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-volatile sig_atomic_t g_stop_status = 0;
+volatile sig_atomic_t	g_stop_status = 0;
 
 static void	process_envp(int argc, char **envp)
 {

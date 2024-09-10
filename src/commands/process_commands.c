@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/09 17:15:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:11:52 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void setup_signal_handler(struct sigaction *sa_int)
+void	setup_signal_handler(struct sigaction *sa_int)
 {
 	sa_int->sa_handler = sigint_handler_ha;
 	sigaction(SIGINT, sa_int, NULL);
 }
 
-static int handle_here_doc(t_cmd *command, int **pipes, int num_cmds, char **env_array, t_list_env *envp)
+static int	handle_here_doc(t_cmd *command,
+	int **pipes, int num_cmds, char **env_array, t_list_env *envp)
 {
 	if (command->delimiters && process_here_doc(command, envp) == -1)
 	{
@@ -29,68 +30,66 @@ static int handle_here_doc(t_cmd *command, int **pipes, int num_cmds, char **env
 	return (0);
 }
 
-pid_t fork_and_process(t_cmd *commands, int i, int num_cmds, char **env_array, t_list_env *envp, int **pipes)
+pid_t	fork_and_process(t_cmd *commands, int i,
+	int num_cmds, char **env_array, t_list_env *envp, int **pipes)
 {
-    pid_t pid = fork();
-    struct sigaction sa_int;
+	pid_t				pid;
+	struct sigaction	sa_int;
 
-    if (pid == 0)
-    {
-        sa_int.sa_handler = sigint_handler_ha;
-        sa_int.sa_flags = 0;
-        if (sigaction(SIGINT, &sa_int, NULL) == -1)
-            exit(EXIT_FAILURE);
-        setup_signal_handler(&sa_int);
-        child_process(&commands[i], i, num_cmds, env_array, envp, pipes);
-    }
-    return pid;
+	pid = fork();
+	if (pid == 0)
+	{
+		sa_int.sa_handler = sigint_handler_ha;
+		sa_int.sa_flags = 0;
+		if (sigaction(SIGINT, &sa_int, NULL) == -1)
+			exit(EXIT_FAILURE);
+		setup_signal_handler(&sa_int);
+		child_process(&commands[i], i, num_cmds, env_array, envp, pipes);
+	}
+	return (pid);
 }
 
-void prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
+void	prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
 {
-    int **pipes;
-    int i;
-    char **env_array;
-    struct sigaction sa_ignore;
-    int status;
-    pid_t pid, pid_last;
-    int exit_status;
+	t_cmd_vars	vars;
 
-    pipes = malloc((num_cmds - 1) * sizeof(int *));
-    setup_pipes(pipes, num_cmds);
-    env_array = convert_envp_to_array(envp);
-    sa_ignore.sa_handler = SIG_IGN;
-    sigaction(SIGINT, &sa_ignore, NULL);
-    i = -1;
-    while (++i < num_cmds)
-        if (handle_here_doc(&commands[i], pipes, num_cmds, env_array, envp) == -1)
-            return;
-    i = -1;
-    while (++i < num_cmds)
-    {
-        pid = fork_and_process(commands, i, num_cmds, env_array, envp, pipes);
-        if (i == num_cmds - 1)
-            pid_last = pid;
-    }
-    close_pipes(pipes, num_cmds);
-    i = -1;
-    while (++i < num_cmds)
-    {
-        pid = waitpid(-1, &status, 0);
-        if (pid == pid_last)
-        {
-            if (WIFEXITED(status))
-                exit_status = WEXITSTATUS(status);
-            else if (WIFSIGNALED(status))
-              exit_status = 128 + WTERMSIG(status);
-        manage_error(exit_status, 0);
-        }
-    }
-    if(num_cmds == 1)
-    {
-        handle_export(&commands[0], envp);
-        handle_cd(&commands[0], envp);
-        handle_unset(&commands[0], envp);  
-    }
-    clean_up(env_array, NULL, 0);
+	vars.pipes = malloc((num_cmds - 1) * sizeof(int *));
+	setup_pipes(vars.pipes, num_cmds);
+	vars.env_array = convert_envp_to_array(envp);
+	vars.sa_ignore.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &vars.sa_ignore, NULL);
+	vars.i = -1;
+	while (++vars.i < num_cmds)
+		if (handle_here_doc(&commands[vars.i], vars.pipes,
+				num_cmds, vars.env_array, envp) == -1)
+			return ;
+	vars.i = -1;
+	while (++vars.i < num_cmds)
+	{
+		vars.pid = fork_and_process(commands, vars.i,
+				num_cmds, vars.env_array, envp, vars.pipes);
+		if (vars.i == num_cmds - 1)
+			vars.pid_last = vars.pid;
+	}
+	close_pipes(vars.pipes, num_cmds);
+	vars.i = -1;
+	while (++vars.i < num_cmds)
+	{
+		vars.pid = waitpid(-1, &vars.status, 0);
+		if (vars.pid == vars.pid_last)
+		{
+			if (WIFEXITED(vars.status))
+				vars.exit_status = WEXITSTATUS(vars.status);
+			else if (WIFSIGNALED(vars.status))
+				vars.exit_status = 128 + WTERMSIG(vars.status);
+			manage_error(vars.exit_status, 0);
+		}
+	}
+	if (num_cmds == 1)
+	{
+		handle_export(&commands[0], envp);
+		handle_cd(&commands[0], envp);
+		handle_unset(&commands[0], envp);
+	}
+	clean_up(vars.env_array, NULL, 0);
 }

@@ -3,84 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 17:14:55 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:02:00 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char *reduce_spaces(const char *str)
+{
+    int i = 0;
+    int j = 0;
+    int last_char_was_space = 0;
+    int len = strlen(str);
+    
+    // Reserva memoria para la nueva cadena
+    char *new_str = malloc(len + 1);
+    if (new_str == NULL)
+        return NULL;
+
+    while (str[i] != '\0')
+    {
+        if (str[i] == ' ')
+        {
+            if (!last_char_was_space) // Solo copia el espacio si el anterior no era espacio
+            {
+                new_str[j++] = ' ';
+                last_char_was_space = 1;
+            }
+        }
+        else
+        {
+            new_str[j++] = str[i]; // Copia cualquier otro carácter
+            last_char_was_space = 0;
+        }
+        i++;
+    }
+
+    new_str[j] = '\0'; // Termina la nueva cadena
+    return new_str;
+}
+
 char	*ft_put_spaces(char *str)
 {
-	int		i;
-	int		j;
-	int		in_single_quote;
-	int		in_double_quote;
-	int		last_char_was_space;
-	size_t	str_len;
+	t_vars	vars;
 	char	*new_str;
 
-	i = 0;
-	j = 0;
-	in_single_quote = 0;
-	in_double_quote = 0;
-	last_char_was_space = 0;
-	str_len = ft_strlen(str);
-	new_str = malloc(sizeof(char) * (str_len * 2 + 2));
-	if (new_str == NULL)
+	vars.i = 0;
+	vars.j = 0;
+	vars.in_single_quote = 0;
+	vars.in_double_quote = 0;
+	vars.last_char_was_space = 0;
+	vars.str_len = ft_strlen(str);
+	vars.new_str = malloc(sizeof(char) * (vars.str_len * 2 + 2));
+	if (vars.new_str == NULL)
 		return (NULL);
-
-	while (str[i] != '\0')
+	while (str[vars.i] != '\0')
 	{
-		if (str[i] == '\'' && !in_double_quote)
+		if (str[vars.i] == '\'' && !vars.in_double_quote)
 		{
-			in_single_quote = !in_single_quote;
-			new_str[j++] = str[i++];
-			last_char_was_space = 0;
+			vars.in_single_quote = !vars.in_single_quote;
+			vars.new_str[vars.j++] = str[vars.i++];
+			vars.last_char_was_space = 0;
 		}
-		else if (str[i] == '"' && !in_single_quote)
+		else if (str[vars.i] == '"' && !vars.in_single_quote)
 		{
-			in_double_quote = !in_double_quote;
-			new_str[j++] = str[i++];
-			last_char_was_space = 0;
+			vars.in_double_quote = !vars.in_double_quote;
+			vars.new_str[vars.j++] = str[vars.i++];
+			vars.last_char_was_space = 0;
 		}
-		else if (!in_single_quote && !in_double_quote
-			&& ((str[i] == '<' && str[i + 1] == '<')
-			|| (str[i] == '>' && str[i + 1] == '>')
-			|| (str[i] == '<' && str[i + 1] == '>')
-			|| (str[i] == '>' && str[i + 1] == '<')))
+		else if (!vars.in_single_quote && !vars.in_double_quote
+			&& ((str[vars.i] == '<' && str[vars.i + 1] == '<')
+				|| (str[vars.i] == '>' && str[vars.i + 1] == '>')
+				|| (str[vars.i] == '<' && str[vars.i + 1] == '>')
+				|| (str[vars.i] == '>' && str[vars.i + 1] == '<')))
 		{
-			if (i > 0 && str[i - 1] != ' ' && !last_char_was_space)
-				new_str[j++] = ' ';
-			new_str[j++] = str[i++];
-			new_str[j++] = str[i++];
-			if (str[i] != ' ' && str[i] != '\0')
-				new_str[j++] = ' ';
-			last_char_was_space = 1;
+			if (vars.i > 0 && str[vars.i - 1] != ' '
+				&& !vars.last_char_was_space)
+				vars.new_str[vars.j++] = ' ';
+			vars.new_str[vars.j++] = str[vars.i++];
+			vars.new_str[vars.j++] = str[vars.i++];
+			if (str[vars.i] != ' ' && str[vars.i] != '\0')
+				vars.new_str[vars.j++] = ' ';
+			vars.last_char_was_space = 1;
 		}
-		else if ((str[i] == '|' || str[i] == '<' || str[i] == '>')
-			&& !in_single_quote && !in_double_quote)
+		else if ((str[vars.i] == '|' || str[vars.i] == '<'
+				|| str[vars.i] == '>')
+			&& !vars.in_single_quote && !vars.in_double_quote)
 		{
-			if (i > 0 && str[i - 1] != ' ' && !last_char_was_space)
-				new_str[j++] = ' ';
-			new_str[j++] = str[i++];
-			if (str[i] != ' ' && str[i] != '\0')
-				new_str[j++] = ' ';
-			last_char_was_space = 1;
+			if (vars.i > 0 && str[vars.i - 1] != ' '
+					&& !vars.last_char_was_space)
+				vars.new_str[vars.j++] = ' ';
+			vars.new_str[vars.j++] = str[vars.i++];
+			if (str[vars.i] != ' ' && str[vars.i] != '\0')
+				vars.new_str[vars.j++] = ' ';
+			vars.last_char_was_space = 1;
 		}
-		else if (str[i] == ' ' && !in_single_quote && !in_double_quote)
+		else if (str[vars.i] == ' ' && !vars.in_single_quote && !vars.in_double_quote)
 		{
-			new_str[j++] = str[i++];
-			last_char_was_space = 1;
+			vars.new_str[vars.j++] = str[vars.i++];
+			vars.last_char_was_space = 1;
 		}
 		else
 		{
-			new_str[j++] = str[i++];
-			last_char_was_space = 0;
+			vars.new_str[vars.j++] = str[vars.i++];
+			vars.last_char_was_space = 0;
 		}
 	}
-	new_str[j] = '\0';
+	vars.new_str[vars.j] = '\0';
+	new_str = reduce_spaces(vars.new_str);
+	free (vars.new_str);
+	printf("new_str: %s\n", new_str);
 	return (new_str);
 }

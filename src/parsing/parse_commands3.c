@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 16:51:55 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:24:55 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static char	*handle_variable_expansion(const char *command,
 		return (append_char(ctx->result, ' ', &(ctx->j), &(ctx->buffer_size)));
 	while (*value != '\0')
 	{
-		ctx->result = append_char(ctx->result, *value++, &(ctx->j), &(ctx->buffer_size));
+		ctx->result = append_char(ctx->result, *value++,
+				&(ctx->j), &(ctx->buffer_size));
 		if (!ctx->result)
 			return (NULL);
 	}
@@ -79,14 +80,16 @@ static char	*handle_dollar_sign(const char *command,
 	else if (!ctx->in_heredoc)
 		ctx->result = handle_variable_expansion(command, ctx, envp);
 	else
-    {
-        ctx->result = append_char(ctx->result, '$', &(ctx->j), &(ctx->buffer_size));
-        while (ft_isalnum(command[ctx->i]) || command[ctx->i] == '_')
-        {
-            ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
-        }
-        ctx->in_heredoc = 0;
-    }
+	{
+		ctx->result = append_char(ctx->result, '$',
+				&(ctx->j), &(ctx->buffer_size));
+		while (ft_isalnum(command[ctx->i]) || command[ctx->i] == '_')
+		{
+			ctx->result = append_char(ctx->result,
+					command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
+		}
+		ctx->in_heredoc = 0;
+	}
 	return (ctx->result);
 }
 
@@ -100,11 +103,16 @@ static char	*process_char(const char *command,
 				command[ctx->i], &(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
-	else if (ctx->can_expand == 0 && command[ctx->i] == '<' && command[ctx->i + 1] == '<' && command[ctx-> i + 3] == '$' && ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
+	else if (ctx->can_expand == 0 && command[ctx->i] == '<'
+		&& command[ctx->i + 1] == '<'
+		&& command[ctx-> i + 3] == '$'
+		&& ctx->in_single_quotes == 0 && ctx->in_double_quotes == 0)
 	{
 		ctx->in_heredoc = 1;
-		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
-		ctx->result = append_char(ctx->result, command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
+		ctx->result = append_char(ctx->result,
+				command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
+		ctx->result = append_char(ctx->result,
+				command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
 	}
 	else if (command[ctx->i] == '\'' && ctx->in_double_quotes == 0)
 	{
@@ -113,25 +121,25 @@ static char	*process_char(const char *command,
 				&(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
-	else if(command[ctx->i] == '$' && (command[ctx->i + 1] == ' ' || command[ctx->i + 1] == '\0' || command[ctx->i + 1] == '\n'))
+	else if (command[ctx->i] == '$' && (command[ctx->i + 1] == ' '
+			|| command[ctx->i + 1] == '\0' || command[ctx->i + 1] == '\n'))
 	{
-		ctx->result = append_char(ctx->result, '$', &(ctx->j), &(ctx->buffer_size));
+		ctx->result = append_char(ctx->result, '$',
+				&(ctx->j), &(ctx->buffer_size));
 		ctx->i++;
 	}
 	else if (command[ctx->i] == '$' && ctx->in_single_quotes == 0)
 		ctx->result = handle_dollar_sign(command, ctx, envp);
 	else
-	{
 		ctx->result = append_char(ctx->result,
 				command[(ctx->i)++], &(ctx->j), &(ctx->buffer_size));
-	}
 	if (command[ctx->i] == '\n')
 		ctx->in_heredoc = 0;
-
 	return (ctx->result);
 }
 
-char	*interpret_command(const char *command, t_list_env *envp, int can_expand)
+char	*interpret_command(const char *command,
+	t_list_env *envp, int can_expand)
 {
 	t_parse_context	ctx;
 
@@ -142,7 +150,7 @@ char	*interpret_command(const char *command, t_list_env *envp, int can_expand)
 	ctx.in_heredoc = 0;
 	ctx.buffer_size = ft_strlen(command) * 2 + 1;
 	ctx.result = malloc(ctx.buffer_size);
-	if(can_expand == 1)
+	if (can_expand == 1)
 		ctx.can_expand = 1;
 	else
 		ctx.can_expand = 0;

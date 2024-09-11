@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:57:31 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 12:13:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:29:22 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ char	*interpret_command(const char *command,
 	ctx.in_double_quotes = 0;
 	ctx.in_heredoc = 0;
 	ctx.buffer_size = ft_strlen(command) * 2 + 1;
+	if(command[0] == '\0')
+		return (ft_strdup(""));
 	ctx.result = malloc(ctx.buffer_size);
 	if (can_expand == 1)
 		ctx.can_expand = 1;

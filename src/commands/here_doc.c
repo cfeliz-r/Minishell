@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/11 15:33:40 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:31:39 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,9 @@ int	process_here_doc(t_cmd *cmd, t_list_env *envp)
 		{
 			if (cmd->delimiters[cmd->hdc_index] == NULL)
 				break ;
-			else
-			{
-				close(fd);
-				fd = open_temp_file(&cmd->heredoc_file);
-				continue ;
-			}
+			close(fd);
+			fd = open_temp_file(&cmd->heredoc_file);
+			continue ;
 		}
 		free(input_line);
 	}

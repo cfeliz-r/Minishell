@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 13:37:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:43:42 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 	if (!input_line || g_stop_status == 1)
 	{
 		if (!input_line)
-			write(STDOUT_FILENO, "\n", 1);
+		{
+			printf("bash: warning: here-document at line 1 delimited \
+			by end-of-file (wanted `end')\n");
+		}
 		else
 		{
 			manage_error(130, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 15:26:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:36:31 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 {
 	char	*aux;
 
-	aux = "warning: here-document at line 1 delimited by end-of-file (wanted `end')\n";
+	aux = "warning: here-document at line 1 delimited by end-of-file\n";
 	if (!input_line || g_stop_status == SIGINT)
 	{
 		if (!input_line)

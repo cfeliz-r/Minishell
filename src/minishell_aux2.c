@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 11:52:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:12:43 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char *reduce_spaces(const char *str)
     int j = 0;
     int last_char_was_space = 0;
     int len = strlen(str);
-    
+    int in_quotes = 0;  // Variable para rastrear si estamos dentro de comillas
+
     // Reserva memoria para la nueva cadena
     char *new_str = malloc(len + 1);
     if (new_str == NULL)
@@ -26,9 +27,14 @@ char *reduce_spaces(const char *str)
 
     while (str[i] != '\0')
     {
-        if (str[i] == ' ')
+        if (str[i] == '"' || str[i] == '\'')
         {
-            if (!last_char_was_space) // Solo copia el espacio si el anterior no era espacio
+            in_quotes = !in_quotes;
+            new_str[j++] = str[i];
+        }
+        else if (str[i] == ' ')
+        {
+            if (!last_char_was_space || in_quotes)
             {
                 new_str[j++] = ' ';
                 last_char_was_space = 1;

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 13:25:05 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:37:18 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 		if (!input_line)
 			write(STDOUT_FILENO, "\n", 1);
 		else
+		{
+			manage_error(130, 0);
 			free(input_line);
+		}
 		unlink(cmd->heredoc_file);
 		g_stop_status = 0;
 		close(fd);

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 13:03:04 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:46:04 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void		setup_signal_handler(struct sigaction *sa_int);
 void		setup_pipes(int **pipes, int num_cmds);
 void		remove_quotes_from_args(char **args);
 char		*remove_quotes(char *str);
-/* void		child_process(t_cmd *command, int i,
-				int num_cmds, char **env_array, t_list_env *envp, int **pipes); */
 void		child_process(t_process *ctx);
 void		execute_command(t_cmd *command, char **env_array, t_list_env *envp);
 void		set_signal_handlers(void);

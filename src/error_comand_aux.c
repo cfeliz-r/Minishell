@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_comand_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 17:05:59 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:59:20 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	check_redirections(char *line)
 	inside_quotes = 0;
 	while (*line)
 	{
+		if (*line == '|' && *(line + 1) == '|')
+			return (0);
 		if (*line == '\'' || *line == '\"')
 			inside_quotes = !inside_quotes;
 		if (!inside_quotes && (*line == '>' || *line == '<'))

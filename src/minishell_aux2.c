@@ -105,14 +105,15 @@ char	*ft_put_spaces(char *str)
 			&& !vars.in_single_quote && !vars.in_double_quote)
 		{
 			if (vars.i > 0 && str[vars.i - 1] != ' '
-					&& !vars.last_char_was_space)
+				&& !vars.last_char_was_space)
 				vars.new_str[vars.j++] = ' ';
 			vars.new_str[vars.j++] = str[vars.i++];
 			if (str[vars.i] != ' ' && str[vars.i] != '\0')
 				vars.new_str[vars.j++] = ' ';
 			vars.last_char_was_space = 1;
 		}
-		else if (str[vars.i] == ' ' && !vars.in_single_quote && !vars.in_double_quote)
+		else if (str[vars.i] == ' '
+			&& !vars.in_single_quote && !vars.in_double_quote)
 		{
 			vars.new_str[vars.j++] = str[vars.i++];
 			vars.last_char_was_space = 1;

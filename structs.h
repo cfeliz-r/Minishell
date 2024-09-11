@@ -109,25 +109,24 @@ typedef struct s_vars
 	char	*new_str;
 }	t_vars;
 
-
 typedef struct s_process
 {
-    t_cmd       *command;
-    int         i;
-    int         num_cmds;
-    char        **env_array;
-    t_list_env  *envp;
-    int         **pipes;
-} t_process;
+	t_cmd		*command;
+	int			i;
+	int			num_cmds;
+	char		**env_array;
+	t_list_env	*envp;
+	int			**pipes;
+}	t_process;
 
 typedef struct s_reduce_vars
 {
-    int i;
-    int j;
-    int last_char_was_space;
-    int len;
-    int in_quotes;
-    char *new_str;
-}   t_reduce_vars;
+	int		i;
+	int		j;
+	int		last_char_was_space;
+	int		len;
+	int		in_quotes;
+	char	*new_str;
+}	t_reduce_vars;
 
 #endif

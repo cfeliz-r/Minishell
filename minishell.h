@@ -29,12 +29,12 @@
 # include "libft/libft.h"
 # include <signal.h>
 # include <sys/ioctl.h>
-#include <sys/stat.h>
 
 extern volatile sig_atomic_t	g_stop_status;
 
-void		manage_commands_three(t_cmd *commands, int num_cmds, t_list_env *envp, t_cmd_vars	*vars);
-void		init_process2(t_process *ctx, int i, int num_cmds, char **env_array);
+void		manage_commands_three(t_cmd *cmd, int ncmds, t_list_env *envp,
+				t_cmd_vars *vars);
+void		init_process2(t_process *ctx, int i, int n_cmd, char **env_arr);
 void		init_process1(t_process *ctx, t_cmd *commands, int i, int **pipes);
 void		init_process(t_process *ctx, int i, int num_cmds, t_list_env *envp);
 void		aux_split(const char *input, t_split_commands *ctx);
@@ -42,7 +42,8 @@ char		*append_char(char *result, char c, size_t *j, size_t *buffer_size);
 char		*handle_dollar_sign(const char *command,
 				t_parse_context *ctx, t_list_env *envp);
 void		aux_hadle_dollar(const char *command, t_parse_context *ctx);
-void		aux_process_char (const char * command, t_parse_context *ctx, t_list_env *envp);
+void		aux_process(const char *cmd, t_parse_context *ctx,
+				t_list_env *envp);
 void		process_input_aux(char *line, t_list_env *envp);
 void		ft_exit(char *exits);
 void		process_input_aux2(char *aux, char *line, t_list_env *envp);

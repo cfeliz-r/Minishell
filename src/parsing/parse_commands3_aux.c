@@ -24,7 +24,7 @@ void	aux_hadle_dollar(const char *command, t_parse_context *ctx)
 	ctx->in_heredoc = 0;
 }
 
-void	aux_process_char(const char *command,
+void	aux_process(const char *command,
 	t_parse_context *ctx, t_list_env *envp)
 {
 	if (command[ctx->i] == '\'' && ctx->in_double_quotes == 0)

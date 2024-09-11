@@ -107,7 +107,7 @@ static char	*process_char(const char *command,
 				command[ctx->i++], &(ctx->j), &(ctx->buffer_size));
 	}
 	else
-		aux_process_char(command, ctx, envp);
+		aux_process(command, ctx, envp);
 	if (command[ctx->i] == '\n')
 		ctx->in_heredoc = 0;
 	return (ctx->result);
@@ -124,21 +124,17 @@ char	*interpret_command(const char *command,
 	ctx.in_double_quotes = 0;
 	ctx.in_heredoc = 0;
 	ctx.buffer_size = ft_strlen(command) * 2 + 1;
-	if(command[0] == '\0')
+	if (command[0] == '\0')
 		return (ft_strdup(""));
 	ctx.result = malloc(ctx.buffer_size);
+	if (!ctx.result)
+		return (NULL);
 	if (can_expand == 1)
 		ctx.can_expand = 1;
 	else
 		ctx.can_expand = 0;
-	if (ctx.result == NULL || command[0] == '\0')
-		return (NULL);
 	while (command[ctx.i] != '\0')
-	{
 		ctx.result = process_char(command, &ctx, envp);
-		if (!ctx.result)
-			return (NULL);
-	}
 	if (ctx.in_double_quotes || ctx.in_single_quotes)
 		return (free(ctx.result), NULL);
 	ctx.result[ctx.j] = '\0';

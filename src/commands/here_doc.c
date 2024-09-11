@@ -80,7 +80,7 @@ static int	handle_line(char *input_line, t_cmd *cmd, int fd, t_list_env *envp)
 {
 	char	*expanded_line;
 
-	if(!input_line)
+	if (!input_line)
 	{
 		cmd->hdc_index ++;
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/11 16:47:53 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:03:23 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void	setup_signal_handler(struct sigaction *sa_int)
 }
 
 static int	handle_here_doc(t_cmd *command,
-	int **pipes, int num_cmds, char **env_array, t_list_env *envp)
+	int **pipes, int num_cmds, t_list_env *envp)
 {
 	if (command->delimiters && process_here_doc(command, envp) == -1)
 	{
-		clean_up(env_array, NULL, 0);
 		close_pipes(pipes, num_cmds);
 		return (-1);
 	}
@@ -61,8 +60,8 @@ void	prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
 	vars.i = -1;
 	while (++vars.i < num_cmds)
 		if (handle_here_doc(&commands[vars.i], vars.pipes,
-				num_cmds, vars.env_array, envp) == -1)
-			return ;
+				num_cmds, envp) == -1)
+			return ((void) free(vars.env_array));
 	vars.i = -1;
 	while (++vars.i < num_cmds)
 	{

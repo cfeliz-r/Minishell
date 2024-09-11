@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 12:46:04 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:53:34 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,12 @@ void		initialize_output_redirection(char **output_redirection,
 				t_cmd *command);
 void		store_output_redirections(char **split_result,
 				t_cmd *command, int count);
-int			count_output_redirections(char **split_result);
 void		setup_signal_handler(struct sigaction *sa_int);
 void		setup_pipes(int **pipes, int num_cmds);
 void		remove_quotes_from_args(char **args);
-char		*remove_quotes(char *str);
 void		child_process(t_process *ctx);
 void		execute_command(t_cmd *command, char **env_array, t_list_env *envp);
 void		set_signal_handlers(void);
-char		*remove_quotes(char *str);
 void		remove_quotes_from_args(char **args);
 void		setup_pipes(int **pipes, int num_cmds);
 char		*join_paths(char *dir, char *cmd);

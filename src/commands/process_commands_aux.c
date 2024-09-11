@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:42:14 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 12:45:34 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:52:24 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_builtin_command(char *cmd)
 	return (0);
 }
 
-char	*remove_quotes(char *str)
+static char	*remove_quotes(char *str)
 {
 	char	*result;
 	int		i;

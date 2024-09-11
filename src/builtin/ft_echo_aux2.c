@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_aux2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 18:15:56 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 14:05:55 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:20:39 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	add_command(t_split_context *ctx)
+static void	add_command(t_split_context *ctx)
 {
 	if (ctx->j > 0)
 	{

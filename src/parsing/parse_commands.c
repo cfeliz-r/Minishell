@@ -23,31 +23,3 @@ char	*find_env_value(t_list_env *envp_list, const char *key)
 	}
 	return (NULL);
 }
-
-char	*remove_front_and_back_spaces(char *str)
-{
-	int	start;
-	int	end;
-	int	length;
-
-	start = 0;
-	if (str != NULL)
-	{
-		while (str[start] && str[start] == ' ')
-			start++;
-		if (str[start] == '\0')
-		{
-			str[start] = '\0';
-			return (str);
-		}
-		length = ft_strlen(str);
-		end = length - 1;
-		while (end > start && str[end] == ' ')
-			end--;
-		length = end - start + 1;
-		ft_memmove(str, str + start, length);
-		str[length] = '\0';
-		return (str);
-	}
-	return (NULL);
-}

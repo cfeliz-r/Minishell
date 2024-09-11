@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 10:34:31 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:23:04 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	process_input_aux(char *line, t_list_env *envp)
 		free(interpreted_line);
 		return ;
 	}
-	execute_commands(envp, interpreted_line);
+	executor(envp, interpreted_line);
 	free(interpreted_line);
 }
 

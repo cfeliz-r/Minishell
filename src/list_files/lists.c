@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:04 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/08/23 19:53:57 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:30:43 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,4 @@ t_list_env	*create_list_envp(char **envp)
 		i++;
 	}
 	return (envp_list);
-}
-
-void	free_env_list(t_list_env *env_list)
-{
-	t_list_env	*temp;
-
-	while (env_list != NULL)
-	{
-		temp = env_list;
-		env_list = env_list->next;
-		free(temp->envp_content);
-		free(temp);
-	}
 }

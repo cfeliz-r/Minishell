@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:57:46 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/10 12:31:57 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:25:50 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**split_commands(const char *input)
 	return (ctx.commands);
 }
 
-t_cmd	*init_commands(char **command_strings, int num_cmds)
+static t_cmd	*init_commands(char **command_strings, int num_cmds)
 {
 	int		i;
 	t_cmd	*commands;

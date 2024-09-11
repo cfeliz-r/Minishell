@@ -6,13 +6,13 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 17:26:53 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:17:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*join_paths(char *dir, char *cmd)
+static char	*join_paths(char *dir, char *cmd)
 {
 	char	*full_path;
 	char	*result;

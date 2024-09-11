@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 09:59:45 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:25:05 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 	return (0);
 }
 
-int	count_envp(t_list_env *envp)
+static int	count_envp(t_list_env *envp)
 {
 	int	count;
 
@@ -82,7 +82,7 @@ char	**convert_envp_to_array(t_list_env *envp)
 	return (env_array);
 }
 
-void	execute_commands(t_list_env *envp, char *cmd)
+void	executor(t_list_env *envp, char *cmd)
 {
 	t_cmd	*commands;
 	int		num_cmds;

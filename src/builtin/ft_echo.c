@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 11:57:05 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:19:17 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_parts(char **str, int start_index, int *first_part)
 	}
 }
 
-void	handle_n_option(char **str, int *n_option)
+static void	handle_n_option(char **str, int *n_option)
 {
 	int	i;
 

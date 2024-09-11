@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:03:33 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/11 11:46:20 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:33:40 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,18 @@ static int	handle_line(char *input_line, t_cmd *cmd, int fd, t_list_env *envp)
 {
 	char	*expanded_line;
 
-	if (ft_strcmp(input_line, cmd->delimiters[cmd->hdc_index]) == 0)
+	if(!input_line)
+	{
+		cmd->hdc_index ++;
+		return (1);
+	}
+	else if (ft_strcmp(input_line, cmd->delimiters[cmd->hdc_index]) == 0)
 	{
 		free(input_line);
 		cmd->hdc_index++;
 		return (1);
 	}
-	if (cmd->expand_heredoc == 1 && is_builtin_command(cmd->args[0]) == 0)
+	else if (cmd->expand_heredoc == 1 && is_builtin_command(cmd->args[0]) == 0)
 	{
 		expanded_line = interpret_command(input_line, envp, 1);
 		write(fd, expanded_line, ft_strlen(expanded_line));
@@ -115,9 +120,12 @@ int	process_here_doc(t_cmd *cmd, t_list_env *envp)
 		{
 			if (cmd->delimiters[cmd->hdc_index] == NULL)
 				break ;
-			close(fd);
-			fd = open_temp_file(&cmd->heredoc_file);
-			continue ;
+			else
+			{
+				close(fd);
+				fd = open_temp_file(&cmd->heredoc_file);
+				continue ;
+			}
 		}
 		free(input_line);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:54 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/11 13:29:29 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:04:06 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	sigint_handler_here_doc(int sig)
 	(void)sig;
 	rl_on_new_line();
 	ioctl(0, TIOCSTI, "\n");
-	g_stop_status = 1;
+	g_stop_status = SIGINT;
 }
 
 void	sigint_handler_ha(int sig)

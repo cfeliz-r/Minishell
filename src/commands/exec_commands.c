@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 13:43:42 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:26:57 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ int	open_temp_file(char **temp_file_name)
 
 int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 {
-	if (!input_line || g_stop_status == 1)
+	char	*aux;
+
+	aux = "warning: here-document at line 1 delimited by end-of-file (wanted `end')\n";
+	if (!input_line || g_stop_status == SIGINT)
 	{
 		if (!input_line)
 		{
-			printf("bash: warning: here-document at line 1 delimited \
-			by end-of-file (wanted `end')\n");
+			printf("%s", aux);
+			return (0);
 		}
 		else
 		{

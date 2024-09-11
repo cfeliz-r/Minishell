@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:27:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 16:41:09 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:57:14 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ void	init_process2(t_process *ctx, int i, int num_cmds, char **env_array)
 	ctx->env_array = env_array;
 }
 
-void manage_commands_three(t_cmd *commands, int num_cmds, t_list_env *envp, t_cmd_vars	*vars)
+void	manage_commands_three(t_cmd *commands,
+	int num_cmds, t_list_env *envp, t_cmd_vars	*vars)
 {
-    close_pipes(vars->pipes, num_cmds);
-    vars->i = -1;
+	close_pipes(vars->pipes, num_cmds);
+	vars->i = -1;
 	while (++vars->i < num_cmds)
 	{
 		vars->pid = waitpid(-1, &vars->status, 0);
@@ -53,5 +54,5 @@ void manage_commands_three(t_cmd *commands, int num_cmds, t_list_env *envp, t_cm
 		handle_cd(&commands[0], envp);
 		handle_unset(&commands[0], envp);
 	}
-    clean_up(vars->env_array, NULL, 0);
+	clean_up(vars->env_array, NULL, 0);
 }

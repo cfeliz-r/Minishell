@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:43:52 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/11 18:03:23 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:53:44 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	prepare_commands(t_cmd *commands, int num_cmds, t_list_env *envp)
 	while (++vars.i < num_cmds)
 		if (handle_here_doc(&commands[vars.i], vars.pipes,
 				num_cmds, envp) == -1)
-			return ((void) free(vars.env_array));
+			return (clean_up(vars.env_array, NULL, 0));
 	vars.i = -1;
 	while (++vars.i < num_cmds)
 	{

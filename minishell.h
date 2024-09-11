@@ -29,10 +29,9 @@
 # include "libft/libft.h"
 # include <signal.h>
 # include <sys/ioctl.h>
+#include <sys/stat.h>
 
 extern volatile sig_atomic_t	g_stop_status;
-
-
 
 void		manage_commands_three(t_cmd *commands, int num_cmds, t_list_env *envp, t_cmd_vars	*vars);
 void		init_process2(t_process *ctx, int i, int num_cmds, char **env_array);
@@ -76,12 +75,8 @@ void		initialize_output_redirection(char **output_redirection,
 void		setup_signal_handler(struct sigaction *sa_int);
 void		setup_pipes(int **pipes, int num_cmds);
 void		remove_quotes_from_args(char **args);
-char		**get_paths(t_list_env *envp);
-char		*search_paths(char **paths, char *cmd);
 void		child_process(t_process *ctx);
 void		execute_command(t_cmd *command, char **env_array, t_list_env *envp);
-char		*handle_command_path(char *clean_cmd, t_list_env *envp);
-int			is_command_path_valid(char *clean_cmd);
 int			is_space(int c);
 void		print_parts(char **str, int start_index, int *first_part);
 char		*strip_quotes(char *str);

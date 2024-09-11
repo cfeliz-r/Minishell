@@ -23,7 +23,7 @@ static char	*join_paths(char *dir, char *cmd)
 	return (result);
 }
 
-char	**get_paths(t_list_env *envp)
+static char	**get_paths(t_list_env *envp)
 {
 	t_list_env	*aux;
 	char		**paths;
@@ -37,7 +37,7 @@ char	**get_paths(t_list_env *envp)
 	return (paths);
 }
 
-char	*search_paths(char **paths, char *cmd)
+static char	*search_paths(char **paths, char *cmd)
 {
 	char	*res;
 	int		i;
@@ -58,38 +58,43 @@ char	*search_paths(char **paths, char *cmd)
 	return (NULL);
 }
 
-char	*clean_command(char *cmd)
+static int	is_command_path_valid(char *cmd)
 {
-	char	*clean_cmd;
-
-	clean_cmd = ft_strdup(cmd);
-	if (clean_cmd[0] == '"' && clean_cmd[ft_strlen(clean_cmd) - 1] == '"')
+	if (ft_strcmp(cmd, "./") == 0 || ft_strcmp(cmd, "../") == 0)
 	{
-		clean_cmd[ft_strlen(clean_cmd) - 1] = '\0';
-		ft_memmove(clean_cmd, clean_cmd + 1, ft_strlen(clean_cmd));
+		if (access(cmd, F_OK) == 0)
+		{
+				printf("%s: Is a directory\n", cmd);
+				return (1);
+		}
 	}
-	else if (clean_cmd[0] == '\''
-		&& clean_cmd[ft_strlen(clean_cmd) - 1] == '\'')
+	else if (ft_strcmp(cmd, "/") == 0 || ft_strcmp(cmd, ".") == 0
+		|| ft_strcmp(cmd, "..") == 0)
 	{
-		clean_cmd[ft_strlen(clean_cmd) - 1] = '\0';
-		ft_memmove(clean_cmd, clean_cmd + 1, ft_strlen(clean_cmd));
+		if (access(cmd, F_OK) == 0)
+		{
+			printf("%s: Is a directory\n", cmd);
+			return (1);
+		}
 	}
-	return (clean_cmd);
+	else if (cmd[0] == '/' || cmd[0] == '.')
+	{
+		if (access(cmd, F_OK) == 0 && access(cmd, X_OK) == 0)
+			return (1);
+	}
+	return (0);
 }
 
 char	*find_command_path(char *cmd, t_list_env *envp)
 {
-	char	*clean_cmd;
-	char	*res;
+	char	**paths;
 
 	if (cmd == NULL)
 		return (NULL);
-	clean_cmd = clean_command(cmd);
-	if (is_builtin_command(clean_cmd))
-		return (clean_cmd);
-	if (is_command_path_valid(clean_cmd))
-		return (clean_cmd);
-	res = handle_command_path(clean_cmd, envp);
-	free(clean_cmd);
-	return (res);
+	if (is_command_path_valid(cmd) == 1)
+		return (cmd);
+	paths = get_paths(envp);
+	if (paths == NULL)
+		return (NULL);
+	return (search_paths(paths, cmd));
 }

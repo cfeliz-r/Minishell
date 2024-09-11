@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 15:36:31 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:49:20 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 			free(input_line);
 		}
 		unlink(cmd->heredoc_file);
-		g_stop_status = 0;
+		g_stop_status = SIGPIPE;
 		close(fd);
 		return (-1);
 	}

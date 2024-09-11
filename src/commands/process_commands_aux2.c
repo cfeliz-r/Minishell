@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 12:55:49 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:30:33 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,32 +62,31 @@ int	ft_exit_command(char *exits)
 	exit (ft_atoi(exits));
 }
 
-void child_process(t_process *ctx)
+void	child_process(t_process *ctx)
 {
-    int j;
+	int	j;
 
-    set_signal_handlers();
-    handle_pipes(ctx->i, ctx->num_cmds, ctx->pipes);
-    if (handle_redirections(ctx->command) == -1)
-        exit(1);
-    remove_quotes_from_args(ctx->command->args);
-    if (is_builtin_command(ctx->command->args[0]) == 0)
-        execute_command(ctx->command, ctx->env_array, ctx->envp);
-    if (ft_strcmp(ctx->command->args[0], "exit") == 0)
-    {
-        j = 0;
-        while (ctx->command->args[j] != NULL)
-            j++;
-        if (j == 1)
-            j = ft_exit_command(0);
-        else if (j == 2)
-            j = ft_exit_command(ctx->command->args[1]);
-        else
-            printf("exit: too many arguments\n");
-        exit(j);
-    }
-    else if (build_up(ctx->command, ctx->envp) == 1)
-        exit(0);
-    exit(1);
+	set_signal_handlers();
+	handle_pipes(ctx->i, ctx->num_cmds, ctx->pipes);
+	if (handle_redirections(ctx->command) == -1)
+		exit(1);
+	remove_quotes_from_args(ctx->command->args);
+	if (is_builtin_command(ctx->command->args[0]) == 0)
+		execute_command(ctx->command, ctx->env_array, ctx->envp);
+	if (ft_strcmp(ctx->command->args[0], "exit") == 0)
+	{
+		j = 0;
+		while (ctx->command->args[j] != NULL)
+			j++;
+		if (j == 1)
+			j = ft_exit_command(0);
+		else if (j == 2)
+			j = ft_exit_command(ctx->command->args[1]);
+		else
+			printf("exit: too many arguments\n");
+		exit(j);
+	}
+	else if (build_up(ctx->command, ctx->envp) == 1)
+		exit(0);
+	exit(1);
 }
-

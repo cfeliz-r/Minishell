@@ -37,6 +37,7 @@ SRC = src/main.c \
 	  src/commands/process_commands.c \
 	  src/commands/process_commands_aux.c \
 	  src/commands/process_commands_aux2.c \
+	  src/commands/process_commands_aux3.c \
 	  src/commands/here_doc.c \
 	  src/parsing/parse_commands.c \
       src/parsing/parse_commands2.c \

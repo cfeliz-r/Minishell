@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux3.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:27:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 16:57:14 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:02:21 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	manage_commands_three(t_cmd *commands,
 		{
 			if (WIFEXITED(vars->status))
 				vars->exit_status = WEXITSTATUS(vars->status);
+			else if (WIFSIGNALED(vars->status))
+				vars->exit_status = WTERMSIG(vars->status) + 128;
 			manage_error(vars->exit_status, 0);
 		}
 	}

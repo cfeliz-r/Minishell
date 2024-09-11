@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 16:36:42 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:02:13 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ extern volatile sig_atomic_t	g_stop_status;
 
 
 
-void manage_commands_three(t_cmd *commands, int num_cmds, t_list_env *envp, t_cmd_vars	*vars);
+void		manage_commands_three(t_cmd *commands, int num_cmds, t_list_env *envp, t_cmd_vars	*vars);
 void		init_process2(t_process *ctx, int i, int num_cmds, char **env_array);
 void		init_process1(t_process *ctx, t_cmd *commands, int i, int **pipes);
 void		init_process(t_process *ctx, int i, int num_cmds, t_list_env *envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 12:56:11 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:34:40 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,15 @@ typedef struct s_process
     t_list_env  *envp;
     int         **pipes;
 } t_process;
+
+typedef struct s_reduce_vars
+{
+    int i;
+    int j;
+    int last_char_was_space;
+    int len;
+    int in_quotes;
+    char *new_str;
+}   t_reduce_vars;
 
 #endif

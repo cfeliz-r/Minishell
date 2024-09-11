@@ -6,50 +6,55 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 16:12:43 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:34:22 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *reduce_spaces(const char *str)
+#include "../minishell.h"
+
+void	process_string(const char *str, t_reduce_vars *vars)
 {
-    int i = 0;
-    int j = 0;
-    int last_char_was_space = 0;
-    int len = strlen(str);
-    int in_quotes = 0;  // Variable para rastrear si estamos dentro de comillas
+	while (str[vars->i] != '\0')
+	{
+		if (str[vars->i] == '"' || str[vars->i] == '\'')
+		{
+			vars->in_quotes = !vars->in_quotes;
+			vars->new_str[vars->j++] = str[vars->i];
+		}
+		else if (str[vars->i] == ' ')
+		{
+			if (!vars->last_char_was_space || vars->in_quotes)
+			{
+				vars->new_str[vars->j++] = ' ';
+				vars->last_char_was_space = 1;
+			}
+		}
+		else
+		{
+			vars->new_str[vars->j++] = str[vars->i];
+			vars->last_char_was_space = 0;
+		}
+		vars->i++;
+	}
+}
 
-    // Reserva memoria para la nueva cadena
-    char *new_str = malloc(len + 1);
-    if (new_str == NULL)
-        return NULL;
+char	*reduce_spaces(const char *str)
+{
+	t_reduce_vars	vars;
 
-    while (str[i] != '\0')
-    {
-        if (str[i] == '"' || str[i] == '\'')
-        {
-            in_quotes = !in_quotes;
-            new_str[j++] = str[i];
-        }
-        else if (str[i] == ' ')
-        {
-            if (!last_char_was_space || in_quotes)
-            {
-                new_str[j++] = ' ';
-                last_char_was_space = 1;
-            }
-        }
-        else
-        {
-            new_str[j++] = str[i]; // Copia cualquier otro carácter
-            last_char_was_space = 0;
-        }
-        i++;
-    }
-
-    new_str[j] = '\0'; // Termina la nueva cadena
-    return new_str;
+	vars.i = 0;
+	vars.j = 0;
+	vars.last_char_was_space = 0;
+	vars.len = strlen(str);
+	vars.in_quotes = 0;
+	vars.new_str = malloc(vars.len + 1);
+	if (vars.new_str == NULL)
+		return (NULL);
+	process_string(str, &vars);
+	vars.new_str[vars.j] = '\0';
+	return (vars.new_str);
 }
 
 char	*ft_put_spaces(char *str)

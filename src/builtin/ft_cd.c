@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 12:40:54 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:32:10 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	handle_directory_change(char *cleaned_route, char *original_route)
 	if (access(cleaned_route, F_OK | R_OK) == 0)
 		chdir(cleaned_route);
 	else
+	{
+		ft_putstr_fd(" No such file or directory", 2);
 		manage_error(1, 0);
+	}
 	if (cleaned_route != original_route)
 		free(cleaned_route);
 }
@@ -72,7 +75,7 @@ void	process_route(char *route)
 	}
 	else if (i > 2)
 	{
-		printf("cd: too many arguments\n");
+		ft_putstr_fd(" too many arguments\n", 2);
 		manage_error(1, 0);
 	}
 	clean_up(str_route, NULL, 0);
@@ -86,6 +89,7 @@ void	ft_cd(char *route, t_list_env **envp)
 
 	current = *envp;
 	nodess = *envp;
+	manage_error(0, 0);
 	process_route(route);
 	while (current)
 	{

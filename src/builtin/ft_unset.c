@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 16:45:25 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:34:16 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	ft_unset(char *input, t_list_env **envp)
 {
 	const char	*ptr;
 
+	manage_error(0, 0);
 	if (!input || !envp)
 		return ;
 	if (ft_strcmp(input, "unset") == 0 && (input[5] == '\0'

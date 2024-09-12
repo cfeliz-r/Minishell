@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:46:24 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/09 16:03:05 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:33:14 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_env(t_list_env *env, char *command)
 
 	aux = env;
 	i = 0;
+	manage_error(0, 0);
 	str_route = ft_split(command, ' ');
 	while (str_route[i])
 		i ++;

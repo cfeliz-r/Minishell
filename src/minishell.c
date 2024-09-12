@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 18:24:45 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:25:05 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ void	ft_exit(char *exits)
 
 	aux = ft_split(exits, ' ');
 	exit_code = 0;
-	printf("exit\n");
+	if (aux_count(aux) >= 2)
+		aux[1] = strip_quotes(aux[1]);
 	if (aux == NULL || aux_count(aux) > 2)
 	{
-		printf("exit: too many arguments\n");
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		manage_error(1, 0);
 		clean_up(aux, NULL, 0);
 		return ;
@@ -41,9 +42,10 @@ void	ft_exit(char *exits)
 	if (aux_count(aux) == 2 && !all_digits(aux[1])
 		&& aux[1][0] != '-' && aux[1][0] != '+')
 	{
-		printf("exit: %s: numeric argument required\n", aux[1]);
+		ft_putstr_fd(" numeric argument required\n", 2);
 		exit(2);
 	}
+	printf("exit\n");
 	if (aux_count(aux) == 2)
 		exit_code = ft_atoi(aux[1]);
 	clean_up(aux, NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 13:43:37 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:33:08 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_echo(char *command)
 	int		first_part;
 
 	n_option = 0;
+	manage_error(0, 0);
 	if (ft_strlen(command) >= 5)
 	{
 		str = split_special(command + 5);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 18:16:04 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:31:15 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,5 @@ void	ft_cd(char *route, t_list_env **envp)
 		current = current->next;
 	}
 	process_route(route);
-	while (nodess)
-	{
-		if (compare_until_equal_sign(nodess->envp_content,
-				"PWD") == 1)
-		{
-			free(nodess->envp_content);
-			ft_strcpy(home, "PWD=");
-			getcwd(home + 4, PATH_MAX - 4);
-			nodess->envp_content = ft_strdup(home);
-			break ;
-		}
-		nodess = nodess->next;
-	}
+	update_pwd(nodess, home);
 }

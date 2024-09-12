@@ -28,6 +28,7 @@ SRC = src/main.c \
       src/builtin/ft_env.c \
 	  src/builtin/ft_export.c \
       src/builtin/ft_cd.c \
+	  src/builtin/ft_cd_aux.c \
       src/utils/utils.c \
 	  src/utils/utils2.c \
 	  src/utils/utils3.c \

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 10:20:23 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:31:36 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 extern volatile sig_atomic_t	g_stop_status;
 
-
+void		update_pwd(t_list_env *nodess, char *home);
 void		process_single_char_cases(t_vars *vars, char *str);
 void		manage_commands_three(t_cmd *cmd, int ncmds, t_list_env *envp,
 				t_cmd_vars *vars);

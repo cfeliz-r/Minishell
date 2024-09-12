@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 11:06:43 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:43:37 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_parts(char **str, int start_index, int *first_part)
 	}
 }
 
-static void	handle_n_option(char **str, int *n_option)
+static int	handle_n_option(char **str, int *n_option)
 {
 	int	i;
 
@@ -41,6 +41,7 @@ static void	handle_n_option(char **str, int *n_option)
 		*n_option = 1;
 		i++;
 	}
+	return (i);
 }
 
 char	*remove_quotes_echo(const char *command)
@@ -84,8 +85,7 @@ void	ft_echo(char *command)
 		str = split_special(command + 5);
 		if (!str)
 			return ;
-		handle_n_option(str, &n_option);
-		start_index = 0;
+		start_index = handle_n_option(str, &n_option);
 		first_part = 1;
 		print_parts(str, start_index, &first_part);
 		if (!n_option)

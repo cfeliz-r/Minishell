@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 17:38:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:24:45 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	build_up(t_cmd *comand, t_list_env *environ)
 	if (handle_pwd(comand, environ) || handle_env(comand, environ)
 		|| handle_echo(comand))
 	{
+		manage_error(0, 0);
 		return (1);
 	}
 	return (0);
@@ -37,7 +38,8 @@ void	ft_exit(char *exits)
 		clean_up(aux, NULL, 0);
 		return ;
 	}
-	if (aux_count(aux) == 2 && !all_digits(aux[1]) && aux[1][0] != '-' && aux[1][0] != '+')
+	if (aux_count(aux) == 2 && !all_digits(aux[1])
+		&& aux[1][0] != '-' && aux[1][0] != '+')
 	{
 		printf("exit: %s: numeric argument required\n", aux[1]);
 		exit(2);

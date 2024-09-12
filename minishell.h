@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 17:44:09 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:20:22 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 
 extern int	g_stop_status;
 
+char		*get_env_var_value(t_list_env *envp_list, const char *var_name);
+int			has_equal_sign(const char *str);
+int			validate_export_identifier(char *str);
 void		update_pwd(t_list_env *nodess, char *home);
 void		process_single_char_cases(t_vars *vars, char *str);
 void		manage_commands_three(t_cmd *cmd, int ncmds, t_list_env *envp,

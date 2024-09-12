@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 17:05:05 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:33:06 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ void	update_or_create(char *str, t_list_env **envp, int found)
 	temp = *envp;
 	if (ft_isalpha(str[0]) == 0)
 	{
-		printf("BABUTERM: export: `%s´: not a valid identifier\n", str);
-		return ;
+		manage_error(1, 0);
+		return ((void)printf("export: %s: not a valid identifier\n", str));
 	}
 	aux = ft_strdup(str);
 	free(str);
 	str = strip_quotes(aux);
-	printf("str: %s\n", str);
 	free(aux);
 	while (temp)
 	{
@@ -83,15 +82,15 @@ void	update_or_create(char *str, t_list_env **envp, int found)
 
 void	add_export(const char *input, t_list_env **envp)
 {
-	char		**split;
-	int			i;
-	char		*temp;
+	char	**split;
+	int		i;
+	char	*temp;
 
 	split = split_special(input);
 	i = 0;
 	while (split[i] != NULL)
 	{
-		if(split[i][0] == '"' || split[i][0] == '\'')
+		if (split[i][0] == '"' || split[i][0] == '\'')
 		{
 			temp = ft_strdup(split[i]);
 			free(split[i]);
@@ -99,20 +98,12 @@ void	add_export(const char *input, t_list_env **envp)
 			printf("split[i]: %s\n", split[i]);
 			free(temp);
 		}
-		if (split[i][0] == '=')
-		{
-			printf("BABUTERM: export: `%s´: not a valid identifier\n",
-				split[i]);
-			i++;
-			continue ;
-		}
-		if (!has_equal_sign(split[i]))
+		if (!validate_export_identifier(split[i]))
 		{
 			i++;
 			continue ;
 		}
-		update_or_create(split[i], envp, 0);
-		i++;
+		update_or_create(split[i++], envp, 0);
 	}
 	clean_up(split, NULL, 0);
 }
@@ -121,6 +112,7 @@ void	ft_export(char *input, t_list_env **envp)
 {
 	const char	*ptr;
 
+	manage_error(0, 0);
 	if (!input || !envp)
 		return ;
 	if (ft_strcmp(input, "export") == 0 && (input[6] == '\0'

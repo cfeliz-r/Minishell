@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 18:33:06 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:52:04 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ int	compare_until_equal_sign(const char *str, const char *target)
 	}
 	if ((str[i] == '=' || str[i] == '\0') && (target[i] == '='
 			|| target[i] == '\0'))
+	{
+		i = 0;
+		while (str[i] != '=' && str[i] != '\0')
+		{
+			if (ft_isalnum(str[i]) == 0)
+				return ( ft_putstr_fd(" not a valid identifier", 2), manage_error(1,0),0);
+			i++;
+		}
+	}
 		return (1);
 	return (0);
 }
@@ -47,6 +56,8 @@ int	has_equal_sign(const char *str)
 			before = 1;
 		str++;
 	}
+	/* ft_putstr_fd(" not a valid identifier\n", 2);
+	manage_error(1, 0); */
 	return (0);
 }
 
@@ -59,7 +70,7 @@ void	update_or_create(char *str, t_list_env **envp, int found)
 	if (ft_isalpha(str[0]) == 0)
 	{
 		manage_error(1, 0);
-		return ((void)printf("export: %s: not a valid identifier\n", str));
+		return (ft_putstr_fd("\n", 2));
 	}
 	aux = ft_strdup(str);
 	free(str);

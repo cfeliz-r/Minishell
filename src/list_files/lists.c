@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:04 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/12 18:35:42 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:41:11 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	validate_export_identifier(char *str)
 	if (str[0] == '=')
 	{
 		manage_error(1, 0);
-		printf("export: `%s`: not a valid identifier\n", str);
+		ft_putstr_fd(" not a valid identifier", 2);
 		return (0);
 	}
 	if (!has_equal_sign(str))

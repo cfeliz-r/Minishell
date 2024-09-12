@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:42:14 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 12:52:24 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:26:56 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,6 @@ int	is_builtin_command(char *cmd)
 	return (0);
 }
 
-static char	*remove_quotes(char *str)
-{
-	char	*result;
-	int		i;
-	int		j;
-
-	result = malloc(ft_strlen(str) + 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] != '\'' && str[i] != '"')
-			result[j++] = str[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
 void	remove_quotes_from_args(char **args)
 {
 	int		i;
@@ -56,7 +35,7 @@ void	remove_quotes_from_args(char **args)
 	i = 0;
 	while (args[i])
 	{
-		new_arg = remove_quotes(args[i]);
+		new_arg = strip_quotes(args[i]);
 		if (new_arg)
 		{
 			free(args[i]);

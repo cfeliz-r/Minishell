@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/06 16:57:26 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:05:05 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	has_equal_sign(const char *str)
 void	update_or_create(char *str, t_list_env **envp, int found)
 {
 	t_list_env	*temp;
+	char		*aux;
 
 	temp = *envp;
 	if (ft_isalpha(str[0]) == 0)
@@ -60,6 +61,11 @@ void	update_or_create(char *str, t_list_env **envp, int found)
 		printf("BABUTERM: export: `%s´: not a valid identifier\n", str);
 		return ;
 	}
+	aux = ft_strdup(str);
+	free(str);
+	str = strip_quotes(aux);
+	printf("str: %s\n", str);
+	free(aux);
 	while (temp)
 	{
 		if (compare_until_equal_sign(temp->envp_content, str) == 1)
@@ -79,11 +85,20 @@ void	add_export(const char *input, t_list_env **envp)
 {
 	char		**split;
 	int			i;
+	char		*temp;
 
 	split = split_special(input);
 	i = 0;
 	while (split[i] != NULL)
 	{
+		if(split[i][0] == '"' || split[i][0] == '\'')
+		{
+			temp = ft_strdup(split[i]);
+			free(split[i]);
+			split[i] = strip_quotes(temp);
+			printf("split[i]: %s\n", split[i]);
+			free(temp);
+		}
 		if (split[i][0] == '=')
 		{
 			printf("BABUTERM: export: `%s´: not a valid identifier\n",

@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 10:31:15 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:40:54 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,5 @@ void	ft_cd(char *route, t_list_env **envp)
 		}
 		current = current->next;
 	}
-	process_route(route);
 	update_pwd(nodess, home);
 }

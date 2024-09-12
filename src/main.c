@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 16:00:07 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:32:39 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,9 @@ static void process_envp(int argc, char **envp)
 		exit(1);
     envp_list = create_list_envp(envp);
     if (!envp_list)
-    {
         exit(1);
-    }
     if (getcwd(route, PATH_MAX) == NULL)
-    {
         exit(1);
-    }
     ft_strcpy(home, "_ROUTE_BABUTERM_=");
     ft_strcat(home, route);
     if (!find_env_var(envp_list, "BABUTERM"))

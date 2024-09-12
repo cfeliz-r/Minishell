@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 13:23:04 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:38:10 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_exit(char *exits)
 		clean_up(aux, NULL, 0);
 		return ;
 	}
-	if (aux_count(aux) == 2 && !all_digits(aux[1]))
+	if (aux_count(aux) == 2 && !all_digits(aux[1]) && aux[1][0] != '-' && aux[1][0] != '+')
 	{
 		printf("exit: %s: numeric argument required\n", aux[1]);
 		exit(2);

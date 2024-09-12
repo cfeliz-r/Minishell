@@ -6,13 +6,13 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 17:32:39 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:44:01 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-volatile sig_atomic_t	g_stop_status = 0;
+int	g_stop_status = 0;
 
 static char	*find_env_var(t_list_env *envp_list, const char *var_name)
 {

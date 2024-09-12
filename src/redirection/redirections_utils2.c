@@ -28,22 +28,22 @@ void	process_delimiter(char **split_result, t_cmd *command, int *i, int *j)
 	command->flag = 0;
 }
 
-int	handle_input_files(t_cmd *command)
+int	handle_input_files(t_cmd *cmd)
 {
 	int	fd;
 
-	if (command->heredoc_file != NULL)
+	if (cmd->heredoc_file != NULL && contains_quotes(cmd->heredoc_file) == 0)
 	{
-		fd = open(command->heredoc_file, O_RDONLY);
+		fd = open(cmd->heredoc_file, O_RDONLY);
 		if (fd == -1)
 			return (perror("BABUTERM"), -1);
 		if (dup2(fd, STDIN_FILENO) == -1)
 			return (perror("BABUTERM"), -1);
 		close(fd);
 	}
-	if (command->inredir != NULL && contains_quotes(command->inredir) == 0)
+	else if (cmd->inredir != NULL && contains_quotes(cmd->inredir) == 0)
 	{
-		fd = open(command->inredir, O_RDONLY);
+		fd = open(cmd->inredir, O_RDONLY);
 		if (fd == -1)
 			return (perror("BABUTERM"), -1);
 		if (dup2(fd, STDIN_FILENO) == -1)

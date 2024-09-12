@@ -6,11 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:02:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 16:58:32 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:01:52 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	contains_quotes(const char *str)
 {

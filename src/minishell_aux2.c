@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 10:19:42 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:48:01 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*reduce_spaces(const char *str)
 	vars.i = 0;
 	vars.j = 0;
 	vars.last_char_was_space = 0;
-	vars.len = strlen(str);
+	vars.len = ft_strlen(str);
 	vars.in_quotes = 0;
 	vars.new_str = malloc(vars.len + 1);
 	if (vars.new_str == NULL)

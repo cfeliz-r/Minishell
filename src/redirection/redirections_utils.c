@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:01:01 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 17:01:08 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:53:59 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	search_string(const char *text, const char *search)
 	{
 		if (text[i] == '"' || text[i] == '\'')
 			in_quotes = !in_quotes;
-		if (!in_quotes && strncmp(&text[i], search, search_len) == 0)
+		if (!in_quotes && ft_strncmp(&text[i], search, search_len) == 0)
 		{
 			if ((i == 0 || !is_within_quotes(text, i - 1))
 				&& (i + search_len == text_len

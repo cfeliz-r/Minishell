@@ -6,11 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 13:05:02 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 10:29:19 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:01:41 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	check_redirection_syntax(const char *line, int *i)
 {

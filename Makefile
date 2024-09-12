@@ -16,10 +16,10 @@ SRC = src/main.c \
 	  src/minishell_aux.c \
 	  src/minishell_aux2.c \
 	  src/minishell_aux3.c \
-	  src/error_comand.c \
-	  src/error_comand_aux2.c \
-	  src/error_comand_aux.c \
-	  src/error_comand_aux3.c \
+	  src/errors/error_comand.c \
+	  src/errors/error_comand_aux2.c \
+	  src/errors/error_comand_aux.c \
+	  src/errors/error_comand_aux3.c \
       src/builtin/ft_echo.c \
 	  src/builtin/ft_echo_aux.c \
 	  src/builtin/ft_echo_aux2.c \

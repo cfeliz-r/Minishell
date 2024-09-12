@@ -6,11 +6,11 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:24:25 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 10:27:21 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:01:45 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	handle_quotes_3(char **start)
 {
@@ -34,7 +34,7 @@ int	check_syntax(char *line)
 		line++;
 	if (*line == '|')
 		return (0);
-	end = line + strlen(line) - 1;
+	end = line + ft_strlen(line) - 1;
 	while (end > line && is_space(*end))
 		end--;
 	if (*end == '|')

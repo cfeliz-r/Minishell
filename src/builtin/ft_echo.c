@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 13:19:17 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:06:43 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*remove_quotes_echo(const char *command)
 
 	if (!command)
 		return (NULL);
-	qr.len = strlen(command);
+	qr.len = ft_strlen(command);
 	qr.result = malloc(qr.len + 1);
 	if (!qr.result)
 		return (NULL);

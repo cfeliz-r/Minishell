@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/10 10:29:46 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:48:50 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	process_envp(int argc, char **envp)
 	route = malloc(PATH_MAX);
 	if (!route)
 		exit (1);
-	home = malloc(strlen("_ROUTE_BABUTERM_=") + PATH_MAX + 1);
+	home = malloc(ft_strlen("_ROUTE_BABUTERM_=") + PATH_MAX + 1);
 	if (!home)
 	{
 		free (route);

@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 10:14:40 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 13:47:16 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,28 @@ void	update_env_var(t_list_env *envp_list, char *var_name, char *new_value)
 		}
 		current = current->next;
 	}
+	ft_lstadd_back(&envp_list, ft_lstnew(ft_strdup("SHLVL=1")));
 }
 
-static void	update_envp_list(t_list_env *envp_list, char *home)
+static void	update_envp_list(t_list_env **envp_list, char *home)
 {
 	char	*shlvl_str;
 	int		shlvl;
 
-	if (!find_env_var(envp_list, "BABUTERM"))
-		ft_lstadd_back(&envp_list,
-			ft_lstnew(ft_strdup("BABUTERM=CFELIZ-R MANUFERN")));
-	if (!find_env_var(envp_list, "_ROUTE_BABUTERM_"))
-		ft_lstadd_back(&envp_list, ft_lstnew(home));
-	shlvl_str = get_env_var_value(envp_list, "SHLVL");
+	shlvl_str = get_env_var_value(*envp_list, "SHLVL");
 	if (shlvl_str)
 	{
 		shlvl = ft_atoi(shlvl_str);
 		shlvl++;
-		update_env_var(envp_list, "SHLVL", ft_itoa(shlvl));
+		update_env_var(*envp_list, "SHLVL", ft_itoa(shlvl));
 	}
+	if (!find_env_var(*envp_list, "SHLVL"))
+		ft_lstadd_back(envp_list, ft_lstnew(ft_strdup("SHLVL=1")));
+	if (!find_env_var(*envp_list, "BABUTERM"))
+		ft_lstadd_back(envp_list,
+			ft_lstnew(ft_strdup("BABUTERM=CFELIZ-R MANUFERN")));
+	if (!find_env_var(*envp_list, "_ROUTE_BABUTERM_"))
+		ft_lstadd_back(envp_list, ft_lstnew(home));
 }
 
 static void	process_envp(int argc, char **envp)
@@ -87,7 +90,7 @@ static void	process_envp(int argc, char **envp)
 		exit(1);
 	ft_strcpy(home, "_ROUTE_BABUTERM_=");
 	ft_strcat(home, route);
-	update_envp_list(envp_list, home);
+	update_envp_list(&envp_list, home);
 	free(route);
 	if (argc == 1)
 		process_input(envp_list);

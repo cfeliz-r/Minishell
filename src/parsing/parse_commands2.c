@@ -89,6 +89,11 @@ int	validate_command(t_cmd *command, t_list_env *envp)
 			ft_putstr_fd(": command not found\n", 2);
 		return (0);
 	}
+	else if (ft_strcmp(command->args[0], ".") == 0)
+	{
+		ft_putstr_fd(".: filename argument required\n", 2);
+		exit(2);
+	}
 	return (1);
 }
 

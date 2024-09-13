@@ -31,9 +31,17 @@ static void	handle_pipes(int i, int num_cmds, int **pipes)
 
 void	execute_command(t_cmd *command, char **env_array, t_list_env *envp)
 {
-	if (validate_command(command, envp) == 1)
-		execve(command->path, command->args, env_array);
-	exit(127);
+	if (validate_command(command, envp) == 0)
+		exit(127);
+	else if (execve(command->path, command->args, env_array) == -1)
+	{
+		printf("%s: %s\n", command->args[0], strerror(errno));
+		if (errno == 13)
+			exit(126);
+		else
+			exit(1);
+	}
+	execve(command->path, command->args, env_array);
 }
 
 int	ft_exit_command(char *exits)

@@ -60,20 +60,12 @@ static char	*search_paths(char **paths, char *cmd)
 
 static int	is_command_path_valid(char *cmd)
 {
-	if (ft_strcmp(cmd, "./") == 0 || ft_strcmp(cmd, "../") == 0)
+	if (ft_strcmp(cmd, "./") == 0 || ft_strcmp(cmd, "../") == 0
+		|| ft_strcmp(cmd, "/") == 0)
 	{
 		if (access(cmd, F_OK) == 0)
 		{
-			printf("%s: Is a directory\n", cmd);
-			return (1);
-		}
-	}
-	else if (ft_strcmp(cmd, "/") == 0 || ft_strcmp(cmd, ".") == 0
-		|| ft_strcmp(cmd, "..") == 0)
-	{
-		if (access(cmd, F_OK) == 0)
-		{
-			printf("%s: Is a directory\n", cmd);
+			ft_putstr_fd("Is directory", 2);
 			return (1);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 19:25:05 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:50:05 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ void	process_input_aux(char *line, t_list_env *envp)
 	if (line[0] == '\0')
 		return ;
 	interpreted_line = interpret_command(line, envp, 0);
-	if (interpreted_line == NULL)
+	if (interpreted_line == NULL || is_blank_line(interpreted_line) == 1)
 	{
+		manage_error(0, 0);
 		free(interpreted_line);
 		return ;
 	}

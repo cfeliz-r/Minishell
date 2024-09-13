@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 11:44:27 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 13:06:19 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,24 @@ void	process_string(const char *str, t_reduce_vars *vars)
 	{
 		if (str[vars->i] == '"' || str[vars->i] == '\'')
 		{
-			if(str[vars->i] == '"')
+			if (str[vars->i] == '"')
 			{
 				vars->new_str[vars->j++] = str[vars->i++];
-				while(str[vars->i] != '"')
-					vars->new_str[vars->j++] = str[vars->i++];	
+				while (str[vars->i] != '"')
+					vars->new_str[vars->j++] = str[vars->i++];
 			}
-			else if(str[vars->i] == '\'')
+			else if (str[vars->i] == '\'')
 			{
 				vars->new_str[vars->j++] = str[vars->i++];
-				while(str[vars->i] != '\'')
-					vars->new_str[vars->j++] = str[vars->i++];	
+				while (str[vars->i] != '\'')
+					vars->new_str[vars->j++] = str[vars->i++];
 			}
 			vars->new_str[vars->j++] = str[vars->i];
 			if (str[vars->i + 1] == ' ')
 				vars->new_str[vars->j++] = ' ';
 		}
-		else if (str[vars->i] == ' ')
-		{
-			if (!vars->last_char_was_space || vars->in_quotes)
-			{
-				vars->new_str[vars->j++] = ' ';
-				vars->last_char_was_space = 1;
-			}
-		}
 		else
-		{
-			vars->new_str[vars->j++] = str[vars->i];
-			vars->last_char_was_space = 0;
-		}
+			handle_spaces_and_chars(str, vars);
 		vars->i++;
 	}
 }
@@ -115,16 +104,13 @@ char	*ft_put_spaces(char *str)
 		if (str[vars.i] == '\'' && !vars.in_double_quote)
 		{
 			vars.new_str[vars.j++] = str[vars.i++];
-			while(str[vars.i] != '\'')
+			while (str[vars.i] != '\'')
 				vars.new_str[vars.j++] = str[vars.i++];
 			vars.new_str[vars.j++] = str[vars.i++];
 		}
 		else if (str[vars.i] == '"' && !vars.in_single_quote)
 		{
-			vars.new_str[vars.j++] = str[vars.i++];
-			while(str[vars.i] != '"')
-				vars.new_str[vars.j++] = str[vars.i++];
-			vars.new_str[vars.j++] = str[vars.i++];
+			handle_double_quotes(&vars, str);
 		}
 		else
 			process_special_cases(&vars, str);

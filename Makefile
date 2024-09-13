@@ -27,6 +27,7 @@ SRC = src/main.c \
       src/builtin/ft_pwd.c \
       src/builtin/ft_env.c \
 	  src/builtin/ft_export.c \
+	  src/builtin/ft_export_aux.c \
       src/builtin/ft_cd.c \
 	  src/builtin/ft_cd_aux.c \
       src/utils/utils.c \

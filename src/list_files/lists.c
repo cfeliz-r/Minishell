@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:04 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/13 09:35:41 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 12:30:24 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ t_list_env	*create_list_envp(char **envp)
 
 int	validate_export_identifier(char *str)
 {
-	int i;
+	int	i;
+
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 	{
 		ft_putstr_fd("not a valid identifier\n", 2);
-		manage_error(1, 0);
-		return (0);
+		return (manage_error(1, 0), 0);
 	}
 	i = 1;
 	while (str[i] && str[i] != '=')
@@ -47,12 +47,10 @@ int	validate_export_identifier(char *str)
 			if (str[i] == '-' && (str[i + 1] == '=' || str[i + 1] == '\0'))
 			{
 				ft_putstr_fd("not a valid identifier\n", 2);
-				manage_error(1, 0);
-				return (0);
+				return (manage_error(1, 0), 0);
 			}
 			ft_putstr_fd("not a valid identifier\n", 2);
-			manage_error(1, 0);
-			return (0);
+			return (manage_error(1, 0), 0);
 		}
 		i++;
 	}

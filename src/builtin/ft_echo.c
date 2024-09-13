@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 11:50:29 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 12:15:46 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_echo(char *command)
 	n_option = 0;
 	manage_error(0, 0);
 	i = 0;
-	while(is_space(command[i]))
+	while (is_space(command[i]))
 		i ++;
 	if (ft_strlen(command) >= 5)
 	{

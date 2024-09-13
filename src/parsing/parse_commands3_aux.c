@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands3_aux.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:05:01 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/10 12:32:13 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:35:20 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	aux_process(const char *command,
 		ctx->i++;
 	}
 	else if (command[ctx->i] == '$' && (command[ctx->i + 1] == ' '
-			|| command[ctx->i + 1] == '\0' || command[ctx->i + 1] == '\n'))
+			|| command[ctx->i + 1] == '\0' || command[ctx->i + 1] == '\n'
+			|| command[ctx->i + 1] == '"' || command[ctx->i + 1] == '\''))
 	{
 		ctx->result = append_char(ctx->result, '$',
 				&(ctx->j), &(ctx->buffer_size));

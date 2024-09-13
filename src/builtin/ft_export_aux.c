@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 12:22:24 by manuel            #+#    #+#             */
-/*   Updated: 2024/09/13 13:06:40 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 13:23:46 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	validate_identifier(const char *str)
 	i = 0;
 	while (str[i] != '=' && str[i] != '\0')
 	{
-		if (!ft_isalnum(str[i]))
+		if (!ft_isprint(str[i]))
 		{
-			ft_putstr_fd(" not a valid identifier", 2);
+			ft_putstr_fd(" not a valid identifier\n", 2);
 			manage_error(1, 0);
 			return (0);
 		}

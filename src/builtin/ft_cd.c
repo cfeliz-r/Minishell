@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 19:32:10 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:24:30 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	handle_directory_change(char *cleaned_route, char *original_route)
 		chdir(cleaned_route);
 	else
 	{
-		ft_putstr_fd(" No such file or directory", 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
 		manage_error(1, 0);
 	}
 	if (cleaned_route != original_route)

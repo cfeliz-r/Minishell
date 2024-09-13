@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 19:00:03 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:05:32 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	execute_command(t_cmd *command, char **env_array, t_list_env *envp)
 		exit(127);
 	else if (execve(command->path, command->args, env_array) == -1)
 	{
-		printf("%s: %s\n", command->args[0], strerror(errno));
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		if (errno == 13)
 			exit(126);
 		else

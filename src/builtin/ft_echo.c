@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:47:30 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 09:55:02 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 11:50:29 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,16 @@ void	ft_echo(char *command)
 	int		n_option;
 	int		start_index;
 	int		first_part;
+	int		i;
 
 	n_option = 0;
 	manage_error(0, 0);
+	i = 0;
+	while(is_space(command[i]))
+		i ++;
 	if (ft_strlen(command) >= 5)
 	{
-		str = split_special(command + 5);
+		str = split_special(command + (5 + i));
 		if (!str)
 			return ;
 		start_index = handle_n_option(str, &n_option);

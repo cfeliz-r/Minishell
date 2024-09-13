@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 10:07:48 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/13 11:00:51 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@
 
 extern int	g_stop_status;
 
-char		*reduce_spaces(const char *str);
-void		process_special_cases(t_vars *vars, char *str);
-int			initialize_vars(t_vars *vars, char *str);
 char		*get_env_var_value(t_list_env *envp_list, const char *var_name);
 int			has_equal_sign(const char *str);
 int			validate_export_identifier(char *str);

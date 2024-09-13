@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:02:12 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 10:19:47 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:49:51 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	handle_unset(t_cmd *comand, t_list_env *environ)
 
 void	process_single_char_cases(t_vars *vars, char *str)
 {
-	if ((str[vars->i] == '|' || str[vars->i] == '<' || str[vars->i] == '>')
-		&& !vars->in_single_quote && !vars->in_double_quote)
+	if ((str[vars->i] == '|' || str[vars->i] == '<' || str[vars->i] == '>'))
 	{
 		if (vars->i > 0 && str[vars->i - 1] != ' '
 			&& !vars->last_char_was_space)
@@ -56,8 +55,7 @@ void	process_single_char_cases(t_vars *vars, char *str)
 			vars->new_str[vars->j++] = ' ';
 		vars->last_char_was_space = 1;
 	}
-	else if (str[vars->i] == ' ' && !vars->in_single_quote
-		&& !vars->in_double_quote)
+	else if (str[vars->i] == ' ')
 	{
 		vars->new_str[vars->j++] = str[vars->i++];
 		vars->last_char_was_space = 1;

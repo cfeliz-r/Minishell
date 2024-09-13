@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 19:34:16 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 09:39:42 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	remoove(char *str, t_list_env **envp)
 	prev = NULL;
 	while (temp)
 	{
-		if (compare_until_equal_sign(temp->envp_content, str) == 1)
+		if (ft_strncmp(temp->envp_content, str, ft_strlen(str)) == 0 &&
+		    (temp->envp_content[ft_strlen(str)] == '=' ||
+		     temp->envp_content[ft_strlen(str)] == '\0'))
 		{
 			if (prev == NULL)
 				*envp = temp->next;

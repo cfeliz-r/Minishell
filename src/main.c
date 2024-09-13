@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 18:20:34 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:14:40 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ static void	process_envp(int argc, char **envp)
 	if (!home)
 		exit(1);
 	envp_list = create_list_envp(envp);
-	if (!envp_list)
-		exit(1);
 	if (getcwd(route, PATH_MAX) == NULL)
 		exit(1);
 	ft_strcpy(home, "_ROUTE_BABUTERM_=");

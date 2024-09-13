@@ -63,6 +63,7 @@ static t_cmd	*init_commands(char **command_strings, int num_cmds)
 
 void	handle_key_redir(t_cmd *command)
 {
+	update_flag(command);
 	process_redirections(command);
 	command->args = split_special(command->cmd_cpt);
 	if (!command->args)

@@ -79,3 +79,25 @@ void	process_more_info(char **split_result, t_cmd *command, int *i)
 	command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, " ");
 	command->cmd_cpt = safe_strjoin_free(command->cmd_cpt, split_result[*i]);
 }
+
+void	update_flag(t_cmd *command)
+{
+	char	*ptr;
+
+	ptr = command->cmd_cpt;
+	while (*ptr != '\0')
+	{
+		if (ft_strncmp(ptr, "<<", 2) == 0)
+		{
+			command->last_redir_flag = 1;
+			ptr += 2;
+		}
+		else if (*ptr == '<' && *(ptr + 1) != '<')
+		{
+			command->last_redir_flag = 2;
+			ptr++;
+		}
+		else
+			ptr++;
+	}
+}

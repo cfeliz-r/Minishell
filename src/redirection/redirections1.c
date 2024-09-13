@@ -98,6 +98,6 @@ void	process_redirections(t_cmd *command)
 	if (output_redirection != NULL)
 		handle_output_redirection(output_redirection, command);
 	input_redirection = correct_strstr(command->cmd_cpt, "<");
-	if (input_redirection != NULL)
+	if (input_redirection != NULL && input_redirection[1] != '<')
 		handle_input_redirection(input_redirection, command);
 }

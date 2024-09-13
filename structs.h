@@ -33,6 +33,7 @@ typedef struct s_cmd
 	int		appd_out;
 	int		flag;
 	int		expand_heredoc;
+	int		last_redir_flag;
 }	t_cmd;
 
 typedef struct s_parse_context

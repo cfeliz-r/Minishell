@@ -32,7 +32,7 @@ int	handle_input_files(t_cmd *cmd)
 {
 	int	fd;
 
-	if (cmd->heredoc_file != NULL)
+	if (cmd->heredoc_file != NULL && cmd->last_redir_flag == 1)
 	{
 		fd = open(cmd->heredoc_file, O_RDONLY);
 		if (fd == -1)
@@ -41,7 +41,7 @@ int	handle_input_files(t_cmd *cmd)
 			return (perror("BABUTERM"), -1);
 		close(fd);
 	}
-	else if (cmd->inredir != NULL)
+	if (cmd->inredir != NULL && cmd->last_redir_flag == 2)
 	{
 		fd = open(cmd->inredir, O_RDONLY);
 		if (fd == -1)

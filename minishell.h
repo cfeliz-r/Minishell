@@ -32,6 +32,7 @@
 
 extern int	g_stop_status;
 
+void		update_flag(t_cmd *command);
 void		handle_double_quotes(t_vars *vars, char *str);
 void		handle_spaces_and_chars(const char *str, t_reduce_vars *vars);
 int			is_blank_line(const char *line);

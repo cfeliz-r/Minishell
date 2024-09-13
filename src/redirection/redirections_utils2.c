@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:14:42 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 17:13:10 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:01:00 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	handle_input_files(t_cmd *cmd)
 {
 	int	fd;
 
-	if (cmd->heredoc_file != NULL && contains_quotes(cmd->heredoc_file) == 0)
+	if (cmd->heredoc_file != NULL)
 	{
 		fd = open(cmd->heredoc_file, O_RDONLY);
 		if (fd == -1)
@@ -41,7 +41,7 @@ int	handle_input_files(t_cmd *cmd)
 			return (perror("BABUTERM"), -1);
 		close(fd);
 	}
-	else if (cmd->inredir != NULL && contains_quotes(cmd->inredir) == 0)
+	else if (cmd->inredir != NULL)
 	{
 		fd = open(cmd->inredir, O_RDONLY);
 		if (fd == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/12 18:59:54 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/13 11:42:06 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ static int	is_command_path_valid(char *cmd)
 	{
 		if (access(cmd, F_OK) == 0)
 		{
-			ft_putstr_fd("Is directory", 2);
-			return (1);
+			ft_putstr(cmd);
+			ft_putstr_fd("Is directory\n", 2);
+			exit(126);
 		}
 	}
 	else if (cmd[0] == '/' || cmd[0] == '.')

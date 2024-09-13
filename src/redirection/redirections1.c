@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:29:29 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/09 13:48:06 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:03:21 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ static void	handle_input_redirection(char *input, t_cmd *command)
 	*input = 0;
 	split_result = split_special(input + 1);
 	if (split_result[0] != NULL)
-	{
-		if (command->heredoc_file == NULL)
-			command->inredir = ft_strdup(split_result[0]);
-		else
-			command->inredir = ft_strdup(command->heredoc_file);
-	}
+		command->inredir = strip_quotes(split_result[0]);
 	if (split_result[0] != NULL)
 	{
 		while (split_result[++i] != NULL)

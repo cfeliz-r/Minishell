@@ -41,7 +41,7 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 			free(input_line);
 		}
 		unlink(cmd->heredoc_file);
-		g_stop_status = SIGPIPE;
+		g_stop_status = 0;
 		close(fd);
 		return (-1);
 	}

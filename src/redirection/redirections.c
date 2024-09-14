@@ -83,21 +83,23 @@ void	process_more_info(char **split_result, t_cmd *command, int *i)
 void	update_flag(t_cmd *command)
 {
 	char	*ptr;
+	int		i;
 
+	i = 0;
 	ptr = command->cmd_cpt;
-	while (*ptr != '\0')
+	while (ptr[i] != '\0')
 	{
-		if (ft_strncmp(ptr, "<<", 2) == 0)
+		if (ptr[i] == '<' && ptr[i + 1] == '<' && (is_around(ptr, i) == 0))
 		{
 			command->last_redir_flag = 1;
-			ptr += 2;
+			i += 2;
 		}
-		else if (*ptr == '<' && *(ptr + 1) != '<')
+		else if (ptr[i] == '<' && ptr[i + 1] != '<' && (is_around(ptr, i) == 0))
 		{
 			command->last_redir_flag = 2;
-			ptr++;
+			i++;
 		}
 		else
-			ptr++;
+			i++;
 	}
 }

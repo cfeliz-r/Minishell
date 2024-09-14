@@ -32,6 +32,7 @@
 
 extern int	g_stop_status;
 
+int			is_around(char *str, int pos);
 void		update_flag(t_cmd *command);
 void		handle_double_quotes(t_vars *vars, char *str);
 void		handle_spaces_and_chars(const char *str, t_reduce_vars *vars);

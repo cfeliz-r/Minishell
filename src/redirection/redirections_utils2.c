@@ -73,3 +73,14 @@ int	handle_output_files(t_cmd *cmd)
 	}
 	return (0);
 }
+
+int	is_around(char *str, int pos)
+{
+	if (!str || str[pos] == '\0')
+		return (0);
+	if (pos > 0 && (str[pos - 1] == '\'' || str[pos - 1] == '\"'))
+		return (1);
+	if (str[pos + 1] == '\'' || str[pos + 1] == '\"')
+		return (1);
+	return (0);
+}

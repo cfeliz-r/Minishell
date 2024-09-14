@@ -14,9 +14,9 @@
 
 int	handle_redirections(t_cmd *command)
 {
-	if (handle_input_files(command) == -1)
-		return (-1);
 	if (handle_output_files(command) == -1)
+		return (-1);
+	if (handle_input_files(command) == -1)
 		return (-1);
 	return (0);
 }

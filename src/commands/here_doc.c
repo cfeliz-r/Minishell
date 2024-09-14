@@ -62,17 +62,14 @@ char	*generate_temp_file_name(void)
 	temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
 	file_name = malloc(temp_file_name_len);
 	ft_strcpy(file_name, prefix);
-	while (access(file_name, F_OK) == 0)
+	append_counter_to_file_name(file_name, file_counter);
+	if (access(file_name, F_OK) != -1)
 	{
-		unlink(file_name);
 		free(file_name);
 		file_counter++;
-		counter_len = calculate_counter_length(file_counter);
-		temp_file_name_len = ft_strlen(prefix) + counter_len + 1;
-		file_name = malloc(temp_file_name_len);
-		ft_strcpy(file_name, prefix);
+		return (generate_temp_file_name());
 	}
-	append_counter_to_file_name(file_name, file_counter++);
+	file_counter++;
 	return (file_name);
 }
 

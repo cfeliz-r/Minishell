@@ -61,7 +61,7 @@ OBJ = $(SRC:src/%.c=$(OBJDIR)/%.o)
 # Compilador y opciones
 # --------------------------------------
 CC = gcc
-CFLAGS = -Wall -Wextra -Werro
+CFLAGS = -Wall -Wextra -Werror
 LIBS = -lreadline
 
 # --------------------------------------

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:45:06 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 13:31:27 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:25:17 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,17 @@ void	free_command(t_cmd *command)
 	i = 0;
 	clean_up(command->delimiters, NULL, 0);
 	ft_memset(command, 0, sizeof(t_cmd));
+}
+
+void	free_list_env(t_list_env *list)
+{
+	t_list_env	*tmp;
+
+	while (list != NULL)
+	{
+		tmp = list;
+		list = list->next;
+		free(tmp->data);
+		free(tmp);
+	}
 }

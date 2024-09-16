@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:59:47 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 17:34:40 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 typedef struct s_list_envp
 {
-	char				*envp_content;
+	char				*data;
 	struct s_list_envp	*next;
 }	t_list_env;
 typedef struct s_cmd

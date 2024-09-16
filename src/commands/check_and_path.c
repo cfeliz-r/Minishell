@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:27:25 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/13 11:42:06 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static char	**get_paths(t_list_env *envp)
 	char		**paths;
 
 	aux = envp;
-	while (aux && ft_strnstr(aux->envp_content, "PATH=", 5) == 0)
+	while (aux && ft_strnstr(aux->data, "PATH=", 5) == 0)
 		aux = aux->next;
 	if (!aux)
 		return (NULL);
-	paths = ft_split(aux->envp_content + 5, ':');
+	paths = ft_split(aux->data + 5, ':');
 	return (paths);
 }
 

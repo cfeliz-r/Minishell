@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 21:55:20 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/24 17:36:55 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:22:31 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_list_env	*lst_new(void *content)
 	new = (t_list_env *)malloc(sizeof(t_list_env));
 	if (!new)
 		return (NULL);
-	new->envp_content = content;
+	new->data = content;
 	new->next = NULL;
 	return (new);
 }
@@ -29,7 +29,7 @@ static void	lst_clear(t_list_env **lst, void (*del)(void *))
 	if (!lst || !del || !(*lst))
 		return ;
 	lst_clear(&(*lst)->next, del);
-	(del)((*lst)->envp_content);
+	(del)((*lst)->data);
 	free(*lst);
 	*lst = NULL;
 }
@@ -62,7 +62,7 @@ t_list_env	*ft_lstmap(t_list_env *lst, void *(*f)(void *), void (*del)(void *))
 	new_list = NULL;
 	while (lst)
 	{
-		set = f(lst->envp_content);
+		set = f(lst->data);
 		new_node = lst_new(set);
 		if (!new_node)
 		{

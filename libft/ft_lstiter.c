@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 21:54:28 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/07/24 17:36:55 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void
 		return ;
 	while (lst)
 	{
-		(*f)(lst->envp_content);
+		(*f)(lst->data);
 		lst = lst->next;
 	}
 }

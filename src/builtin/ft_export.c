@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:13:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 12:27:26 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	update_or_create(char *str, t_list_env **envp, int found)
 	free(aux);
 	while (temp)
 	{
-		if (compare_until_equal_sign(temp->envp_content, str) == 1)
+		if (compare_until_equal_sign(temp->data, str) == 1)
 		{
-			free(temp->envp_content);
-			temp->envp_content = ft_strdup(str);
+			free(temp->data);
+			temp->data = ft_strdup(str);
 			found = 1;
 			break ;
 		}

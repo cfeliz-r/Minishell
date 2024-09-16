@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:40 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 13:50:49 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ void	remoove(char *str, t_list_env **envp)
 	prev = NULL;
 	while (temp)
 	{
-		if (ft_strncmp(temp->envp_content, str, ft_strlen(str)) == 0
-			&& (temp->envp_content[ft_strlen(str)] == '='
-				|| temp->envp_content[ft_strlen(str)] == '\0'))
+		if (ft_strncmp(temp->data, str, ft_strlen(str)) == 0
+			&& (temp->data[ft_strlen(str)] == '='
+				|| temp->data[ft_strlen(str)] == '\0'))
 		{
 			if (prev == NULL)
 				envp = &temp->next;
 			else
 				prev->next = temp->next;
-			free(temp->envp_content);
+			free(temp->data);
 			free(temp);
 			return ;
 		}
@@ -66,7 +66,8 @@ void	ft_unset(char *input, t_list_env **envp)
 	else if (ft_strncmp(input, "unset ", 6) == 0)
 	{
 		ptr = input + 6;
-		if (ft_strcmp(ptr, "BABUTERM") == 0 || ft_strcmp(ptr, "_ROUTE_BABUTERM_") == 0)
+		if (ft_strcmp(ptr, "BABUTERM") == 0
+			|| ft_strcmp(ptr, "_ROUTE_BABUTERM_") == 0)
 		{
 			ft_putstr_fd("protected variable, cannot UNSET\n", 2);
 			return ;

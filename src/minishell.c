@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 11:59:07 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:12:54 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,7 @@ void	ft_exit(char *exits, t_list_env *envp)
 		clean_up(aux, NULL, 0);
 		return ;
 	}
-	if (aux_count(aux) == 2 && !all_digits(aux[1])
-		&& aux[1][0] != '-' && aux[1][0] != '+')
-	{
-		ft_putstr_fd(" numeric argument required\n", 2);
-		free_list_env(envp);
-		exit(2);
-	}
+	aux_exit(aux, envp);
 	printf("exit\n");
 	if (aux_count(aux) == 2)
 		exit_code = ft_atoi(aux[1]);

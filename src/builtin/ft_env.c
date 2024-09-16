@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:46:24 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 19:33:14 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_env(t_list_env *env, char *command)
 	{
 		while (aux != NULL)
 		{
-			printf("%s\n", aux->envp_content);
+			printf("%s\n", aux->data);
 			aux = aux->next;
 		}
 	}

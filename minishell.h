@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 13:39:28 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:25:40 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 
 extern int	g_stop_status;
 
-void 		free_list_env(t_list_env *list);
+void		aux_exit(char **aux, t_list_env *envp);
+void		free_list_env(t_list_env *list);
 int			is_around(char *str, int pos);
 void		update_flag(t_cmd *command);
 void		handle_double_quotes(t_vars *vars, char *str);

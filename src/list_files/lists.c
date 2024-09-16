@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:09:04 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/13 12:30:24 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_env_var_value(t_list_env *envp_list, const char *var_name)
 	current = envp_list;
 	while (current)
 	{
-		env_var = current->envp_content;
+		env_var = current->data;
 		if (ft_strncmp(env_var, var_name, len) == 0 && env_var[len] == '=')
 			return (env_var + len + 1);
 		current = current->next;

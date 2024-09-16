@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 13:46:20 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:24:59 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,20 @@ static char	*find_env_var(t_list_env *envp_list, const char *var_name)
 {
 	while (envp_list)
 	{
-		if (ft_strncmp(envp_list->envp_content,
+		if (ft_strncmp(envp_list->data,
 				var_name, ft_strlen(var_name)) == 0)
-			return (envp_list->envp_content);
+			return (envp_list->data);
 		envp_list = envp_list->next;
 	}
 	return (NULL);
 }
-void free_list_env(t_list_env *list)
-{
-	t_list_env *tmp;
 
-	while (list != NULL)
-	{
-		tmp = list;
-		list = list->next;
-		free(tmp->envp_content);
-		free(tmp);
-	}
-}
 void	update_env_var(t_list_env *envp_list, char *var_name, char *new_value)
 {
 	t_list_env	*current;
 	char		*env_var;
 	size_t		len;
+	char		*tmp;
 
 	if (!envp_list || !var_name || !new_value)
 		return ;
@@ -49,17 +39,16 @@ void	update_env_var(t_list_env *envp_list, char *var_name, char *new_value)
 	current = envp_list;
 	while (current)
 	{
-		env_var = current->envp_content;
+		env_var = current->data;
 		if (ft_strncmp(env_var, var_name, len) == 0 && env_var[len] == '=')
 		{
-			char *tmp = current->envp_content;
-			current->envp_content = ft_strjoin(var_name, "=");
+			tmp = current->data;
+			current->data = ft_strjoin(var_name, "=");
 			free(tmp);
-			tmp = current->envp_content;
-			current->envp_content = ft_strjoin(current->envp_content, new_value);
+			tmp = current->data;
+			current->data = ft_strjoin(current->data, new_value);
 			free(tmp);
-			free(new_value);
-			return ;
+			return ((void)free(new_value));
 		}
 		current = current->next;
 	}
@@ -93,7 +82,7 @@ static void	process_envp(int argc, char **envp)
 	char		*route;
 	char		*home;
 
-	if(argc != 1)
+	if (argc != 1)
 		return ;
 	route = malloc(PATH_MAX);
 	if (!route)

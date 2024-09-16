@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/04 15:31:18 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:13:18 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	aux_exit(char **aux, t_list_env *envp)
+{
+	if (aux_count(aux) == 2 && !all_digits(aux[1])
+		&& aux[1][0] != '-' && aux[1][0] != '+')
+	{
+		ft_putstr_fd(" numeric argument required\n", 2);
+		free_list_env(envp);
+		exit(2);
+	}
+}
 
 int	is_space(int c)
 {

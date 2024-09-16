@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:56:18 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 12:50:05 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:59:07 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,20 @@ int	build_up(t_cmd *comand, t_list_env *environ)
 	return (0);
 }
 
-void	ft_exit(char *exits)
+void	ft_exit(char *exits, t_list_env *envp)
 {
 	char	**aux;
 	int		exit_code;
+	char	*tmp;
 
 	aux = ft_split(exits, ' ');
 	exit_code = 0;
 	if (aux_count(aux) >= 2)
-		aux[1] = strip_quotes(aux[1]);
+	{
+		tmp = aux[1];
+		aux[1] = strip_quotes(tmp);
+		free(tmp);
+	}
 	if (aux == NULL || aux_count(aux) > 2)
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
@@ -43,12 +48,13 @@ void	ft_exit(char *exits)
 		&& aux[1][0] != '-' && aux[1][0] != '+')
 	{
 		ft_putstr_fd(" numeric argument required\n", 2);
+		free_list_env(envp);
 		exit(2);
 	}
 	printf("exit\n");
 	if (aux_count(aux) == 2)
 		exit_code = ft_atoi(aux[1]);
-	clean_up(aux, NULL, 0);
+	free_list_env(envp);
 	exit(exit_code);
 }
 

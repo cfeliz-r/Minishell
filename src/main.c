@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:44:11 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 13:47:16 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:37:35 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,18 @@ static char	*find_env_var(t_list_env *envp_list, const char *var_name)
 	}
 	return (NULL);
 }
+void free_list_env(t_list_env *list)
+{
+	t_list_env *tmp;
 
+	while (list != NULL)
+	{
+		tmp = list;
+		list = list->next;
+		free(tmp->envp_content);
+		free(tmp);
+	}
+}
 void	update_env_var(t_list_env *envp_list, char *var_name, char *new_value)
 {
 	t_list_env	*current;
@@ -41,10 +52,13 @@ void	update_env_var(t_list_env *envp_list, char *var_name, char *new_value)
 		env_var = current->envp_content;
 		if (ft_strncmp(env_var, var_name, len) == 0 && env_var[len] == '=')
 		{
-			free(current->envp_content);
+			char *tmp = current->envp_content;
 			current->envp_content = ft_strjoin(var_name, "=");
-			current->envp_content = ft_strjoin(current->envp_content,
-					new_value);
+			free(tmp);
+			tmp = current->envp_content;
+			current->envp_content = ft_strjoin(current->envp_content, new_value);
+			free(tmp);
+			free(new_value);
 			return ;
 		}
 		current = current->next;
@@ -79,6 +93,8 @@ static void	process_envp(int argc, char **envp)
 	char		*route;
 	char		*home;
 
+	if(argc != 1)
+		return ;
 	route = malloc(PATH_MAX);
 	if (!route)
 		exit(1);
@@ -92,8 +108,7 @@ static void	process_envp(int argc, char **envp)
 	ft_strcat(home, route);
 	update_envp_list(&envp_list, home);
 	free(route);
-	if (argc == 1)
-		process_input(envp_list);
+	process_input(envp_list);
 }
 
 int	main(int argc, char **argv, char **envp)

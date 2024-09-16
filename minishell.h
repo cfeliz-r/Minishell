@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 13:07:58 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:57:02 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 extern int	g_stop_status;
 
+void 		free_list_env(t_list_env *list);
 int			is_around(char *str, int pos);
 void		update_flag(t_cmd *command);
 void		handle_double_quotes(t_vars *vars, char *str);
@@ -56,7 +57,7 @@ void		aux_hadle_dollar(const char *command, t_parse_context *ctx);
 void		aux_process(const char *cmd, t_parse_context *ctx,
 				t_list_env *envp);
 void		process_input_aux(char *line, t_list_env *envp);
-void		ft_exit(char *exits);
+void		ft_exit(char *exits, t_list_env *envp);
 void		process_input_aux2(char *aux, char *line, t_list_env *envp);
 int			check_sintax_and_errors(char *line);
 int			compare_until_equal_sign(const char *str, const char *target);

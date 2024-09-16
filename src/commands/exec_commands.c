@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:45:33 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/11 16:49:20 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:33:55 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,16 @@ int	handle_stop_condition(char *input_line, t_cmd *cmd, int fd)
 static int	count_envp(t_list_env *envp)
 {
 	int	count;
+	t_list_env *temp;
 
 	count = 0;
-	if (envp == NULL)
+	temp = envp;
+	if (temp == NULL)
 		count = -1;
-	while (envp)
+	while (temp != NULL)
 	{
-		count ++;
-		envp = envp->next;
+		count++;
+		temp = temp->next;
 	}
 	return (count);
 }

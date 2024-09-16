@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:02:12 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 11:59:46 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:39:45 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	process_input_aux2(char *aux, char *line, t_list_env *envp)
 	free(aux);
 }
 
-int	handle_unset(t_cmd *comand, t_list_env *environ)
+int	handle_unset(t_cmd *comand, t_list_env **environ)
 {
 	if (ft_strncmp(comand->cmd_cpt, "unset ", 6) == 0
 		||ft_strncmp(comand->cmd_cpt, "'unset' ", 8) == 0
 		|| ft_strncmp(comand->cmd_cpt, "\"unset\" ", 8) == 0
 		|| ft_strncmp(comand->cmd_cpt, "unset\0", 6) == 0)
 	{
-		ft_unset(comand->cmd_cpt, &environ);
+		ft_unset(comand->cmd_cpt, environ);
 		return (1);
 	}
 	return (0);

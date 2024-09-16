@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 11:57:02 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:39:28 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		ft_exit(char *exits, t_list_env *envp);
 void		process_input_aux2(char *aux, char *line, t_list_env *envp);
 int			check_sintax_and_errors(char *line);
 int			compare_until_equal_sign(const char *str, const char *target);
-int			handle_unset(t_cmd *comand, t_list_env *environ);
+int			handle_unset(t_cmd *comand, t_list_env **environ);
 int			handle_stop_condition(char *input_line, t_cmd *cmd, int fd);
 char		*generate_temp_file_name(void);
 int			open_temp_file(char **temp_file_name);

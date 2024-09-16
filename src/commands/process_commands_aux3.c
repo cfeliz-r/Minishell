@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:27:44 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/12 19:05:08 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:39:12 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	manage_commands_three(t_cmd *commands,
 	{
 		handle_export(&commands[0], envp);
 		handle_cd(&commands[0], envp);
-		handle_unset(&commands[0], envp);
+		handle_unset(&commands[0], &envp);
 	}
 	clean_up(vars->env_array, NULL, 0);
 }

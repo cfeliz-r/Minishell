@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:03:15 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 13:06:19 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:05:25 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*reduce_spaces(const char *str)
 	vars.last_char_was_space = 0;
 	vars.len = ft_strlen(str);
 	vars.in_quotes = 0;
-	vars.new_str = malloc(vars.len + 1);
+	vars.new_str = malloc(vars.len + 2);
 	if (vars.new_str == NULL)
 		return (NULL);
 	process_string(str, &vars);

@@ -6,7 +6,7 @@
 /*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 14:05:32 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:11:30 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,22 @@ int	ft_exit_command(char *exits)
 {
 	int	i;
 	int	flag;
+	int	min;
 
 	i = 0;
+	min = 0;
 	flag = 0;
 	while (exits[i] != '\0')
 	{
-		printf("exits[i]: %c\n", exits[i]);
-		if (ft_isdigit(exits[i]) == 1)
-			i++;
-		else
+		if ((min == 0 && (exits[0] == '-' || exits[0] == '+'))
+			|| ft_isdigit(exits[i]) == 1)
 		{
-			flag = 1;
-			break ;
+			if (exits[i] == '-' || exits[i] == '+')
+				min ++;
 		}
+		else
+			flag = 1;
+		i ++;
 	}
 	if (flag == 1)
 	{

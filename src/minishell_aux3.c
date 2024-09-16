@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_aux3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:02:12 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/13 10:49:51 by manuel           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:13:23 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	process_input_aux2(char *aux, char *line, t_list_env *envp)
 {
-	if (aux == NULL || ft_strncmp(aux, "exit ", 5) == 0
-		|| ft_strcmp(aux, "\"exit\"") == 0
-		|| ft_strcmp(aux, "'exit'") == 0
-		|| ft_strcmp(aux, "exit") == 0)
+	if (ft_strchr(aux, '|') == 0
+		&& (aux == NULL || ft_strncmp(aux, "exit ", 5) == 0
+			|| ft_strcmp(aux, "\"exit\"") == 0
+			|| ft_strcmp(aux, "'exit'") == 0
+			|| ft_strcmp(aux, "exit") == 0))
 	{
 		ft_exit(aux);
 		free(aux);

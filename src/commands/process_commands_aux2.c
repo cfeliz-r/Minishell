@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_commands_aux2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:47:19 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 11:11:30 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:35:26 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_exit_command(char *exits)
 			flag = 1;
 		i ++;
 	}
-	if (flag == 1)
+	if (flag == 1 || min > 1)
 	{
 		printf("exit: %s: numeric argument required\n", exits);
 		return (2);

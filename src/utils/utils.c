@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/16 14:13:18 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:46:37 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,25 @@
 
 void	aux_exit(char **aux, t_list_env *envp)
 {
+	int	i;
+
+	i = 0;
+	while (aux[1][i] != '\0')
+	{
+		if (i > 0 && (aux[1][i] == '-' || aux[1][i] == '+'))
+		{
+			ft_putstr_fd(" numeric argument required\n", 2);
+			free_list_env(envp);
+			exit (2);
+		}
+		i++;
+	}
 	if (aux_count(aux) == 2 && !all_digits(aux[1])
 		&& aux[1][0] != '-' && aux[1][0] != '+')
 	{
 		ft_putstr_fd(" numeric argument required\n", 2);
 		free_list_env(envp);
-		exit(2);
+		exit (2);
 	}
 }
 

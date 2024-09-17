@@ -6,7 +6,7 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:14:45 by cfeliz-r          #+#    #+#             */
-/*   Updated: 2024/09/16 14:46:37 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:55:50 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	aux_exit(char **aux, t_list_env *envp)
 	int	i;
 
 	i = 0;
-	while (aux[1][i] != '\0')
+	while (aux_count(aux) == 2 && aux[1][i] != '\0')
 	{
 		if (i > 0 && (aux[1][i] == '-' || aux[1][i] == '+'))
 		{

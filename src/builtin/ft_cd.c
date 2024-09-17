@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 14:21:44 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:09:57 by cfeliz-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*remove_quotes_cd(char *str)
 		cleaned_str = malloc(len - 1);
 		if (cleaned_str == NULL)
 			return (NULL);
-		memcpy(cleaned_str, str + 1, len - 2);
+		ft_memcpy(cleaned_str, str + 1, len - 2);
 		cleaned_str[len - 2] = '\0';
 		return (cleaned_str);
 	}

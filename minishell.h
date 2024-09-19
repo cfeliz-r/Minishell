@@ -6,13 +6,15 @@
 /*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:45:49 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/16 14:25:40 by manufern         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:39:31 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define JUNGLE_GREEN "\001\033[38;5;34m\002"
+# define BABY_BLUE "\033[1;36m"
+# define ORANGE    "\033[1;33m"
 # define RESET "\001\033[0m\002"
 
 # include <stdio.h>
@@ -29,6 +31,8 @@
 # include "libft/libft.h"
 # include <signal.h>
 # include <sys/ioctl.h>
+# include <stdlib.h>
+# include <dirent.h>
 
 extern int	g_stop_status;
 

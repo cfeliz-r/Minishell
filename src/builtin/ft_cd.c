@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfeliz-r <cfeliz-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manufern <manufern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:54:35 by manufern          #+#    #+#             */
-/*   Updated: 2024/09/17 11:09:57 by cfeliz-r         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:50:40 by manufern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../minishell.h"
 
@@ -26,7 +27,7 @@ static char	*remove_quotes_cd(char *str)
 		cleaned_str = malloc(len - 1);
 		if (cleaned_str == NULL)
 			return (NULL);
-		ft_memcpy(cleaned_str, str + 1, len - 2);
+		memcpy(cleaned_str, str + 1, len - 2);
 		cleaned_str[len - 2] = '\0';
 		return (cleaned_str);
 	}
@@ -62,6 +63,8 @@ void	process_route(char *route)
 	i = 0;
 	while (str_route[i])
 		i++;
+	if(i < 2 )
+		chdir("/home/manufern");
 	if (i == 2)
 	{
 		if (str_route[1] != NULL)
@@ -86,15 +89,27 @@ void	ft_cd(char *route, t_list_env **envp)
 	t_list_env	*current;
 	t_list_env	*nodess;
 	char		home[PATH_MAX];
+	char		*home_env;
 
 	current = *envp;
 	nodess = *envp;
 	manage_error(0, 0);
+
+	// Si route es NULL o vacío, ir al directorio HOME
+	if (route == NULL || *route == '\0')
+	{
+		home_env = getenv("HOME");
+		if (home_env != NULL)
+			chdir(home_env);
+		else
+			ft_putstr_fd("cd: HOME not set\n", 2);
+		return ;
+	}
+
 	process_route(route);
 	while (current)
 	{
-		if (compare_until_equal_sign(current->data,
-				"_ROUTE_BABUTERM_") == 1)
+		if (compare_until_equal_sign(current->data, "_ROUTE_BABUTERM_") == 1)
 		{
 			free(current->data);
 			ft_strcpy(home, "_ROUTE_BABUTERM_=");
